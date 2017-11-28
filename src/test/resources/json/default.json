@@ -1,0 +1,101 @@
+{
+    "groups":[
+        {
+            "name":"group 1",
+            "description":"group nb 1",
+            "tests":[
+                {
+                    "name":"test 1",
+                    "description":"test nb 1",
+                    "parameters":[
+                        {
+                            "name":"parameter 1",
+                            "description":"parameter nb 1",
+                            "unit": "m",
+                            "value": "bouh"
+                        },
+                        {
+                            "name":"parameter 1",
+                            "description":"parameter nb 1",
+                            "unit": "m",
+                            "value": true
+                        },
+                        {
+                            "name":"parameter 1",
+                            "description":"parameter nb 1",
+                            "unit": "m",
+                            "value": 100
+                        }
+                    ],
+                    "results":[
+                        {
+                            "name":"result 1",
+                            "description":"result nb 1",
+                            "unit": "m",
+                            "boolValue": false
+                        },
+                        {
+                            "name":"result 2",
+                            "description":"result nb 2",
+                            "unit": "m",
+                            "dblValue": 15.46,
+                            "thresholds":[
+                                {
+                                    "method":"absolute",
+                                    "minimum": 10,
+                                    "maximum": 17
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name":"test 2",
+                    "description":"test nb 2",
+                    "parameters":[
+                        {
+                            "name":"parameter 4",
+                            "description":"parameter nb 4",
+                            "unit": "m",
+                            "value": "bouh"
+                        },
+                        {
+                            "name":"parameter 5",
+                            "description":"parameter nb 5",
+                            "unit": "m",
+                            "value": true
+                        },
+                        {
+                            "name":"parameter 6",
+                            "description":"parameter nb 6",
+                            "unit": "m",
+                            "value": 100
+                        }
+                    ],
+                    "results":[
+                        {
+                            "name":"result 3",
+                            "description":"result nb 3",
+                            "unit": "m",
+                            "boolValue": false
+                        },
+                        {
+                            "name":"result 4",
+                            "description":"result nb 4",
+                            "unit": "m",
+                            "dblValue": 15.46,
+                            "thresholds":[
+                                {
+                                    "method":"absolute",
+                                    "minimum": 10,
+                                    "maximum": 17
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+

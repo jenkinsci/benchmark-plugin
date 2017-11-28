@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!-- Default result content -->
+<group name="group 1">
+    <description>This is group #1</description>
+    <parameter name="parameter 1">
+        <description>This is parameter #1</description>
+        <value>54.8</value>
+        <unit>lumen</unit>
+    </parameter>
+    <parameter name="parameter 2">
+        <description>This is parameter #2</description>
+        <value>105.8</value>
+        <unit>volt</unit>
+    </parameter>
+    <test name="test 1">
+        <description>This is test #1</description>
+        <result name="result 1">
+            <description>This is result #1</description>
+            <dblValue>12.5</dblValue>
+            <unit>meter</unit>
+            <threshold method="absolute">
+                <minimum>10</minimum>
+                <maximum>15</maximum>
+            </threshold>
+        </result>
+        <result name="result 2">
+            <description>This is result #2</description>
+            <dblValue>34.5</dblValue>
+            <unit>pascal</unit>
+        </result>
+    </test>
+</group>

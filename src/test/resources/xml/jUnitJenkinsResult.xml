@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<result plugin="junit@1.20">
+  <suites>
+    <suite>
+      <file>E:\workspace\OCTO-GD_JsonSchemaCpp_Windows_TestRelease\generatedJUnitFiles\CTest\TEST--156071450.xml</file>
+      <name>CTest</name>
+      <duration>0.0</duration>
+      <time>0</time>
+      <cases>
+        <case>
+          <duration>0.026001</duration>
+          <className>projectroot.test_output</className>
+          <testName>ProblemParametersTest.UnitTestCubeAssembly</testName>
+          <skipped>false</skipped>
+          <stdout>Test input path      : ../test_input\
+Test output path     : E:\workspace\OCTO-GD_JsonSchemaCpp_Windows_TestRelease\build\Release\test_output\
+Nastran scratch path : C:\Users\jenkins\AppData\Local\Temp\
+Note: Google Test filter = ProblemParametersTest.UnitTestCubeAssembly
+[==========] Running 1 test from 1 test case.
+[----------] Global test environment set-up.
+[----------] 1 test from ProblemParametersTest
+[ RUN      ] ProblemParametersTest.UnitTestCubeAssembly
+[       OK ] ProblemParametersTest.UnitTestCubeAssembly (0 ms)
+[----------] 1 test from ProblemParametersTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test case ran. (0 ms total)
+[  PASSED  ] 1 test.
+</stdout>
+          <failedSince>0</failedSince>
+        </case>
+        <case>
+          <duration>0.0209999</duration>
+          <className>projectroot.test_output</className>
+          <testName>ProblemParametersTest.AllParse</testName>
+          <skipped>false</skipped>
+          <stdout>Test input path      : ../test_input\
+Test output path     : E:\workspace\OCTO-GD_JsonSchemaCpp_Windows_TestRelease\build\Release\test_output\
+Nastran scratch path : C:\Users\jenkins\AppData\Local\Temp\
+Note: Google Test filter = ProblemParametersTest.AllParse
+[==========] Running 1 test from 1 test case.
+[----------] Global test environment set-up.
+[----------] 1 test from ProblemParametersTest
+[ RUN      ] ProblemParametersTest.AllParse
+Parsing ../test_input\JsonSchemaCppSamples\3sup\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\problem_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\problem_param3.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\problem_param4.json
+Parsing ../test_input\JsonSchemaCppSamples\cncRing\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\cubeAssembly\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\cubeAssemblyLatticeOpt\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\genesisBracket\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\genesisBracket\problem_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\michellTruss\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\michellTruss\problem_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\michellTruss\problem_param3.json
+Parsing ../test_input\JsonSchemaCppSamples\proppedCantilever\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\sus\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\sus\problem_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\susBrep\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\susBrep\problem_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\symmetryCubeAssembly\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\torsion\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\torsion\problem_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\truss\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\problem_param.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\problem_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\problem_param3.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\problem_param4.json
+[       OK ] ProblemParametersTest.AllParse (7 ms)
+[----------] 1 test from ProblemParametersTest (7 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test case ran. (7 ms total)
+[  PASSED  ] 1 test.
+</stdout>
+          <failedSince>0</failedSince>
+        </case>
+        <case>
+          <duration>0.019001</duration>
+          <className>projectroot.test_output</className>
+          <testName>AlgorithmParametersTest.UnitTestCubeAssembly</testName>
+          <skipped>false</skipped>
+          <stdout>Test input path      : ../test_input\
+Test output path     : E:\workspace\OCTO-GD_JsonSchemaCpp_Windows_TestRelease\build\Release\test_output\
+Nastran scratch path : C:\Users\jenkins\AppData\Local\Temp\
+Note: Google Test filter = AlgorithmParametersTest.UnitTestCubeAssembly
+[==========] Running 1 test from 1 test case.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmParametersTest
+[ RUN      ] AlgorithmParametersTest.UnitTestCubeAssembly
+[       OK ] AlgorithmParametersTest.UnitTestCubeAssembly (0 ms)
+[----------] 1 test from AlgorithmParametersTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test case ran. (1 ms total)
+[  PASSED  ] 1 test.
+</stdout>
+          <failedSince>0</failedSince>
+        </case>
+        <case>
+          <duration>0.0289993</duration>
+          <className>projectroot.test_output</className>
+          <testName>AlgorithmParametersTest.AllParse</testName>
+          <skipped>false</skipped>
+          <stdout>Test input path      : ../test_input\
+Test output path     : E:\workspace\OCTO-GD_JsonSchemaCpp_Windows_TestRelease\build\Release\test_output\
+Nastran scratch path : C:\Users\jenkins\AppData\Local\Temp\
+Note: Google Test filter = AlgorithmParametersTest.AllParse
+[==========] Running 1 test from 1 test case.
+[----------] Global test environment set-up.
+[----------] 1 test from AlgorithmParametersTest
+[ RUN      ] AlgorithmParametersTest.AllParse
+Parsing ../test_input\JsonSchemaCppSamples\3sup\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\3sup\algorithm_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\3sup\algorithm_param3.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param10.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param11.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param3.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param4.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param5.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param6.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param7.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param8.json
+Parsing ../test_input\JsonSchemaCppSamples\4sup\algorithm_param9.json
+Parsing ../test_input\JsonSchemaCppSamples\cncRing\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\cncRing\algorithm_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\cncRing\algorithm_param3.json
+Parsing ../test_input\JsonSchemaCppSamples\cncRing\algorithm_param4.json
+Parsing ../test_input\JsonSchemaCppSamples\cncRing\algorithm_param5.json
+Parsing ../test_input\JsonSchemaCppSamples\cubeAssembly\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\cubeAssemblyLatticeOpt\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\genesisBracket\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\genesisBracket\algorithm_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\genesisBracket\algorithm_param3.json
+Parsing ../test_input\JsonSchemaCppSamples\michellTruss\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\michellTruss\algorithm_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\proppedCantilever\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\proppedCantilever\algorithm_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\sus\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\sus\algorithm_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\susBrep\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\susBrep\algorithm_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\symmetryCubeAssembly\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\symmetryCubeAssembly\algorithm_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\symmetryCubeAssembly\algorithm_param3.json
+Parsing ../test_input\JsonSchemaCppSamples\torsion\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\truss\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\algorithm_param.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\algorithm_param2.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\algorithm_param3.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\algorithm_param4.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\algorithm_param5.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\algorithm_param6.json
+Parsing ../test_input\JsonSchemaCppSamples\wheel\algorithm_param7.json
+[       OK ] AlgorithmParametersTest.AllParse (11 ms)
+[----------] 1 test from AlgorithmParametersTest (11 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test case ran. (11 ms total)
+[  PASSED  ] 1 test.
+</stdout>
+          <failedSince>0</failedSince>
+        </case>
+      </cases>
+    </suite>
+  </suites>
+  <duration>0.0</duration>
+  <keepLongStdio>true</keepLongStdio>
+</result>

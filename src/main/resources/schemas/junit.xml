@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!-- Example of JUnit schema (Not exhaustive) -->
+
+<xs:schema xmlns="http://autodesk.com"
+           xmlns:jbs="http://autodesk.com/jenkins/jbs"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <jbs:failure type="jbs:string">failure</jbs:failure>
+    <jbs:failure type="jbs:string">error</jbs:failure>
+
+    <xs:element name="failure" type="jbs:boolean">
+        <xs:complexType>
+            <jbs:content type="jbs:description"/>
+            <jbs:attribute name="message" type="jbs:parameter"/>
+            <jbs:attribute name="type" type="jbs:parameter"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="error" type="jbs:boolean">
+        <xs:complexType>
+            <jbs:content type="jbs:description"/>
+            <jbs:attribute name="message" type="jbs:parameter"/>
+            <jbs:attribute name="type" type="jbs:parameter"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Properties">
+        <xs:sequence>
+            <xs:element name="property" type="jbs:parameter">
+                <xs:complexType>
+                    <xs:attribute name="name" type="jbs:name"/>
+                    <xs:attribute name="value" type="jbs:value"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="TestCase">
+        <xs:sequence>
+            <xs:element ref="error"/>
+            <xs:element ref="failure"/>
+            <xs:element name="system-out" type="jbs:parameter"/>
+            <xs:element name="system-err" type="jbs:parameter"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="jbs:name"/>
+        <xs:attribute name="classname" type="jbs:parameter"/>
+        <xs:attribute name="time" type="jbs:parameter"/>
+        <xs:attribute name="status" type="jbs:parameter"/>
+        <xs:attribute name="assertions" type="jbs:parameter"/>
+    </xs:complexType>
+
+    <xs:complexType name="TestSuite">
+        <xs:sequence>
+            <xs:element name="properties" type="Properties"/>
+            <xs:element name="testcase"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="jbs:name"/>
+        <xs:attribute name="time" type="jbs:parameter"/>
+        <xs:attribute name="timestamp" type="jbs:parameter"/>
+        <xs:attribute name="hostname" type="jbs:parameter"/>
+        <xs:attribute name="id" type="jbs:parameter"/>
+        <xs:attribute name="package" type="jbs:parameter"/>
+    </xs:complexType>
+
+    <xs:element name="testsuites" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="testsuite" type="TestSuite" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="jbs:name"/>
+            <xs:attribute name="time" type="jbs:parameter"/>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

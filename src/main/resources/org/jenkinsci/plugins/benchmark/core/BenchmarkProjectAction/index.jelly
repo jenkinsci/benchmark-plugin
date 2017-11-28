@@ -1,0 +1,333 @@
+<!--
+  ~ MIT license
+  ~ Copyright (c) 2017, Autodesk, Inc.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout">
+  <!--
+    Creates the page displayed when clicking the "Benchmark tables".
+  -->
+  <l:layout title="${%Benchmark tables}">
+    <st:include it="${it.project}" page="sidepanel.jelly"/>
+    <l:main-panel>
+      <link   type="text/css" rel="stylesheet" href="${rootURL}/plugin/benchmark/css/jquery-1.10.15.dataTables.min.css"  />
+      <link   type="text/css" rel="stylesheet" href="${rootURL}/plugin/benchmark/css/fixedColumns-3.2.2.dataTables.min.css"  />
+      <script type="text/javascript" src="${rootURL}/plugin/benchmark/js/jquery-1.12.4.min.js"/>
+      <script type="text/javascript" src="${rootURL}/plugin/benchmark/js/jquery-1.10.15.dataTables.min.js"/>
+      <script type="text/javascript" src="${rootURL}/plugin/benchmark/js/dataTables-3.2.2.fixedColumns.min.js"/>
+      <script type="text/javascript" src="${rootURL}/plugin/benchmark/js/FileSaver.min.js"/>
+      <script>jQuery.noConflict();</script>
+      <script>
+        // Following form is necessary with jQuery.noConflict() to avoid conflict with prototype.js
+        jQuery(function ($) {
+        $(document).ready(function() {
+        <j:if test="${it.ContentAvailable == false}">
+          // Redirect case no result is available
+          window.location.href="${it.RootPageURL}";
+        </j:if>
+
+        <j:if test="${it.NumberOfHeads == 1}">
+          var heads = 1;
+          var list_heads = [0];
+        </j:if>
+        <j:if test="${it.NumberOfHeads == 2}">
+          var heads = 2;
+          var list_heads = [0,1];
+        </j:if>
+        <j:if test="${it.NumberOfHeads == 3}">
+          var heads = 3;
+          var list_heads = [0,1,2];
+        </j:if>
+        <j:if test="${it.NumberOfHeads == 4}">
+          var heads = 4;
+          var list_heads = [0,1,2,3];
+        </j:if>
+          var table_1 = $$('#raw_results').DataTable( {
+            scrollX:        true,
+            scrollCollapse: true,
+            sDom:           'tp',
+            pageLength:     10,
+            fixedColumns:   {
+              leftColumns:  heads
+            },
+            columnDefs: [{
+              targets:      heads,
+              visible:      false,
+              searchable:   false
+            }],
+            "language": {
+              "zeroRecords": "${it.ZeroRecordsWord}",
+              "emptyTable":  "${it.EmptyTableWord}",
+              "paginate": {
+                "first":    "${it.FirstWord}",
+                "previous": "${it.PreviousWord}",
+                "next":     "${it.NextWord}",
+                "last":     "${it.LastWord}"
+              }
+            }
+          } );
+
+          var table_2 = $$('#condensed_results').DataTable( {
+            scrollX:        true,
+            scrollCollapse: true,
+            sDom:           'tp',
+            pageLength:     10,
+            fixedColumns:   {
+              leftColumns:  heads
+            },
+            columnDefs: [{
+              targets:      heads,
+              visible:      false,
+              searchable:   false
+            }],
+            "language": {
+              "zeroRecords": "${it.ZeroRecordsWord}",
+              "emptyTable":  "${it.EmptyTableWord}",
+              "paginate": {
+                "first":    "${it.FirstWord}",
+                "previous": "${it.PreviousWord}",
+                "next":     "${it.NextWord}",
+                "last":     "${it.LastWord}"
+              }
+            }
+          } );
+
+          // Synchronize column sorting
+          var changedFlag = false;
+          table_1.on('order.dt', function(){
+            if(changedFlag == true) {
+              changedFlag = false;
+              return;
+            }
+            changedFlag = true;
+            var order = table_1.order();
+            var valid = (heads > order[0][0]);
+            if (valid){
+              table_2.order( order ).draw();
+            }
+          } );
+          table_2.on('order.dt', function(){
+            if(changedFlag == true) {
+              changedFlag = false;
+              return;
+            }
+            changedFlag = true;
+            var order = table_2.order()
+            var valid = (heads > order[0][0]);
+            if (valid){
+              table_1.order( order ).draw();
+            }
+          } );
+
+          // Synchronize table search field
+          $$('#searchField_1').on( 'change keydown paste input', function () {
+            table_1.search($$(this).val()).draw();
+            table_2.search($$(this).val()).draw();
+            $$('#searchField_2').val($$(this).val());
+          } );
+          $$('#searchField_2').on( 'change keydown paste input', function () {
+            table_1.search($$(this).val()).draw();
+            table_2.search($$(this).val()).draw();
+            $$('#searchField_1').val($$(this).val());
+          } );
+
+          // Synchronize table number of entries
+          $$("#nEntries_1").on( 'change', function(){
+            table_1.page.len($$(this).val()).draw();
+            table_2.page.len($$(this).val()).draw();
+            $$('#nEntries_2').val($$(this).val());
+          } );
+          $$("#nEntries_2").on( 'change', function(){
+            table_1.page.len($$(this).val()).draw();
+            table_2.page.len($$(this).val()).draw();
+            $$('#nEntries_1').val($$(this).val());
+          } );
+
+          table_1.page.len($$("#nEntries_1").val()).draw();
+          table_2.page.len($$("#nEntries_1").val()).draw();
+
+          // Synchronize table pagination
+          table_1.on('page.dt', function(){
+            table_2.page( table_1.page() ).draw( 'page' );
+          } );
+          table_2.on('page.dt', function(){
+            table_1.page( table_2.page() ).draw( 'page' );
+          } );
+
+          // Allow user to expand/contract content by clicking on title
+          $$('.expand_rawResults').click(function(){
+            $$('#div_rawResults').slideToggle('fast');
+            if (document.getElementById("icon_rawResults").getAttribute("number") == 0) {
+              document.getElementById("icon_rawResults").src = "${rootURL}/plugin/benchmark/images/sort_both.png";
+              document.getElementById("icon_rawResults").setAttribute("number", "1");
+            } else {
+              document.getElementById("icon_rawResults").src = "${rootURL}/plugin/benchmark/images/sort_desc.png";
+              document.getElementById("icon_rawResults").setAttribute("number", "0");
+            }
+          });
+          $$('.expand_condensedResults').click(function(){
+            $$('#div_condensedResults').slideToggle('fast');
+            if (document.getElementById("icon_condensedResults").getAttribute("number") == 0) {
+              document.getElementById("icon_condensedResults").src = "${rootURL}/plugin/benchmark/images/sort_both.png";
+              document.getElementById("icon_condensedResults").setAttribute("number", "1");
+            } else {
+              document.getElementById("icon_condensedResults").src = "${rootURL}/plugin/benchmark/images/sort_desc.png";
+              document.getElementById("icon_condensedResults").setAttribute("number", "0");
+            }
+          });
+
+          <j:set var="resultPageURL" value="${it.ResultPageURL}"/>
+          var resultPageURL = "${resultPageURL}";
+
+          var BchPub = <st:bind value="${it}"/>
+
+          table_1.on( 'click', 'tr', function () {
+            BchPub.setResultSelected($('#raw_results').DataTable().row($(this)).data()[heads]);
+            window.location.href = resultPageURL;
+          } );
+
+          table_2.on( 'click', 'tr', function () {
+            BchPub.setResultSelected($('#condensed_results').DataTable().row($(this)).data()[heads]);
+            window.location.href = resultPageURL;
+          } );
+
+          $("#btn-save-raw").click( function() {
+            BchPub.getCSVRawTable( function(t){
+              var text = t.responseObject();
+              var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+              saveAs(blob, "benchmark-raw.csv");
+            });
+            BchPub.getCSVRawStateTable( function(t){
+              var text = t.responseObject();
+              var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+              saveAs(blob, "benchmark-raw-state.csv");
+            });
+          });
+
+          $("#btn-save-con").click( function() {
+            BchPub.getCSVCondensedTable( function(t){
+              var text = t.responseObject();
+              var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+              saveAs(blob, "benchmark-condensed.csv");
+            });
+          });
+
+          // Sent ping to the backend to reset the clock that counts down content deletion
+          setInterval(BchPub.resetClock, 30000); // Every 30s
+        } );
+        } );
+      </script>
+      <style type="text/css">
+        .content {
+          overflow: hidden;
+        }
+        #first_division * {
+          clear:  right;
+        }
+        #second_division * {
+          clear:  right;
+        }
+        .clear {
+          clear:both;
+        }
+        .hover td {
+          text-align: center;
+        }
+        .hover td:first-child {
+          background-color:#ededed;
+        }
+        <j:if test="${it.NumberOfHeads > 1}">
+          .hover td:nth-child(2) {
+            background-color:#ededed;
+          }
+        </j:if>
+        <j:if test="${it.NumberOfHeads > 2}">
+          .hover td:nth-child(3) {
+            background-color:#ededed;
+          }
+        </j:if>
+        <j:if test="${it.NumberOfHeads > 3}">
+          .hover td:nth-child(4) {
+            background-color:#ededed;
+          }
+        </j:if>
+        #api_link {
+          text-decoration: none;
+        }
+      </style>
+      <div dir="${it.TextDirection}" class="content">
+        <h1>${it.DisplayName}</h1>
+        <br/>
+        <br/>
+        <div id="tables">
+          <div id="first_division">
+            <button id="btn-save-raw" type="submit" style="float: ${it.RightBoxPosition};">${%Save as CSV}</button>
+            <h2 class="expand_rawResults">${%Raw results} <img id="icon_rawResults" number="0" src="${rootURL}/plugin/benchmark/images/sort_desc.png"/></h2>
+            <div id="div_rawResults">
+              <div style="float: ${it.RightBoxPosition};">
+                ${%Search field} <input type="text" id="searchField_1"/>
+              </div>
+              <div>
+                ${%Number of entries}
+                <select id="nEntries_1">
+                  <option value="5">5</option>
+                  <option value="10" selected="selected">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+              <br/>
+              <table id="raw_results" class="row-border hover" cellspacing="0" width="100%">
+                <j:expr value="${it.RawTable}" escapeText="false"/>
+              </table>
+            </div>
+          </div>
+          <br/>
+          <div id="second_division">
+            <button id="btn-save-con" type="submit" style="float: ${it.RightBoxPosition};">${%Save as CSV}</button>
+            <h2 class="expand_condensedResults">${%Condensed results} <img id="icon_condensedResults" number="0" src="${rootURL}/plugin/benchmark/images/sort_desc.png"/></h2>
+            <div id="div_condensedResults">
+              <p><b>${%Note}:</b> ${%The condensed results are determined using results not tested or results with passed test and ignore results with failed test.}</p>
+              <div style="float: ${it.RightBoxPosition};">
+                ${%Search field} <input type="text" id="searchField_2"/>
+              </div>
+              <div>
+                ${%Number of entries}
+                <select id="nEntries_2">
+                  <option value="5">5</option>
+                  <option value="10" selected="selected">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+              <br/>
+              <table id="condensed_results" class="row-border hover" cellspacing="0" width="100%">
+                <j:expr value="${it.CondensedTable}" escapeText="false"/>
+              </table>
+            </div>
+          </div>
+          <br/>
+          <span>${%Note}: ${%Download tables also available} @ <a id="api_link" href="${it.APIURL}">~/BenchmarkTable/api/json</a></span>
+        </div>
+      </div>
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

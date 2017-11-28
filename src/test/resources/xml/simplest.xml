@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Test file for simplest schema -->
+<result>
+    <name>result_1</name>
+    <description>description_result_1</description>
+    <value>13.5</value>
+    <unit>meters</unit>
+    <parameter>
+        <name>parameter_1</name>
+        <description>description_parameter_1</description>
+        <value>10</value>
+        <unit>minutes</unit>
+    </parameter>
+    <threshold>
+        <method>absolute</method>
+        <minimum>13</minimum>
+        <maximum>15</maximum>
+    </threshold>
+</result>

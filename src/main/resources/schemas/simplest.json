@@ -1,0 +1,38 @@
+{
+    "description": "Simplest result",
+    "failure": { "value": true },
+    "type": "result",
+    "properties": {
+        "name": { "type": "name" },
+        "description" : { "type": "description"},
+        "value": {"type": "value"},
+        "unit": {"type": "unit"},
+        "id": {"type": "id"},
+        "message": {"type": "message"},
+        "parameters":{
+            "type": "array",
+            "items": {
+                "type": "parameter",
+                "properties": {
+                    "name": { "type": "name" },
+                    "description": { "type": "description" },
+                    "unit": { "type": "unit" },
+                    "value": { "type": "value" }
+                }
+            }
+        },
+        "thresholds": {
+            "type": "array",
+            "items": {
+                "type": "Threshold",
+                "properties": {
+                    "method": { "type": "method" },
+                    "minimum": {"type": "minimum"},
+                    "maximum": {"type": "maximum"},
+                    "delta": {"type": "delta"},
+                    "percentage": {"type": "percentage"}
+                }
+            }
+        }
+    }
+}

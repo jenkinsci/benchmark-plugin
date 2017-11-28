@@ -1,0 +1,79 @@
+{
+    "description": "Default schema of the Benchmark Jenkins plug-in",
+    "failure": { "value": true },
+    "type": "object",
+    "properties":{
+        "groups": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "name" },
+                    "description": { "type": "Description"},
+                    "parameters":{
+                        "type": "array",
+                        "items": {
+                            "type": "parameter",
+                            "properties": {
+                                "name": { "type": "name" },
+                                "description": { "type": "description" },
+                                "unit": { "type": "unit" },
+                                "value": { "type": "value" }
+                            }
+                        }
+                    },
+                    "tests": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": { "type": "name" },
+                                "description": { "type": "description" },
+                                "parameters":{
+                                    "type": "array",
+                                    "items": {
+                                        "type": "parameter",
+                                        "properties": {
+                                            "name": { "type": "name" },
+                                            "description": { "type": "description" },
+                                            "unit": { "type": "unit" },
+                                            "value": { "type": "value" }
+                                        }
+                                    }
+                                },
+                                "results": {
+                                    "type": "array",
+                                    "items":{
+                                        "type": "result",
+                                        "properties": {
+                                            "name": {"type": "name"},
+                                            "description": {"type": "description"},
+                                            "unit": {"type": "unit"},
+                                            "boolValue": {"type": "boolean"},
+                                            "intValue": {"type": "integer"},
+                                            "dblValue": {"type": "double"},
+                                            "value": {"type": "value"},
+                                            "thresholds": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "threshold",
+                                                    "properties": {
+                                                        "method": { "type": "method" },
+                                                        "minimum": {"type": "minimum"},
+                                                        "maximum": {"type": "maximum"},
+                                                        "delta": {"type": "delta"},
+                                                        "percentage": {"type": "percentage"}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
