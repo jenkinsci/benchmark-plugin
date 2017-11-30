@@ -39,7 +39,7 @@ import java.util.List;
 public class DeltaThreshold extends Threshold{
 
     // Variables
-    private Double delta;
+    private final Double delta;
     private Double previous;
 
     // Constructor

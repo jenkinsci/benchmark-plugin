@@ -18,10 +18,10 @@
  */
 package org.jenkinsci.plugins.benchmark.core;
 
-import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.Api;
+import hudson.model.Run;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.benchmark.utilities.*;
 import org.jenkinsci.plugins.benchmark.parsers.MapperBase;
@@ -146,8 +146,8 @@ public class BenchmarkProjectAction implements Action{
     @FrontendMethod
     public Boolean getContentAvailable() {
         try {
-            AbstractBuild build = this.project.getLastBuild();
-            if (this.core.hasResults(build)) {
+            Run run = this.project.getLastBuild();
+            if (this.core.hasResults(run)) {
                 return true;
             } else {
                 return false;
@@ -165,9 +165,9 @@ public class BenchmarkProjectAction implements Action{
     public int getNumberOfHeads(){
         int i = 1;
         try {
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
                 ContentDetected detected = base.getDetected();
                 if (detected != null) {
                     if (detected.isFileDetected()) {
@@ -195,9 +195,9 @@ public class BenchmarkProjectAction implements Action{
     public String getRawTable() {
         try {
             resetClock();
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
                 return base.getHTMLTable();
             } else {
                 return "";
@@ -216,9 +216,9 @@ public class BenchmarkProjectAction implements Action{
     @JavaScriptMethod
     public String getCondensedTable(){
         try {
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
                 return base.getHTMLCondensedTable();
             } else {
                 return "";
@@ -282,9 +282,9 @@ public class BenchmarkProjectAction implements Action{
     public String getCSVRawTable() {
         try {
             resetClock();
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
 
                 StringBuffer output = new StringBuffer();
                 output.append(base.getCSVTableHeader());
@@ -305,9 +305,9 @@ public class BenchmarkProjectAction implements Action{
     public String getCSVRawHeader() {
         try {
             resetClock();
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
                 return base.getCSVTableHeader() ;
             } else {
                 return "";
@@ -321,9 +321,9 @@ public class BenchmarkProjectAction implements Action{
     public String getCSVRawBody() {
         try {
             resetClock();
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
                 return base.getCSVTableBody() ;
             } else {
                 return "";
@@ -341,9 +341,9 @@ public class BenchmarkProjectAction implements Action{
     public String getCSVRawStateTable() {
         try {
             resetClock();
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
 
                 String output = "";
                 output += base.getCSVTableHeader() + "\n";
@@ -363,9 +363,9 @@ public class BenchmarkProjectAction implements Action{
     public String getCSVRawStateBody() {
         try {
             resetClock();
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
                 return base.getCSVTableStateBody() ;
             } else {
                 return "";
@@ -382,9 +382,9 @@ public class BenchmarkProjectAction implements Action{
     @JavaScriptMethod
     public String getCSVCondensedTable(){
         try {
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
 
                 StringBuffer output = new StringBuffer();
                 output.append(base.getCSVCondensedTableHeader());
@@ -404,9 +404,9 @@ public class BenchmarkProjectAction implements Action{
     @Exported(visibility=2)
     public String getCSVCondensedHeader(){
         try {
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
                 return base.getCSVCondensedTableHeader();
             } else {
                 return "";
@@ -419,9 +419,9 @@ public class BenchmarkProjectAction implements Action{
     @Exported(visibility=2)
     public String getCSVCondensedBody(){
         try {
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.core.getMapper(build);
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.core.getMapper(run);
                 return base.getCSVCondensedTableBody();
             } else {
                 return "";

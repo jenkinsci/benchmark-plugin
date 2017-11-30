@@ -20,7 +20,7 @@ package org.jenkinsci.plugins.benchmark.parsers.JsonToPlugin;
 
 import com.google.gson.*;
 import hudson.FilePath;
-import hudson.model.BuildListener;
+import hudson.model.TaskListener;
 import org.jenkinsci.plugins.benchmark.exceptions.ValidationException;
 import org.jenkinsci.plugins.benchmark.parsers.MapperBase;
 import org.jenkinsci.plugins.benchmark.results.StringValue;
@@ -80,7 +80,7 @@ public class MapJsonToPlugin extends MapperBase {
         InitiateLoading(rootGroup, jContent, schema);
     }
 
-    public MapJsonToPlugin(Integer build, Map<String, FilePath> content, JsonElement schema, boolean truncateStrings, BuildListener listener) throws IOException, ValidationException {
+    public MapJsonToPlugin(Integer build, Map<String, FilePath> content, JsonElement schema, boolean truncateStrings, TaskListener listener) throws IOException, ValidationException {
         super(build, truncateStrings);
 
         listener.getLogger().println(Messages.MapJsonToPlugin_ListOfFilesDetected());
