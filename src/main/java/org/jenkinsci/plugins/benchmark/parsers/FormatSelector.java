@@ -23,8 +23,8 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import hudson.FilePath;
-import hudson.model.AbstractBuild;
-import hudson.model.BuildListener;
+import hudson.model.Run;
+import hudson.model.TaskListener;
 import org.apache.commons.io.IOUtils;
 import org.jenkinsci.plugins.benchmark.exceptions.ValidationException;
 import org.jenkinsci.plugins.benchmark.parsers.JsonToPlugin.MapJsonToPlugin;
@@ -56,7 +56,7 @@ public class FormatSelector {
 
     // Constructor
 
-    public FormatSelector(AbstractBuild build, String searchFilePattern, String schema, boolean truncateStrings, BuildListener listener) throws InterruptedException, ValidationException, IOException {
+    public FormatSelector(Run<?, ?> run, FilePath filePath, String searchFilePattern, String schema, boolean truncateStrings, TaskListener listener) throws InterruptedException, ValidationException, IOException {
 
         if (schema == null || schema.length() == 0) {
             throw new IOException(Messages.FormatSelector_SchemaIsEmpty());
@@ -78,20 +78,19 @@ public class FormatSelector {
         }
 
         // Execute the mapping
-        FilePath workspace = build.getWorkspace();
-        if (!workspace.isDirectory()) {
+        if (!filePath.isDirectory()) {
             listener.getLogger().println(Messages.FormatSelector_WorkspaceNotDetected());
             throw new IOException(Messages.FormatSelector_WorkspaceNotDetected());
         }
 
-        int buildNumber = build.getNumber();
+        int buildNumber = run.getNumber();
 
         // JSON
         if (jSchema != null) {
             Map<String, FilePath> files;
             try {
                 listener.getLogger().println(Messages.FormatSelector_FilePattern(searchFilePattern));
-                files = IdentifyFiles(workspace, searchFilePattern, "json");
+                files = IdentifyFiles(filePath, searchFilePattern, "json");
             } catch (Exception e) {
                 throw new ValidationException(Messages.FormatSelector_FilePatternCannotBeParsed(searchFilePattern));
             }
@@ -116,7 +115,7 @@ public class FormatSelector {
             Map<String, FilePath> files;
             try {
                 listener.getLogger().println(Messages.FormatSelector_FilePattern(searchFilePattern));
-                files = IdentifyFiles(workspace, searchFilePattern, "xml");
+                files = IdentifyFiles(filePath, searchFilePattern, "xml");
             } catch (Exception e) {
                 throw new ValidationException(Messages.FormatSelector_FilePatternCannotBeParsed(searchFilePattern));
             }

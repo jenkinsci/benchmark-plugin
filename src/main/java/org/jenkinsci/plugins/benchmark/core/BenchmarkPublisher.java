@@ -18,10 +18,7 @@
  */
 package org.jenkinsci.plugins.benchmark.core;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 
 import com.google.gson.JsonIOException;
@@ -36,8 +33,10 @@ import hudson.tasks.Publisher;
 import hudson.tasks.Recorder;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
+import jenkins.tasks.SimpleBuildStep;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
+import org.jenkinsci.Symbol;
 import org.jenkinsci.plugins.benchmark.exceptions.ValidationException;
 import org.jenkinsci.plugins.benchmark.parsers.FormatSelector;
 import org.jenkinsci.plugins.benchmark.parsers.MapperBase;
@@ -54,6 +53,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.jenkinsci.plugins.benchmark.thresholds.ThresholdDescriptor;
 import org.kohsuke.stapler.export.ExportedBean;
 
+import javax.annotation.Nonnull;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -72,7 +72,9 @@ import static org.apache.commons.io.FileUtils.readFileToString;
  * @since 5/16/2017.
  */
 @ExportedBean
-public class BenchmarkPublisher extends Recorder {
+public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
+
+
 
     private static final  Map<String, Schema>   schemaResources;
     static{
@@ -88,14 +90,14 @@ public class BenchmarkPublisher extends Recorder {
 
     private static final Logger log = Logger.getLogger(BenchmarkPublisher.class.getName());
 
-    private final String                    inputLocation;
-    private final String                    schemaSelection;
-    private final Boolean                   truncateStrings;
-    private final String                    altInputSchema;
-    private final String                    altInputSchemaLocation;
+    private final String                      inputLocation;
+    private final String                      schemaSelection;
+    private final Boolean                     truncateStrings;
+    private final String                      altInputSchema;
+    private final String                      altInputSchemaLocation;
 
     // Information from the threshold fields
-    private List<? extends Threshold>       altThresholds;
+    private List<? extends Threshold>   altThresholds;
 
     private transient MapperBase            map;
     private transient Timer                 timer;
@@ -117,9 +119,6 @@ public class BenchmarkPublisher extends Recorder {
 
     // Functions
 
-    @DataBoundSetter
-    public void setThresholds(List<? extends Threshold> thresholds) { this.altThresholds = thresholds; }
-
     @Override // Function to enforce order of build steps
     public BuildStepMonitor getRequiredMonitorService() { return BuildStepMonitor.NONE; }
 
@@ -137,25 +136,24 @@ public class BenchmarkPublisher extends Recorder {
         return actions;
     }
 
-    @Override // This is where the 'build' step is executed. To access descriptor variables, use: getDescriptor()
-    public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) {
-
+    @Override
+    public void perform(@Nonnull Run<?, ?> run, @Nonnull FilePath filePath, @Nonnull Launcher launcher, @Nonnull TaskListener taskListener) throws InterruptedException, IOException {
         boolean failed = false;
 
-        listener.getLogger().println(Messages.BenchmarkPublisher_CollectionOfResultsStarted());
+        taskListener.getLogger().println(Messages.BenchmarkPublisher_CollectionOfResultsStarted());
         try {
 
-            Integer buildNumber = build.getNumber();
-            String projectName = build.getProject().getName();
+            Integer buildNumber = run.getNumber();
+            String projectName = run.getParent().getName();
 
             // First testing for any specified location
             // If not, check for existing Jenkins Test Report inside the previous builds
             if (inputLocation == null || inputLocation.isEmpty()){
 
-                MapperBase mapper = getRawResults(build);
+                MapperBase mapper = getRawResults(run);
                 if (mapper != null) {
                     // Update file with condensed results
-                    String oFilename = build.getProject().getRootDir().getAbsolutePath() + File.separator + "BenchmarkCondensed.json";
+                    String oFilename = run.getParent().getRootDir().getAbsolutePath() + File.separator + "BenchmarkCondensed.json";
                     mapper.exportCondensedToFile(oFilename, projectName, buildNumber);
                 }
 
@@ -166,16 +164,16 @@ public class BenchmarkPublisher extends Recorder {
                 if (schemaSelection.contains("customSchema")) {
                     if (altInputSchema == null || altInputSchema.isEmpty()) {
                         if (altInputSchemaLocation == null || altInputSchemaLocation.isEmpty()) {
-                            listener.getLogger().println(Messages.BenchmarkPublisher_CustomSchemaEmpty());
+                            taskListener.getLogger().println(Messages.BenchmarkPublisher_CustomSchemaEmpty());
                             throw new IOException(Messages.BenchmarkPublisher_CustomSchemaEmpty());
                         } else {
                             File file = new File(altInputSchemaLocation);
-                            FilePath filePath = new FilePath(file);
-                            if (filePath.exists()) {
-                                InputStream inputStream = filePath.read();
+                            FilePath newFilePath = new FilePath(file);
+                            if (newFilePath.exists()) {
+                                InputStream inputStream = newFilePath.read();
                                 schemaText = IOUtils.toString(inputStream);
                             } else {
-                                listener.getLogger().println(Messages.BenchmarkPublisher_CustomSchemaFileNotDetected());
+                                taskListener.getLogger().println(Messages.BenchmarkPublisher_CustomSchemaFileNotDetected());
                                 throw new IOException(Messages.BenchmarkPublisher_CustomSchemaFileNotDetected());
                             }
                         }
@@ -185,7 +183,7 @@ public class BenchmarkPublisher extends Recorder {
                 } else {
                     Schema schema = schemaResources.get(schemaSelection);
                     if (schema == null) {
-                        listener.getLogger().println(Messages.BenchmarkPublisher_SelectedSchemaDoesNotExist());
+                        taskListener.getLogger().println(Messages.BenchmarkPublisher_SelectedSchemaDoesNotExist());
                         throw new IOException(Messages.BenchmarkPublisher_SelectedSchemaDoesNotExist());
                     } else {
                         String schemaAddress = schema.getLocation();
@@ -201,7 +199,7 @@ public class BenchmarkPublisher extends Recorder {
                 }
 
                 // Map results
-                FormatSelector selector = new FormatSelector(build, inputLocation, schemaText, truncateStrings, listener);
+                FormatSelector selector = new FormatSelector(run, filePath, inputLocation, schemaText, truncateStrings, taskListener);
                 MapperBase mapper = selector.getMapper();
 
                 // Load additional Thresholds
@@ -209,50 +207,49 @@ public class BenchmarkPublisher extends Recorder {
                     mapper.addAllThresholds(altThresholds);
                 }
 
-                MapperBase base = getRawResults(build);
+                MapperBase base = getRawResults(run);
                 failed = mapper.checkThresholds(base);
 
                 // Log mapper core information
-                mapper.logKeyData(listener, altThresholds.size());
+                mapper.logKeyData(taskListener, altThresholds.size());
 
                 // Export build file
-                String outputFilename = build.getRootDir().getAbsolutePath() + File.separator + "BenchmarkResult.json";
+                String outputFilename = run.getRootDir().getAbsolutePath() + File.separator + "BenchmarkResult.json";
                 mapper.exportToFile(outputFilename, projectName, buildNumber);
 
                 // Merge content
                 mapper.mergeWith(base);
 
                 // Update file with condensed results
-                String oFilename = build.getProject().getRootDir().getAbsolutePath() + File.separator + "BenchmarkCondensed.json";
+                String oFilename = run.getParent().getRootDir().getAbsolutePath() + File.separator + "BenchmarkCondensed.json";
                 mapper.exportCondensedToFile(oFilename, projectName, buildNumber);
             }
 
         } catch(Exception e) {
-            listener.getLogger().println(e.getMessage());
-            listener.getLogger().println(Messages.BenchmarkPublisher_ErrorDetectedDuringPostBuild());
-            build.setResult(Result.FAILURE);
-            return false;
+            taskListener.getLogger().println(e.getMessage());
+            taskListener.getLogger().println(Messages.BenchmarkPublisher_ErrorDetectedDuringPostBuild());
+            run.setResult(Result.FAILURE);
+            return;
         }
         if (failed) {
-            listener.getLogger().println(Messages.BenchmarkPublisher_CollectionSuccessButValidationFailure());
-            build.setResult(Result.FAILURE);
-            return false;
+            taskListener.getLogger().println(Messages.BenchmarkPublisher_CollectionSuccessButValidationFailure());
+            run.setResult(Result.FAILURE);
+            return;
         }
-        listener.getLogger().println(Messages.BenchmarkPublisher_PluginSuccessfull());
-        return true;
+        taskListener.getLogger().println(Messages.BenchmarkPublisher_PluginSuccessfull());
     }
 
     /**
      * Return whether result files are present
-     * @param build Jenkins build instance
+     * @param run Jenkins run instance
      * @return Whether raw results are available
      * @throws NullPointerException If null pointer detected
      * @throws FileNotFoundException If file not found
      * @throws JsonIOException If I/O errors occur
      * @throws JsonSyntaxException If JSON syntax invalid
      */
-    public Boolean hasResults(AbstractBuild build) throws NullPointerException, FileNotFoundException, JsonIOException, JsonSyntaxException {
-        String condensedFilename = build.getProject().getRootDir().getAbsolutePath() + File.separator + "BenchmarkCondensed.json";
+    public Boolean hasResults(Run run) throws NullPointerException, FileNotFoundException, JsonIOException, JsonSyntaxException {
+        String condensedFilename = run.getParent().getRootDir().getAbsolutePath() + File.separator + "BenchmarkCondensed.json";
         File oFile = new File(condensedFilename);
         if (oFile.exists()) {
             return true;
@@ -262,7 +259,7 @@ public class BenchmarkPublisher extends Recorder {
 
     /**
      * Retrieved and assemble all the build results into the mapper construct
-     * @param build Jenkins build instance
+     * @param run Jenkins run instance
      * @return Class to raw results
      * @throws NullPointerException If null pointer detected
      * @throws InterruptedException Interrupted Exception
@@ -271,62 +268,57 @@ public class BenchmarkPublisher extends Recorder {
      * @throws JsonIOException If I/O errors occur
      * @throws JsonSyntaxException If JSON syntax invalid
      */
-    public MapperBase getRawResults(AbstractBuild build) throws NullPointerException, InterruptedException, ValidationException, IOException,  JsonIOException, JsonSyntaxException {
+    public MapperBase getRawResults(Run<?, ?> run) throws NullPointerException, InterruptedException, ValidationException, IOException,  JsonIOException, JsonSyntaxException {
 
         if (inputLocation == null || inputLocation.isEmpty()){
 
-            jUnitJenkins mapper = new jUnitJenkins(build.getNumber(), truncateStrings);
+            jUnitJenkins mapper = new jUnitJenkins(run.getNumber(), truncateStrings);
 
             // Load condensed file if present
             StringBuffer condensedFilename = new StringBuffer();
-            condensedFilename.append(build.getProject().getRootDir().getAbsolutePath());
+            condensedFilename.append(run.getParent().getRootDir().getAbsolutePath());
             condensedFilename.append(File.separator);
             condensedFilename.append("BenchmarkCondensed.json");
             mapper.importCondensedFromFile(condensedFilename.toString());
 
             // Load the files between the current build and the condensed one sequentially
-            while (build != null && build.getNumber() != mapper.getBuild()){
-                FilePath workspace = build.getWorkspace();
-                if (!workspace.isDirectory()) {
-                    log.warning(Messages.BenchmarkPublisher_WorkspaceIsNotDetected());
-                    throw new IOException(Messages.BenchmarkPublisher_WorkspaceIsNotDetected());
-                }
+            while (run != null && run.getNumber() != mapper.getBuild()){
 
                 StringBuffer rawFilename = new StringBuffer();
-                rawFilename.append(build.getRootDir().getAbsolutePath());
+                rawFilename.append(run.getRootDir().getAbsolutePath());
                 rawFilename.append(File.separator);
                 rawFilename.append("junitResult.xml");
-                mapper.importFromFile(build.getNumber(), rawFilename.toString());
-                build = build.getPreviousBuild();
+                mapper.importFromFile(run.getNumber(), rawFilename.toString());
+                run = run.getPreviousBuild();
             }
 
-            if (build == null) {
+            if (run == null) {
                 return mapper;
             }
 
             // Load the files below the condensed one in parallel
             int cores = Runtime.getRuntime().availableProcessors() - 1;
-            AbstractBuild firstBuild = project.getFirstBuild();
-            int numberOfBuilds = build.getNumber() - firstBuild.getNumber();
-            int buildsPerSegment = 4;
-            if (numberOfBuilds > cores * 4) {
-                buildsPerSegment = numberOfBuilds / cores;
+            Run firstRun = project.getFirstBuild();
+            int numberOfRuns = run.getNumber() - firstRun.getNumber();
+            int runsPerSegment = 4;
+            if (numberOfRuns > cores * 4) {
+                runsPerSegment = numberOfRuns / cores;
             }
 
             ExecutorService server = Executors.newFixedThreadPool(cores);
 
             // Launch parallel threads
-            AbstractBuild startBuild = build;
-            AbstractBuild endBuild = startBuild;
+            Run startRun = run;
+            Run endRun = startRun;
             do {
                 int i = 0;
-                while (i < buildsPerSegment && endBuild != null) {
-                    endBuild = endBuild.getPreviousBuild();
+                while (i < runsPerSegment && endRun != null) {
+                    endRun = endRun.getPreviousBuild();
                     i++;
                 }
-                server.execute(new RunnableJenkinsReader(startBuild, endBuild, mapper));
-                startBuild = endBuild;
-            } while (startBuild != null);
+                server.execute(new RunnableJenkinsReader(startRun, endRun, mapper));
+                startRun = endRun;
+            } while (startRun != null);
 
             server.shutdown();
 
@@ -337,10 +329,10 @@ public class BenchmarkPublisher extends Recorder {
 
         } else {
 
-            MapperBase mapper = new MapperBase(build.getNumber(), truncateStrings);
+            MapperBase mapper = new MapperBase(run.getNumber(), truncateStrings);
 
             // Load condensed file if present
-            StringBuffer condensedFilename = new StringBuffer(build.getProject().getRootDir().getAbsolutePath());
+            StringBuffer condensedFilename = new StringBuffer(run.getParent().getRootDir().getAbsolutePath());
             condensedFilename.append(File.separator);
             condensedFilename.append("BenchmarkCondensed.json");
             if (!mapper.importCondensedFromFile(condensedFilename.toString())) {
@@ -348,37 +340,37 @@ public class BenchmarkPublisher extends Recorder {
             }
 
             // Load the files between the current build and the condensed one sequentially
-            while (build != null && build.getNumber() != mapper.getBuild()){
-                build = build.getPreviousBuild();
+            while (run != null && run.getNumber() != mapper.getBuild()){
+                run = run.getPreviousBuild();
             }
 
-            if (build == null) {
+            if (run == null) {
                 return mapper;
             }
 
             // Load the files below the condensed one in parallel
             int cores = Runtime.getRuntime().availableProcessors() - 1;
-            AbstractBuild firstBuild = project.getFirstBuild();
-            int numberOfBuilds = build.getNumber() - firstBuild.getNumber();
-            int buildsPerSegment = 4;
-            if (numberOfBuilds > cores * 4 ) {
-                buildsPerSegment = numberOfBuilds / cores;
+            Run firstRun = project.getFirstBuild();
+            int numberOfRuns = run.getNumber() - firstRun.getNumber();
+            int runsPerSegment = 4;
+            if (numberOfRuns > cores * 4 ) {
+                runsPerSegment = numberOfRuns / cores;
             }
 
             ExecutorService server = Executors.newFixedThreadPool(cores);
 
             // Launch parallel threads
-            AbstractBuild startBuild = build;
-            AbstractBuild endBuild = startBuild;
+            Run startRun = run;
+            Run endRun = startRun;
             do{
                 int i = 0;
-                while (i < buildsPerSegment && endBuild != null) {
-                    endBuild = endBuild.getPreviousBuild();
+                while (i < runsPerSegment && endRun != null) {
+                    endRun = endRun.getPreviousBuild();
                     i++;
                 }
-                server.execute(new RunnableReader(startBuild, endBuild, mapper));
-                startBuild = endBuild;
-            } while (startBuild != null);
+                server.execute(new RunnableReader(startRun, endRun, mapper));
+                startRun = endRun;
+            } while (startRun != null);
 
             server.shutdown();
 
@@ -395,10 +387,10 @@ public class BenchmarkPublisher extends Recorder {
     public void fillAllResults(){
         try {
             resetClock();
-            AbstractBuild build = project.getLastBuild();
-            if (build != null) {
-                MapperBase base = this.getMapper(build);
-                base.setBuild(build.getNumber());
+            Run run = project.getLastBuild();
+            if (run != null) {
+                MapperBase base = this.getMapper(run);
+                base.setBuild(run.getNumber());
             }
         } catch (Exception e) {
             log.info(Messages.BenchmarkPublisher_ResultCollectionErrorDetected());
@@ -430,6 +422,9 @@ public class BenchmarkPublisher extends Recorder {
 
     // Setters
 
+    @DataBoundSetter
+    public void setThresholds(List<? extends Threshold> thresholds) { this.altThresholds = thresholds; }
+
     public void setTimer(Timer timer) { this.timer = timer; }
     public void setSelectedResult(Integer selectedResult) { this.selectedResult = selectedResult; }
     public void setSelectedBuild(Integer selectedBuild) { this.selectedBuild = selectedBuild; }
@@ -441,15 +436,17 @@ public class BenchmarkPublisher extends Recorder {
     public String getSchemaSelection() { return schemaSelection; }
     public Boolean getTruncateStrings() { return truncateStrings; }
     public String getAltInputSchema() { return altInputSchema; }
+    public String getAltInputSchemaLocation() { return altInputSchemaLocation; }
+
     public List<? extends Threshold> getThresholds() { return altThresholds; }
     public Timer getTimer() { return timer; }
     public Integer getSelectedResult() { return selectedResult; }
     public Integer getSelectedBuild() { return selectedBuild; }
     public MapperBase getMapper(){ return map; }
-    public MapperBase getMapper(AbstractBuild build) throws NullPointerException, InterruptedException, ValidationException, IOException,  JsonIOException, JsonSyntaxException {
+    public MapperBase getMapper(Run run) throws NullPointerException, InterruptedException, ValidationException, IOException,  JsonIOException, JsonSyntaxException {
         MapperBase base = this.map;
-        if (base == null || build.getNumber() != base.getBuild()) {
-            base = this.getRawResults(build);
+        if (base == null || run.getNumber() != base.getBuild()) {
+            base = this.getRawResults(run);
             this.map = base;
         }
         return base;
@@ -463,7 +460,7 @@ public class BenchmarkPublisher extends Recorder {
      * See <tt>src/main/resources/org/jenkinsci/plugins/benchmark/BenchmarkPublisher/*.jelly</tt>
      * for the actual HTML fragment for the configuration screen.
      */
-    @Extension // This indicates to Jenkins that this is an implementation of an extension point.
+    @Extension @Symbol("benchmark") // This indicates to Jenkins that this is an implementation of an extension point.
     public static final class DescriptorImpl extends BuildStepDescriptor<Publisher> {
 
         /**

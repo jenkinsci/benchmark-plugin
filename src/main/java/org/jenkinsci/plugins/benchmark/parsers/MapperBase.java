@@ -19,7 +19,7 @@
 package org.jenkinsci.plugins.benchmark.parsers;
 
 import com.google.gson.*;
-import hudson.model.BuildListener;
+import hudson.model.TaskListener;
 import org.jenkinsci.plugins.benchmark.condensed.DoubleCondensed;
 import org.jenkinsci.plugins.benchmark.condensed.IntegerCondensed;
 import org.jenkinsci.plugins.benchmark.exceptions.ValidationException;
@@ -936,7 +936,7 @@ public class MapperBase {
         }
     }
 
-    public void logKeyData(BuildListener listener, Integer numberOfAddedThresholds){
+    public void logKeyData(TaskListener listener, Integer numberOfAddedThresholds){
         listener.getLogger().println(Messages.MapperBase_NumberOfResults() + this.getParameters().size());
         listener.getLogger().println(Messages.MapperBase_NumberOfParameters() + this.getResults().size());
         listener.getLogger().println(Messages.MapperBase_NumberOfAddedThresholds() + numberOfAddedThresholds);

@@ -49,9 +49,9 @@ public abstract class Threshold extends AbstractDescribableImpl<Threshold> {
     }
 
     // Variables
-    private ThresholdTypes type;    // Threshold type(see thresholdTypes for options)
-    private String          testGroup;
-    private String          testName;
+    private final ThresholdTypes type;    // Threshold type(see thresholdTypes for options)
+    private final String         testGroup;
+    private final String         testName;
 
     // Constructor
     protected Threshold(String testGroup, String testName, ThresholdTypes type) {
@@ -94,7 +94,6 @@ public abstract class Threshold extends AbstractDescribableImpl<Threshold> {
     public abstract boolean evaluate(List<? extends Run<?, ?>> builds) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, AbortException, ParseException;
 
     // Setter
-
     public void setAverageValue(Double average){}
     public void setPreviousValue(Double average){}
 

@@ -39,7 +39,7 @@ import java.util.List;
 public class PercentageAverageThreshold extends Threshold {
 
     // Variables
-    private Double percentage;
+    private final Double percentage;
     private Double average;
 
     // Constructor

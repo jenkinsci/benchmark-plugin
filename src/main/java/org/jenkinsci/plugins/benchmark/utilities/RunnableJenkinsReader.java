@@ -18,7 +18,7 @@
  */
 package org.jenkinsci.plugins.benchmark.utilities;
 
-import hudson.model.AbstractBuild;
+import hudson.model.Run;
 import org.jenkinsci.plugins.benchmark.parsers.jUnitJenkins;
 
 import java.io.File;
@@ -32,13 +32,13 @@ import java.util.logging.Logger;
  */
 public class RunnableJenkinsReader implements Runnable {
 
-    private final AbstractBuild startBuild;
-    private final AbstractBuild endBuild;
+    private final Run startRun;
+    private final Run endRun;
     private final jUnitJenkins mapper;
 
-    public RunnableJenkinsReader(AbstractBuild startBuild, AbstractBuild endBuild, jUnitJenkins mapper) {
-        this.startBuild = startBuild;
-        this.endBuild = endBuild;
+    public RunnableJenkinsReader(Run startRun, Run endRun, jUnitJenkins mapper) {
+        this.startRun = startRun;
+        this.endRun = endRun;
         this.mapper = mapper;
     }
     private static final Logger log = Logger.getLogger(RunnableReader.class.getName());
@@ -46,18 +46,18 @@ public class RunnableJenkinsReader implements Runnable {
     @SuppressWarnings("unused")
     @Override
     public void run() {
-        AbstractBuild build = this.startBuild;
+        Run run = this.startRun;
         try {
-            while (build != null && build != endBuild) {
+            while (run != null && run != endRun) {
                 StringBuffer rawFilename = new StringBuffer();
-                rawFilename.append(build.getRootDir().getAbsolutePath());
+                rawFilename.append(run.getRootDir().getAbsolutePath());
                 rawFilename.append(File.separator);
                 rawFilename.append("junitResult.xml");
-                this.mapper.importFromFile(build.getNumber(), rawFilename.toString());
-                build = build.getPreviousBuild();
+                this.mapper.importFromFile(run.getNumber(), rawFilename.toString());
+                run = run.getPreviousBuild();
             }
         } catch (Exception e){
-            log.warning("Warning:" + Thread.currentThread().getName() + "- Build:" + build.getNumber()+ " - " + e.getCause());
+            log.warning("Warning:" + Thread.currentThread().getName() + "- Build:" + run.getNumber()+ " - " + e.getCause());
         }
     }
 }
