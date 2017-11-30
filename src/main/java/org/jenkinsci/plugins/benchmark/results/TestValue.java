@@ -251,6 +251,7 @@ public class TestValue extends TestGroup {
                 BooleanCondensed bool_result = new BooleanCondensed(_file, _group,  _name, _description, _unit, _passed, _failed);
                 entityList.put(_hash, bool_result);
                 break;
+            default:
         }
         if (_group != null){
             detected.setGroupDetected(true);
@@ -342,6 +343,7 @@ public class TestValue extends TestGroup {
                 BooleanValue bool_result = new BooleanValue(_file, _group,  _name, _description, _unit);
                 entityList.put(_hash, bool_result);
                 break;
+            default:
         }
     }
 
@@ -552,6 +554,8 @@ public class TestValue extends TestGroup {
                     }
                     res = int_value;
                     break;
+
+                default:
             }
         }
         if (res != null){
@@ -585,6 +589,8 @@ public class TestValue extends TestGroup {
                             value.setValue(build, _value.getAsString());
                         }
                         break;
+
+                    default:
                 }
             }
             if (_failedState != null) {
@@ -715,6 +721,7 @@ public class TestValue extends TestGroup {
                     entityList.put(_hash, int_value);
                     res = int_value;
                     break;
+                default:
             }
         }
         if (res != null){
@@ -748,6 +755,7 @@ public class TestValue extends TestGroup {
                             value.setValue(build, _value.getAsString());
                         }
                         break;
+                    default:
                 }
             }
         }

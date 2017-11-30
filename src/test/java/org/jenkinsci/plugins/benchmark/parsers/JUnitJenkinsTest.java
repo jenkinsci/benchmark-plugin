@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.jenkinsci.plugins.benchmark.parsers.jUnitJenkins.RecurseNames;
+import static org.jenkinsci.plugins.benchmark.parsers.JUnitJenkins.RecurseNames;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -38,17 +38,17 @@ import static org.junit.Assert.assertTrue;
  * @author Daniel Mercier
  * @since 6/20/2017.
  */
-public class jUnitJenkinsTest {
+public class JUnitJenkinsTest {
 
     @Test
-    public void jUnitJenkins_mapper() throws InterruptedException, ValidationException, ParserConfigurationException, SAXException, IOException {
+    public void JUnitJenkins_mapper() throws InterruptedException, ValidationException, ParserConfigurationException, SAXException, IOException {
         System.out.println("Starting XML mapping for jUnit Jenkins format.");
 
         boolean truncateStrings = false;
         ClassLoader testClassLoader = getClass().getClassLoader();
         File xmlCFile = new File(testClassLoader.getResource("xml/jUnitJenkinsResult.xml").getFile());
 
-        jUnitJenkins mapper = new jUnitJenkins(0, truncateStrings);
+        JUnitJenkins mapper = new JUnitJenkins(0, truncateStrings);
         mapper.importFromFile(0, xmlCFile);
 
         assertTrue(mapper.getNumberOfResults() == 8);
@@ -58,7 +58,7 @@ public class jUnitJenkinsTest {
     }
 
     @Test
-    public void jUnitJenkins_FileProcessor() throws InterruptedException, ValidationException, ParserConfigurationException, SAXException, IOException {
+    public void JUnitJenkins_FileProcessor() throws InterruptedException, ValidationException, ParserConfigurationException, SAXException, IOException {
         System.out.println("Starting Filename processor.");
 
         List<FilePathGroup> names = new ArrayList<FilePathGroup>();
