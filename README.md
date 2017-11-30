@@ -11,7 +11,8 @@ For the plug-in one slide features, click [HERE](./doc/170821_Benchmark_Plugin_O
 
 This plug-in is also designed to load any type of JSON or XML result file format.  
 This plug-in works best in combination with an automated notification plug-in.  
-This plug-in works also as a result viewer for the ['jUnit Plug-in'](https://wiki.jenkins.io/display/JENKINS/JUnit+Plugin) and the ['xUnit Plug-in'](https://wiki.jenkins.io/display/JENKINS/xUnit+Plugin).
+This plug-in works also as a result viewer for the ['jUnit Plug-in'](https://wiki.jenkins.io/display/JENKINS/JUnit+Plugin) and the ['xUnit Plug-in'](https://wiki.jenkins.io/display/JENKINS/xUnit+Plugin).  
+This plug-in is accessible as a Jenkins pipeline component.  
 
 If you are interested  in why this plug-in was created, please find the original proposal [HERE](./doc/170515_Benchmark_Plugin_Proposal.pdf).
 
