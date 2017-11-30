@@ -18,7 +18,7 @@
  */
 package org.jenkinsci.plugins.benchmark.utilities;
 
-import hudson.model.AbstractBuild;
+import hudson.model.Run;
 import org.jenkinsci.plugins.benchmark.parsers.MapperBase;
 
 import java.io.File;
@@ -32,13 +32,13 @@ import java.util.logging.Logger;
  */
 public class RunnableReader implements Runnable {
 
-    private final AbstractBuild startBuild;
-    private final AbstractBuild endBuild;
+    private final Run startRun;
+    private final Run endRun;
     private final MapperBase mapper;
 
-    public RunnableReader(AbstractBuild startBuild, AbstractBuild endBuild, MapperBase mapper) {
-        this.startBuild = startBuild;
-        this.endBuild = endBuild;
+    public RunnableReader(Run startRun, Run endRun, MapperBase mapper) {
+        this.startRun = startRun;
+        this.endRun = endRun;
         this.mapper = mapper;
     }
     private static final Logger log = Logger.getLogger(RunnableReader.class.getName());
@@ -46,19 +46,18 @@ public class RunnableReader implements Runnable {
     @SuppressWarnings("unused")
     @Override
     public void run() {
-        AbstractBuild build = this.startBuild;
+        Run run = this.startRun;
         try {
-            while (build != null && build != endBuild) {
+            while (run != null && run != endRun) {
                 StringBuffer rawFilename = new StringBuffer();
-                rawFilename.append(build.getRootDir().getAbsolutePath());
+                rawFilename.append(run.getRootDir().getAbsolutePath());
                 rawFilename.append(File.separator);
                 rawFilename.append("BenchmarkResult.json");
                 this.mapper.importFromFile(rawFilename.toString());
-                build = build.getPreviousBuild();
+                run = run.getPreviousBuild();
             }
         } catch (Exception e){
-            log.warning("Warning:" + Thread.currentThread().getName() + "- Build:" + build.getNumber()+ " - " + e.getCause());
+            log.warning("Warning:" + Thread.currentThread().getName() + "- Build:" + run.getNumber()+ " - " + e.getCause());
         }
     }
-
 }

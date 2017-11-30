@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import hudson.FilePath;
-import hudson.model.BuildListener;
+import hudson.model.TaskListener;
 import org.jenkinsci.plugins.benchmark.exceptions.ValidationException;
 import org.jenkinsci.plugins.benchmark.parsers.MapperBase;
 import org.jenkinsci.plugins.benchmark.results.TestGroup;
@@ -86,7 +86,7 @@ public class MapXmlToPlugin extends MapperBase {
         InitiateLoading(rootGroup, xContent, schema);
     }
 
-    public MapXmlToPlugin(Integer build, Map<String, FilePath> content, Document schema, boolean truncateStrings, BuildListener listener) throws IOException, ValidationException {
+    public MapXmlToPlugin(Integer build, Map<String, FilePath> content, Document schema, boolean truncateStrings, TaskListener listener) throws IOException, ValidationException {
         super(build, truncateStrings);
 
         listener.getLogger().println(Messages.MapXmlToPlugin_ListOfFilesDetected());
