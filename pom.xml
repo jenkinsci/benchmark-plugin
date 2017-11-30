@@ -41,7 +41,7 @@
 
   <name>Benchmark Plugin</name>
   <description>The benchmark plugin enhances Jenkins with a generic capability to compare boolean and numerical test results.</description>
-  <url>https://wiki.jenkins-ci.org/display/JENKINS/Benchmark+Plugin</url>
+  <url>https://wiki.jenkins.io/display/JENKINS/Benchmark+Plugin</url>
 
   <!-- The default licence for Jenkins OSS Plugins is MIT. Substitute for the applicable one if needed. -->
 
@@ -61,13 +61,13 @@
     </developer>
   </developers>
 
-  <!-- Assuming you want to host on @jenkinsci:
+  <!-- Assuming you want to host on @jenkinsci:-->
   <scm>
     <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
   </scm>
-   -->
+
   <repositories>
     <repository>
       <id>repo.jenkins-ci.org</id>
@@ -80,14 +80,5 @@
       <url>https://repo.jenkins-ci.org/public/</url>
     </pluginRepository>
   </pluginRepositories>
-  <!-- If you want to depend on other plugins:
-  <dependencies>
-    <dependency>
-      <groupId>org.jenkins-ci.plugins</groupId>
-      <artifactId>credentials</artifactId>
-      <version>2.0</version>
-    </dependency>
-  </dependencies>
-  -->
 
 </project>
