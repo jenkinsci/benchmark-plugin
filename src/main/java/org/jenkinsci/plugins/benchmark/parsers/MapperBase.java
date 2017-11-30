@@ -154,6 +154,7 @@ public class MapperBase {
                                     strValue.getProperties().putAll(strBaseValue.getProperties());
                                 }
                                 break;
+                            default:
                         }
                         detectedResult = true;
                         break;
@@ -209,6 +210,7 @@ public class MapperBase {
                                 strValue.getValues().putAll(strBaseValue.getValues());
                             }
                             break;
+                            default:
                         }
                         detectedParam = true;
                         break;
@@ -889,7 +891,7 @@ public class MapperBase {
             gson.toJson(rootObject, writer);
             writer.close();
             return true;
-        } catch (Exception e) {
+        } catch (IOException e) {
             return false;
         }
     }

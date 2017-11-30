@@ -115,11 +115,11 @@ public class MapXmlFailures {
                     if (compare != null){
                         try {
                             failures.add(new TestFailure(value, compare));
-                        } catch (Exception e) {
+                        } catch (ValidationException e) {
                             throw new ValidationException( Messages.MapXmlFailures_CompareIsNotRecogmizedAsType(compare, parent.getFullName()) );
                         }
                     }
-                } catch (Exception e) {
+                } catch (NumberFormatException e) {
                     throw new ValidationException( Messages.MapXmlFailures_TextCouldNotBeParseToNumber(text_2, parent.getFullName()) );
                 }
                 break;

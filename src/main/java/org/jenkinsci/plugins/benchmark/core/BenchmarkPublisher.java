@@ -40,7 +40,7 @@ import org.jenkinsci.Symbol;
 import org.jenkinsci.plugins.benchmark.exceptions.ValidationException;
 import org.jenkinsci.plugins.benchmark.parsers.FormatSelector;
 import org.jenkinsci.plugins.benchmark.parsers.MapperBase;
-import org.jenkinsci.plugins.benchmark.parsers.jUnitJenkins;
+import org.jenkinsci.plugins.benchmark.parsers.JUnitJenkins;
 import org.jenkinsci.plugins.benchmark.schemas.Schema;
 import org.jenkinsci.plugins.benchmark.thresholds.Threshold;
 import org.jenkinsci.plugins.benchmark.utilities.ResetMemoryTask;
@@ -225,7 +225,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
                 mapper.exportCondensedToFile(oFilename, projectName, buildNumber);
             }
 
-        } catch(Exception e) {
+        } catch(ValidationException e) {
             taskListener.getLogger().println(e.getMessage());
             taskListener.getLogger().println(Messages.BenchmarkPublisher_ErrorDetectedDuringPostBuild());
             run.setResult(Result.FAILURE);
@@ -272,7 +272,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
 
         if (inputLocation == null || inputLocation.isEmpty()){
 
-            jUnitJenkins mapper = new jUnitJenkins(run.getNumber(), truncateStrings);
+            JUnitJenkins mapper = new JUnitJenkins(run.getNumber(), truncateStrings);
 
             // Load condensed file if present
             StringBuffer condensedFilename = new StringBuffer();
