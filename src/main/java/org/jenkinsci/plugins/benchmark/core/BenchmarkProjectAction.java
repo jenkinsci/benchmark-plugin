@@ -18,11 +18,14 @@
  */
 package org.jenkinsci.plugins.benchmark.core;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.Api;
 import hudson.model.Run;
 import jenkins.model.Jenkins;
+import org.jenkinsci.plugins.benchmark.exceptions.ValidationException;
 import org.jenkinsci.plugins.benchmark.utilities.*;
 import org.jenkinsci.plugins.benchmark.parsers.MapperBase;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
@@ -30,6 +33,8 @@ import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -81,7 +86,6 @@ public class BenchmarkProjectAction implements Action{
      */
     @FrontendMethod
     public String getTextDirection() {
-        Locale locale = Locale.getDefault();
         if (ComponentOrientation.getOrientation(Locale.getDefault()).isLeftToRight()){
             return "ltr";
         } else {
@@ -95,7 +99,6 @@ public class BenchmarkProjectAction implements Action{
      */
     @FrontendMethod
     public String getRightBoxPosition() {
-        Locale locale = Locale.getDefault();
         if (ComponentOrientation.getOrientation(Locale.getDefault()).isLeftToRight()){
             return "right";
         } else {
@@ -147,12 +150,16 @@ public class BenchmarkProjectAction implements Action{
     public Boolean getContentAvailable() {
         try {
             Run run = this.project.getLastBuild();
-            if (this.core.hasResults(run)) {
-                return true;
+            if (run != null) {
+                if (this.core.hasResults(run)) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
-        } catch (Exception e) {
+        } catch (NullPointerException | FileNotFoundException | JsonIOException | JsonSyntaxException e) {
             return false;
         }
     }
@@ -182,7 +189,7 @@ public class BenchmarkProjectAction implements Action{
                 }
             }
             return i;
-        } catch(Exception e) {
+        } catch (NullPointerException| InterruptedException | ValidationException | IOException |  JsonIOException | JsonSyntaxException e) {
             return i;
         }
     }

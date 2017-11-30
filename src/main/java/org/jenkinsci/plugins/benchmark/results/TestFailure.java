@@ -18,7 +18,7 @@
  */
 package org.jenkinsci.plugins.benchmark.results;
 
-import javax.xml.bind.ValidationException;
+import org.jenkinsci.plugins.benchmark.exceptions.ValidationException;
 
 /**
  * Holds definition of failure for boolean test

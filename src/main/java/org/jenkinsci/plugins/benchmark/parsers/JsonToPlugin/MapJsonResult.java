@@ -288,13 +288,14 @@ public class MapJsonResult {
                                 if (name == null){
                                     if(key == null) {
                                         name = schemaKey;
+                                        key = schemaKey;
                                     } else {
                                         name = key;
                                     }
                                 }
                                 StringValue res = new StringValue(parent, name, description, unit);
                                 res.setValue(key);
-                                if(failures.hasFailures()) {
+                                if (failures.hasFailures()) {
                                     res.setFailedState(failures.isFailure(key, true));
                                 }
                                 result = res;

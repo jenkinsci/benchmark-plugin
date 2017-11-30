@@ -19,7 +19,7 @@
 package org.jenkinsci.plugins.benchmark.utilities;
 
 import hudson.model.Run;
-import org.jenkinsci.plugins.benchmark.parsers.jUnitJenkins;
+import org.jenkinsci.plugins.benchmark.parsers.JUnitJenkins;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -34,9 +34,9 @@ public class RunnableJenkinsReader implements Runnable {
 
     private final Run startRun;
     private final Run endRun;
-    private final jUnitJenkins mapper;
+    private final JUnitJenkins mapper;
 
-    public RunnableJenkinsReader(Run startRun, Run endRun, jUnitJenkins mapper) {
+    public RunnableJenkinsReader(Run startRun, Run endRun, JUnitJenkins mapper) {
         this.startRun = startRun;
         this.endRun = endRun;
         this.mapper = mapper;

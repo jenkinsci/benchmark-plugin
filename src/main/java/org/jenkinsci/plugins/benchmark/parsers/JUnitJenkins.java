@@ -42,13 +42,13 @@ import java.util.Map;
  * @author Daniel Mercier
  * @since 6/20/2017.
  */
-public class jUnitJenkins extends MapperBase {
+public class JUnitJenkins extends MapperBase {
 
     // Variables
 
     // Constructors
 
-    public jUnitJenkins(Integer build, boolean truncateStrings) throws IOException, ValidationException {
+    public JUnitJenkins(Integer build, boolean truncateStrings) throws IOException, ValidationException {
         super(build, truncateStrings);
     }
 
@@ -297,9 +297,7 @@ public class jUnitJenkins extends MapperBase {
                 if (nCNode.getNodeName().equals("name")) {
                     String name = nCNode.getTextContent();
                     if (name != null && !name.isEmpty()) {
-                        if (name != null && !name.isEmpty()) {
-                            _key.append(name);
-                        }
+                        _key.append(name);
                         int hash = _key.toString().hashCode();
                         _file = files.get(hash);
                         if (_file == null) {

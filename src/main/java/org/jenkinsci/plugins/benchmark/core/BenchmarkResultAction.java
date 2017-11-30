@@ -93,7 +93,6 @@ public class BenchmarkResultAction implements Action {
      */
     @FrontendMethod
     public String getRightBoxPosition() {
-        Locale locale = Locale.getDefault();
         if (ComponentOrientation.getOrientation(Locale.getDefault()).isLeftToRight()){
             return "right";
         } else {
