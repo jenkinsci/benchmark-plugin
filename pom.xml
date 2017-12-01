@@ -25,7 +25,7 @@
 
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>benchmark</artifactId>
-  <version>0.8.3</version>
+  <version>1.0.0</version>
   <packaging>hpi</packaging>
 
   <properties>
