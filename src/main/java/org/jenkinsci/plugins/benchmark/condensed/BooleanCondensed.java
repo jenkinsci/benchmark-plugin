@@ -48,12 +48,13 @@ public class BooleanCondensed extends BooleanValue {
 
     /**
      * Assemble the HTML content to display the condensed table [TABLE PAGE]
+     * @param key Result key
      * @param detected Key characteristics of results
      * @param decimalSeparator Decimal separator
      * @return HTML content for condensed table
      */
     @Override
-    public String getHTMLCondensed(ContentDetected detected, char decimalSeparator) {
+    public String getHTMLCondensed(Integer key, ContentDetected detected, char decimalSeparator) {
         StringBuffer content = new StringBuffer();
         content.append("<tr><td>");
         if (detected.isFileDetected()){
@@ -82,7 +83,7 @@ public class BooleanCondensed extends BooleanValue {
                 content.append("</td><td>");
             }
         }
-        content.append(this.groupHash);
+        content.append(key.toString());
         content.append("</td><td>");
         if (detected.isNumeralDetected()) {
             content.append("-</td><td>-</td><td>-</td><td>-</td><td>");

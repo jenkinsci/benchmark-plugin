@@ -19,6 +19,7 @@
 package org.jenkinsci.plugins.benchmark.core;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import com.google.gson.JsonIOException;
@@ -171,7 +172,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
                             FilePath newFilePath = new FilePath(file);
                             if (newFilePath.exists()) {
                                 InputStream inputStream = newFilePath.read();
-                                schemaText = IOUtils.toString(inputStream);
+                                schemaText = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
                             } else {
                                 taskListener.getLogger().println(Messages.BenchmarkPublisher_CustomSchemaFileNotDetected());
                                 throw new IOException(Messages.BenchmarkPublisher_CustomSchemaFileNotDetected());
@@ -193,8 +194,8 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
                             schemaAddress += ".json";
                         }
                         ClassLoader classLoader = getClass().getClassLoader();
-                        File file = new File(classLoader.getResource(schemaAddress).getFile());
-                        schemaText = readFileToString(file);
+                        InputStream fileStream = classLoader.getResource(schemaAddress).openStream();
+                        schemaText = IOUtils.toString(fileStream, StandardCharsets.UTF_8);
                     }
                 }
 

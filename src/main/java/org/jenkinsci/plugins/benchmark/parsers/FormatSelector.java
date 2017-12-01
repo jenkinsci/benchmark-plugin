@@ -37,6 +37,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -182,7 +183,7 @@ public class FormatSelector {
             String content;
             try {
                 InputStream inputStream = entry.getValue().read();
-                content = IOUtils.toString(inputStream);
+                content = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             } catch (Exception e) {
                 continue;
             }

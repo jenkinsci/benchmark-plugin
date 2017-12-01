@@ -1187,11 +1187,12 @@ public class TestValue extends TestGroup {
 
     /**
      * Assemble the HTML content to display the condensed table [TABLE PAGE]
+     * @param key Result key
      * @param detected Key characteristics of results
      * @param decimalSeparator Decimal separator
      * @return HTML content
      */
-    public String getHTMLCondensed(ContentDetected detected, char decimalSeparator) { return ""; }
+    public String getHTMLCondensed(Integer key, ContentDetected detected, char decimalSeparator) { return ""; }
 
     /**
      * Assemble the HTML content to display the condensed table [DETAIL PAGE]
