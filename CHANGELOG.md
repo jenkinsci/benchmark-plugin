@@ -1,6 +1,6 @@
 
 
-# CHANGELOG - Benchmark plug-in
+## Changelog for the Benchmark plug-in
 
 ### Version 0.8.4
 - Initial commit as OpenSource under MIT license.
