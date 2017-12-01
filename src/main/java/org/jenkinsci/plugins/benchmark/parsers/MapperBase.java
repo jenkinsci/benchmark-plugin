@@ -679,8 +679,8 @@ public class MapperBase {
         content.append(header);
         content.append("</tr></tfoot><tbody>");
 
-        for (TestValue result:results.values()){
-            content.append(result.getHTMLCondensed(detected, decimalSeparator));
+        for (Map.Entry<Integer, TestValue> result:results.entrySet()){
+            content.append(result.getValue().getHTMLCondensed(result.getKey(), detected, decimalSeparator));
         }
         content.append("</tbody>");
         return content.toString();
