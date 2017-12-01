@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <!-- NM_METHOD_NAMING_CONVENTION - All messages were transformed by IntelliJ Stapler plugin into functions and kept casing -->
+        <!-- NP_BOOLEAN_RETURN_NULL - Null is used as a third type of return value -->
+        <!-- AT_OPERATION_SEQUENCE_ON_CONCURRENT_ABSTRACTION - ConcurrentHashMap insertions were specifically designed to be sequential, only read operations are parallels -->
+        <Bug pattern="NM_METHOD_NAMING_CONVENTION,NP_BOOLEAN_RETURN_NULL,AT_OPERATION_SEQUENCE_ON_CONCURRENT_ABSTRACTION"/>
+    </Match>
+</FindBugsFilter>
