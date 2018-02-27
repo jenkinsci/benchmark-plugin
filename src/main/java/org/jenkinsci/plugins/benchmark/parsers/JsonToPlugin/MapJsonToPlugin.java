@@ -251,10 +251,11 @@ public class MapJsonToPlugin extends MapperBase {
                     for (Map.Entry<String, JsonElement> entry : oSchema.entrySet()) {
                         if (entry.getKey().equals("properties")) {
                             ProcessResult(parent, key, eContent, entry.getValue(), failures);
+                            detResult = true;
                             break;
                         }
                     }
-                    if (detResult) {
+                    if (!detResult) {
                         ProcessResultFull (parent, key, eContent, eSchema, failures, false);
                     }
                     break;
@@ -277,10 +278,11 @@ public class MapJsonToPlugin extends MapperBase {
                     for (Map.Entry<String, JsonElement> entry : oSchema.entrySet()) {
                         if (entry.getKey().equals("properties")) {
                             ProcessParameter(parent, key, eContent, entry.getValue(), failures);
+                            detParameter = true;
                             break;
                         }
                     }
-                    if (detParameter) {
+                    if (!detParameter) {
                         ProcessParameterFull (parent, key, eContent, eSchema, failures);
                     }
                     break;
@@ -588,12 +590,16 @@ public class MapJsonToPlugin extends MapperBase {
             return GroupTags.gt_object;
         } else if (type.equals("array")) {
             return GroupTags.gt_array;
+        } else if (type.equals("resultfull")) {
+            return GroupTags.gt_result;
         } else if (type.equals("result")) {
             return GroupTags.gt_result;
         } else if (type.equals("booleankey")) {
             return GroupTags.gt_booleankey;
         } else if (type.equals("threshold")) {
             return GroupTags.gt_threshold;
+        } else if (type.equals("parameterfull")) {
+            return GroupTags.gt_parameter;
         } else if (type.equals("parameter")) {
             return GroupTags.gt_parameter;
         } else {
