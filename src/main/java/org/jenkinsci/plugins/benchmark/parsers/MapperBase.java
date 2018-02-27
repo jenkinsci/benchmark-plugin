@@ -106,9 +106,11 @@ public class MapperBase {
                                     dblValue.getValues().clear();
                                     dblValue.getValues().put(build, dblV);
                                     dblValue.getValues().putAll(dblBaseValue.getValues());
-                                    TestProperty dblProperty = dblValue.getProperties().get(0);
-                                    dblValue.getProperties().clear();
-                                    dblValue.getProperties().put(build, dblProperty);
+                                    if (dblValue.getProperties().size() > 0) {
+                                        TestProperty dblProperty = dblValue.getProperties().get(0);
+                                        dblValue.getProperties().clear();
+                                        dblValue.getProperties().put(build, dblProperty);
+                                    }
                                     dblValue.getProperties().putAll(dblBaseValue.getProperties());
                                 }
                                 break;
@@ -120,9 +122,11 @@ public class MapperBase {
                                     intValue.getValues().clear();
                                     intValue.getValues().put(build, intV);
                                     intValue.getValues().putAll(intBaseValue.getValues());
-                                    TestProperty intProperty = intValue.getProperties().get(0);
-                                    intValue.getProperties().clear();
-                                    intValue.getProperties().put(build, intProperty);
+                                    if (intValue.getProperties().size() > 0) {
+                                        TestProperty intProperty = intValue.getProperties().get(0);
+                                        intValue.getProperties().clear();
+                                        intValue.getProperties().put(build, intProperty);
+                                    }
                                     intValue.getProperties().putAll(intBaseValue.getProperties());
                                 }
                                 break;
@@ -134,9 +138,11 @@ public class MapperBase {
                                     boolValue.getValues().clear();
                                     boolValue.getValues().put(build, boolV);
                                     boolValue.getValues().putAll(boolBaseValue.getValues());
-                                    TestProperty boolProperty = boolValue.getProperties().get(0);
-                                    boolValue.getProperties().clear();
-                                    boolValue.getProperties().put(build, boolProperty);
+                                    if (boolValue.getProperties().size() > 0) {
+                                        TestProperty boolProperty = boolValue.getProperties().get(0);
+                                        boolValue.getProperties().clear();
+                                        boolValue.getProperties().put(build, boolProperty);
+                                    }
                                     boolValue.getProperties().putAll(boolBaseValue.getProperties());
                                 }
                                 break;
@@ -148,9 +154,11 @@ public class MapperBase {
                                     strValue.getValues().clear();
                                     strValue.getValues().put(build, strV);
                                     strValue.getValues().putAll(strBaseValue.getValues());
-                                    TestProperty strProperty = strValue.getProperties().get(0);
-                                    strValue.getProperties().clear();
-                                    strValue.getProperties().put(build, strProperty);
+                                    if (strValue.getProperties().size() > 0) {
+                                        TestProperty strProperty = strValue.getProperties().get(0);
+                                        strValue.getProperties().clear();
+                                        strValue.getProperties().put(build, strProperty);
+                                    }
                                     strValue.getProperties().putAll(strBaseValue.getProperties());
                                 }
                                 break;
@@ -939,8 +947,8 @@ public class MapperBase {
     }
 
     public void logKeyData(TaskListener listener, Integer numberOfAddedThresholds){
-        listener.getLogger().println(Messages.MapperBase_NumberOfResults() + this.getParameters().size());
-        listener.getLogger().println(Messages.MapperBase_NumberOfParameters() + this.getResults().size());
+        listener.getLogger().println(Messages.MapperBase_NumberOfResults() + this.getResults().size());
+        listener.getLogger().println(Messages.MapperBase_NumberOfParameters() + this.getParameters().size());
         listener.getLogger().println(Messages.MapperBase_NumberOfAddedThresholds() + numberOfAddedThresholds);
         if (this.hasNumericResult) {
             listener.getLogger().println(Messages.MapperBase_ResultsContainsNumerals());
