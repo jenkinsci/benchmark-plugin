@@ -106,12 +106,11 @@ public class MapJsonToPlugin extends MapperBase {
 
                 InitiateLoading(group, jContent, schema);
                 listener.getLogger().println("   - " + relativePath);
+                files_processed++;
             } catch (Exception e){
                 listener.getLogger().println("   - " + Messages.MapJsonToPlugin_PrintFailedToLoadFile(relativePath));
                 continue;
             }
-            listener.getLogger().println("   - " + relativePath);
-            files_processed++;
         }
         if (files_processed == 0) {
             throw new ValidationException(Messages.MapJsonToPlugin_NoValidFileFound());
