@@ -310,8 +310,14 @@ public class TestGroup {
 
     public boolean isArray() { return (ctype == ClassType.ct_array); }
     public String getFullName() {
-        if (this.name.equalsIgnoreCase("__root__") || this.name.equalsIgnoreCase("__first__")) {
+        if (this.name.equalsIgnoreCase("__root__")) {
             return "";
+        } else if (this.name.equalsIgnoreCase("__first__")) {
+            if (this.parent != null) {
+                return this.parent.getFullName();
+            } else {
+                return "";
+            }
         } else {
             String fullName = this.parent.getFullName();
             if (this.getClassType() == ClassType.ct_fileGrp) {
