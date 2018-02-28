@@ -259,8 +259,8 @@ public class MapperBase {
      */
     private void addThreshold (Threshold threshold){
         String extName = "";
-        if (threshold.getTestGroup() == "") {
-            if (threshold.getTestName() == "") {
+        if (threshold.getTestGroup().isEmpty()) {
+            if (threshold.getTestName().isEmpty()) {
                 for (TestValue result : results.values()) {
                     result.addThreshold(threshold);
                     checkThresholdType(threshold);
@@ -358,7 +358,8 @@ public class MapperBase {
      * @throws JsonSyntaxException If JSON syntax invalid
      */
     public void importFromFile (File inputFile, ContentDetected detected) throws NullPointerException, IOException, JsonIOException, JsonSyntaxException {
-        build = null;
+
+        Integer build = null;
         JsonParser parser = new JsonParser();
         InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
         JsonElement jsonContent = parser.parse(reader);
@@ -374,6 +375,7 @@ public class MapperBase {
                         JsonPrimitive primitive = element.getAsJsonPrimitive();
                         if (primitive.isNumber()) {
                             build = primitive.getAsInt();
+                            this.build = build;
                             this.builds.add(build);
                         }
                     }
@@ -778,6 +780,7 @@ public class MapperBase {
      * @throws ValidationException If validation failed
      */
     public void importCondensedFromFile (File inputFile) throws NullPointerException, IOException, JsonIOException, JsonSyntaxException, ValidationException {
+
         Integer build = null;
         JsonParser parser = new JsonParser();
         InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
