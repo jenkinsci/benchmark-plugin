@@ -498,17 +498,17 @@ public class TestValue extends TestGroup {
                         }
                     }
                 } else if (key.equals("file")) {
-                JsonElement inObject = enObject.getValue();
-                if (inObject.isJsonPrimitive()) {
-                    JsonPrimitive primitive = inObject.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        TestGroup file = fileList.get(primitive.getAsInt());
-                        if (file != null) {
-                            _file = file;
+                    JsonElement inObject = enObject.getValue();
+                    if (inObject.isJsonPrimitive()) {
+                        JsonPrimitive primitive = inObject.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            TestGroup file = fileList.get(primitive.getAsInt());
+                            if (file != null) {
+                                _file = file;
+                            }
                         }
                     }
                 }
-            }
             }
             switch (_type) {
                 case rt_boolean:
