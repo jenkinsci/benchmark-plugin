@@ -29,6 +29,7 @@ Please review the [contributing guidelines](./CONTRIBUTING.md) before working on
 - Click [HERE](./doc/HOW_TO_USE_THE_PLUGIN.md) to access the manual on how to use the plugin,
 - Click [HERE](./doc/BUILD_CUSTOM_SCHEMA.md) to access instructions on how to create a Custom Schema,  
 - Click [HERE](/src/main/resources/schemas) to access the currently registered schema(s).
+- Click [HERE](https://jenkins.io/doc/pipeline/steps/benchmark/) to create a pipeline step for a JenkinsFile.
 
 ## Description
 Numerical solvers among other solutions involve complex computations and generate massive amount of numerical values. To ensure their resilience to evolution, they require thorough testing. These tests usually output a range of information from single Boolean success/failure to complex set of numerical properties. Monitoring changes of these numerical properties is critical. Jenkins provides a good set of plugins for Boolean test report but does not have a plug-in to address numerical test reports and the bench-marking of these test results. This Jenkins plug-in addresses this result bench-marking in the form of a Jenkins post-build event combined with a set of tables and graphs.
