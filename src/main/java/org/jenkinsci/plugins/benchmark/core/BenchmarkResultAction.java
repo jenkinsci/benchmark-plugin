@@ -21,7 +21,9 @@ package org.jenkinsci.plugins.benchmark.core;
 import com.google.gson.JsonArray;
 import hudson.model.AbstractProject;
 import hudson.model.Action;
+import hudson.model.Job;
 import jenkins.model.Jenkins;
+import jenkins.tasks.SimpleBuildStep;
 import org.jenkinsci.plugins.benchmark.parsers.MapperBase;
 import org.jenkinsci.plugins.benchmark.results.NumeralValue;
 import org.jenkinsci.plugins.benchmark.results.TestValue;
@@ -29,6 +31,9 @@ import org.jenkinsci.plugins.benchmark.utilities.FrontendMethod;
 import org.kohsuke.stapler.bind.JavaScriptMethod;
 
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.TreeSet;
 import java.util.logging.Logger;
@@ -38,13 +43,13 @@ import java.util.logging.Logger;
  * @author Daniel Mercier
  * @since 5/16/2017
  */
-public class BenchmarkResultAction implements Action {
+public class BenchmarkResultAction implements Action, SimpleBuildStep.LastBuildAction {
 
     // Variables
 
     private static final Logger log = Logger.getLogger(BenchmarkResultAction.class.getName());
 
-    private final AbstractProject<?, ?> project;
+    private final Job<?, ?> project;
     private final BenchmarkPublisher    core;
 
     private transient TreeSet<Integer>  builds;
@@ -52,7 +57,7 @@ public class BenchmarkResultAction implements Action {
 
     // Constructor
 
-    BenchmarkResultAction(final AbstractProject<?, ?> project, final BenchmarkPublisher core) {
+    BenchmarkResultAction(final Job<?, ?> project, final BenchmarkPublisher core) {
         this.project = project;
         this.core = core;
     }
@@ -115,7 +120,7 @@ public class BenchmarkResultAction implements Action {
         try {
             Integer resultID = this.core.getSelectedResult();
             if (resultID != null) {
-                this.core.fillAllResults();
+                this.core.fillAllResults(project);
                 MapperBase mapper = this.core.getMapper();
                 result = mapper.getResults().get(resultID);
                 builds = mapper.getBuilds();
@@ -352,8 +357,15 @@ public class BenchmarkResultAction implements Action {
         this.core.setSelectedBuild(build);
     }
 
+    @Override
+    public Collection<? extends Action> getProjectActions() {
+        List<BenchmarkResultAction> projectActions = new ArrayList<>();
+        projectActions.add(new BenchmarkResultAction(project, core));
+        return projectActions;
+    }
+
     // Getters
 
-    public AbstractProject<?, ?> getProject() { return project; }
+    public Job<?, ?> getProject() { return project; }
     public BenchmarkPublisher getCore() { return core; }
 }

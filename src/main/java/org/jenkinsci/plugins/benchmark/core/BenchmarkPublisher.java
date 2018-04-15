@@ -60,8 +60,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import static org.apache.commons.io.FileUtils.readFileToString;
-
 /**
  * Benchmark post-build step/publisher
  *
@@ -100,11 +98,10 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
     // Information from the threshold fields
     private List<? extends Threshold>   altThresholds;
 
-    private transient MapperBase            map;
-    private transient Timer                 timer;
-    private transient Integer               selectedResult;
-    private transient Integer               selectedBuild;
-    private transient AbstractProject<?, ?> project;
+    private transient MapperBase map;
+    private transient Timer      timer;
+    private transient Integer    selectedResult;
+    private transient Integer    selectedBuild;
 
     // Constructor
 
@@ -124,21 +121,12 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
     public BuildStepMonitor getRequiredMonitorService() { return BuildStepMonitor.NONE; }
 
     @Override
-    public Action getProjectAction(AbstractProject<?, ?> project) {
-        this.project = project;
-        return new BenchmarkProjectAction(project, this);
-    }
-
-    @Override
-    public Collection<? extends Action> getProjectActions(AbstractProject<?,?> project){
-        List<Action> actions = new ArrayList<Action>();
-        actions.add(getProjectAction(project));
-        actions.add(new BenchmarkResultAction(project, this));
-        return actions;
-    }
-
-    @Override
     public void perform(@Nonnull Run<?, ?> run, @Nonnull FilePath filePath, @Nonnull Launcher launcher, @Nonnull TaskListener taskListener) throws InterruptedException, IOException {
+        Job project = run.getParent();
+
+        run.addAction(new BenchmarkProjectAction(project, this));
+        run.addAction(new BenchmarkResultAction(project, this));
+
         boolean failed = false;
 
         taskListener.getLogger().println(Messages.BenchmarkPublisher_CollectionOfResultsStarted());
@@ -234,7 +222,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
         }
         if (failed) {
             taskListener.getLogger().println(Messages.BenchmarkPublisher_CollectionSuccessButValidationFailure());
-            run.setResult(Result.FAILURE);
+            run.setResult(Result.UNSTABLE);
             return;
         }
         taskListener.getLogger().println(Messages.BenchmarkPublisher_PluginSuccessfull());
@@ -252,10 +240,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
     public Boolean hasResults(Run run) throws NullPointerException, FileNotFoundException, JsonIOException, JsonSyntaxException {
         String condensedFilename = run.getParent().getRootDir().getAbsolutePath() + File.separator + "BenchmarkCondensed.json";
         File oFile = new File(condensedFilename);
-        if (oFile.exists()) {
-            return true;
-        }
-        return false;
+        return oFile.exists();
     }
 
     /**
@@ -270,6 +255,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
      * @throws JsonSyntaxException If JSON syntax invalid
      */
     public MapperBase getRawResults(Run<?, ?> run) throws NullPointerException, InterruptedException, ValidationException, IOException,  JsonIOException, JsonSyntaxException {
+        Job project = run.getParent();
 
         if (inputLocation == null || inputLocation.isEmpty()){
 
@@ -385,7 +371,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
     /**
      * fill All Results from files
      */
-    public void fillAllResults(){
+    public void fillAllResults(Job project){
         try {
             resetClock();
             Run run = project.getLastBuild();
