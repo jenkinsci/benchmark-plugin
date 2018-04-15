@@ -20,11 +20,12 @@ package org.jenkinsci.plugins.benchmark.core;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import hudson.model.AbstractProject;
 import hudson.model.Action;
 import hudson.model.Api;
+import hudson.model.Job;
 import hudson.model.Run;
 import jenkins.model.Jenkins;
+import jenkins.tasks.SimpleBuildStep;
 import org.jenkinsci.plugins.benchmark.exceptions.ValidationException;
 import org.jenkinsci.plugins.benchmark.utilities.*;
 import org.jenkinsci.plugins.benchmark.parsers.MapperBase;
@@ -35,6 +36,9 @@ import org.kohsuke.stapler.export.ExportedBean;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -45,18 +49,18 @@ import java.util.logging.Logger;
  * @since 5/16/2017.
  */
 @ExportedBean
-public class BenchmarkProjectAction implements Action{
+public class BenchmarkProjectAction implements Action, SimpleBuildStep.LastBuildAction {
 
     // Variables
 
     private static final Logger log = Logger.getLogger(BenchmarkProjectAction.class.getName());
 
-    private final AbstractProject<?, ?>     project;
+    private final Job<?, ?>                 project;
     private final BenchmarkPublisher        core;
 
     // Constructor
 
-    BenchmarkProjectAction(final AbstractProject<?, ?> project,  BenchmarkPublisher core) {
+    BenchmarkProjectAction(final Job<?, ?> project, BenchmarkPublisher core) {
         this.project = project;
         this.core = core;
     }
@@ -438,6 +442,12 @@ public class BenchmarkProjectAction implements Action{
         }
     }
 
+    @Override
+    public Collection<? extends Action> getProjectActions() {
+        List<BenchmarkProjectAction> projectActions = new ArrayList<>();
+        projectActions.add(new BenchmarkProjectAction(project, core));
+        return projectActions;
+    }
 
     /**
      * Exposes this object to the remote API.
@@ -449,6 +459,6 @@ public class BenchmarkProjectAction implements Action{
 
     // Getters
 
-    public AbstractProject<?, ?> getProject() { return project; }
+    public Job<?, ?> getProject() { return project; }
     public BenchmarkPublisher getCore() { return core; }
 }
