@@ -370,6 +370,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
 
     /**
      * fill All Results from files
+     * @param project Job being executed
      */
     public void fillAllResults(Job project){
         try {
