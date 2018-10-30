@@ -86,7 +86,7 @@ public class BooleanCondensed extends BooleanValue {
         content.append(key.toString());
         content.append("</td><td>");
         if (detected.isNumeralDetected()) {
-            content.append("-</td><td>-</td><td>-</td><td>-</td><td>");
+            content.append("</td><td></td><td></td><td></td><td>");
         }
         content.append(Integer.toString(this.passed));
         content.append("</td><td>");
