@@ -225,7 +225,7 @@ public class MapperBase {
                     }
                 }
                 if (!detectedParam) {
-                    results.put(baseParam.getKey(), baseParam.getValue());
+                    parameters.put(baseParam.getKey(), baseParam.getValue());
                 }
             }
             for (Map.Entry<Integer, TestGroup> baseFile : mapper.getFiles().entrySet()) {

@@ -157,7 +157,7 @@ public class BooleanValue extends TestValue {
         if (value == null) {
             return "";
         } else {
-            return value.toString();
+            return "__boolean__";
         }
     }
 

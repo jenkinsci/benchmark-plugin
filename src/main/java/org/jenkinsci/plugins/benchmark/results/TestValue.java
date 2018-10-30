@@ -991,17 +991,17 @@ public class TestValue extends TestGroup {
         for (int build = builds.last(); build >= builds.first(); build--) {
             String value = this.getValueAsLocaleString(build, decimalSeparator);
             if (value.isEmpty()) {
-                content.append("</td><td>-");
+                content.append("</td><td>");
             } else {
                 Boolean failedState = this.getFailedState(build);
                 if (failedState == null){
                     content.append("</td><td>");
-                    content.append(value);
+                    if (!value.equals("__boolean__")) content.append(value);
                 } else {
                     content.append("</td><td style=\"background-color:");
                     content.append(this.getColor(failedState));
-                    content.append(";\">");
-                    content.append(value);
+                    content.append("\">");
+                    if (!value.equals("__boolean__")) content.append(value);
                     if (failedState){
                         listNFailed.set(index, listNFailed.get(index) + 1);
                     } else {
