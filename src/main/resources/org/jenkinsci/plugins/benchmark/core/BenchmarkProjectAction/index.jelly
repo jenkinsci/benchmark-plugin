@@ -253,20 +253,24 @@
         }
         .hover td:first-child {
           background-color:#ededed;
+          text-align: left;
         }
         <j:if test="${it.NumberOfHeads > 1}">
           .hover td:nth-child(2) {
             background-color:#ededed;
+            text-align: left;
           }
         </j:if>
         <j:if test="${it.NumberOfHeads > 2}">
           .hover td:nth-child(3) {
             background-color:#ededed;
+            text-align: left;
           }
         </j:if>
         <j:if test="${it.NumberOfHeads > 3}">
           .hover td:nth-child(4) {
             background-color:#ededed;
+            text-align: left;
           }
         </j:if>
         #api_link {
