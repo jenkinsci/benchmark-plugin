@@ -584,7 +584,7 @@ public class TestValue extends TestGroup {
                         break;
 
                     case rt_string:
-                        if (_value.isNumber()) {
+                        if (_value.isString()) {
                             StringValue value = (StringValue) res;
                             value.setValue(build, _value.getAsString());
                         }
@@ -750,7 +750,7 @@ public class TestValue extends TestGroup {
                         break;
 
                     case rt_string:
-                        if (_value.isNumber()) {
+                        if (_value.isString()) {
                             StringValue value = (StringValue) res;
                             value.setValue(build, _value.getAsString());
                         }
