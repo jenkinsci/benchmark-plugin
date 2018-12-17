@@ -36,4 +36,8 @@
         <f:number default="0" min="0"/>
     </f:entry>
 
+    <f:entry title="${%Ignore Negative Deltas}" field="ignoreNegativeDeltas">
+        <f:checkbox />
+    </f:entry>
+
 </j:jelly>

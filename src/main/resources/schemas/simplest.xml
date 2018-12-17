@@ -23,6 +23,7 @@
             <xs:element name="maximum" type="jbs:maximum"/>
             <xs:element name="delta" type="jbs:delta"/>
             <xs:element name="percentage" type="jbs:percentage"/>
+            <xs:element name="ignoreNegativeDeltas" type="jbs:ignoreNegativeDeltas"/>
         </xs:sequence>
     </xs:complexType>
 

@@ -41,23 +41,26 @@ public class DeltaAverageThreshold extends Threshold{
 
     // Variables
     private final Double delta;
+    private final boolean ignoreNegativeDeltas;
     private Double average;
 
     // Constructor
     @DataBoundConstructor
-    public DeltaAverageThreshold(String testGroup, String testName, Double delta){
+    public DeltaAverageThreshold(String testGroup, String testName, Double delta, boolean ignoreNegativeDeltas){
         super(testGroup,testName, ThresholdTypes.tt_deltaAverage);
         this.delta = delta;
+        this.ignoreNegativeDeltas = ignoreNegativeDeltas;
         this.average = null;
     }
 
 
-    public DeltaAverageThreshold(Double delta) throws ValidationException{
+    public DeltaAverageThreshold(Double delta, boolean ignoreNegativeDeltas) throws ValidationException{
         super(ThresholdTypes.tt_deltaAverage);
         if (delta == null){
             throw new ValidationException(Messages.DeltaAverageThreshold_MissingDelta());
         }
         this.delta = delta;
+        this.ignoreNegativeDeltas = ignoreNegativeDeltas;
         this.average = null;
     }
 
@@ -70,8 +73,15 @@ public class DeltaAverageThreshold extends Threshold{
     public boolean isValid(int value) throws NullPointerException, ValidationException {
         if ( average == null )
             return true;
-        double calculatedDelta = Math.sqrt((value - average)*(value - average));
-        if ( delta != null && calculatedDelta > delta) {
+
+        double calculatedDelta = value - average;
+
+        if (calculatedDelta < 0 && this.ignoreNegativeDeltas == true)
+            return true;
+
+        double absValueDelta = Math.abs(calculatedDelta);
+
+        if ( delta != null && absValueDelta > delta) {
             throw new ValidationException(Messages.DeltaAverageThreshold_OutOfDeltaFromAverage(Integer.toString(value), Double.toString(delta), Double.toString(average)));
         }
         return true;
@@ -81,8 +91,15 @@ public class DeltaAverageThreshold extends Threshold{
     public boolean isValid(double value) throws NullPointerException, ValidationException {
         if ( average == null )
             return true;
-        double calculatedDelta = Math.sqrt((value - average)*(value - average));
-        if ( delta != null && calculatedDelta > delta) {
+
+        double calculatedDelta = value - average;
+
+        if (calculatedDelta < 0 && this.ignoreNegativeDeltas == true)
+            return true;
+
+        double absValueDelta = Math.abs(calculatedDelta);
+
+        if ( delta != null && absValueDelta > delta) {
             throw new ValidationException(Messages.DeltaAverageThreshold_OutOfDeltaFromAverage(Double.toString(value), Double.toString(delta), Double.toString(average)));
         }
         return true;
@@ -93,6 +110,7 @@ public class DeltaAverageThreshold extends Threshold{
 
     // Getter
     public Double getDelta() { return delta; }
+    public Boolean getIgnoreNegativeDeltas() { return ignoreNegativeDeltas; }
     public Double getAverageValue() { return average; }
 
     // Descriptor (active interactor)

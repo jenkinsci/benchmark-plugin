@@ -40,22 +40,25 @@ public class DeltaThreshold extends Threshold{
 
     // Variables
     private final Double delta;
+    private final boolean ignoreNegativeDeltas;
     private Double previous;
 
     // Constructor
     @DataBoundConstructor
-    public DeltaThreshold(String testGroup, String testName, Double delta){
+    public DeltaThreshold(String testGroup, String testName, Double delta, boolean ignoreNegativeDeltas){
         super(testGroup, testName, ThresholdTypes.tt_delta);
         this.delta = delta;
+        this.ignoreNegativeDeltas = ignoreNegativeDeltas;
         this.previous = null;
     }
 
-    public DeltaThreshold(Double delta) throws ValidationException {
+    public DeltaThreshold(Double delta, boolean ignoreNegativeDeltas) throws ValidationException {
         super(ThresholdTypes.tt_delta);
         if (delta == null){
             throw new ValidationException(Messages.DeltaThreshold_MissingDeltaValue());
         }
         this.delta = delta;
+        this.ignoreNegativeDeltas = ignoreNegativeDeltas;
         this.previous = null;
     }
 
@@ -68,8 +71,14 @@ public class DeltaThreshold extends Threshold{
     public boolean isValid(int value) throws NullPointerException, ValidationException {
         if ( previous == null )
             return true;
-        double calculatedDelta = Math.sqrt((value - previous)*(value - previous));
-        if ( delta != null && calculatedDelta > delta) {
+
+        double calculatedDelta = value - previous;
+        if (calculatedDelta < 0 && this.ignoreNegativeDeltas == true)
+            return true;
+
+        double absValueDelta = Math.abs(calculatedDelta);
+
+        if ( delta != null && absValueDelta > delta) {
             throw new ValidationException(Messages.DeltaThreshold_ValueOutOfDeltaFromPrevious(Integer.toString(value), Double.toString(delta), Double.toString(previous)));
         }
         return true;
@@ -79,8 +88,14 @@ public class DeltaThreshold extends Threshold{
     public boolean isValid(double value) throws NullPointerException, ValidationException {
         if ( previous == null )
             return true;
-        double calculatedDelta = Math.sqrt((value - previous)*(value - previous));
-        if ( delta != null && calculatedDelta > delta) {
+
+        double calculatedDelta = value - previous;
+        if (calculatedDelta < 0 && this.ignoreNegativeDeltas == true)
+            return true;
+
+        double absValueDelta = Math.abs(calculatedDelta);
+
+        if ( delta != null && absValueDelta > delta) {
             throw new ValidationException(Messages.DeltaThreshold_ValueOutOfDeltaFromPrevious(Double.toString(value), Double.toString(delta), Double.toString(previous)));
         }
         return true;
@@ -91,6 +106,7 @@ public class DeltaThreshold extends Threshold{
 
     // Getter
     public Double getDelta() { return delta; }
+    public Boolean getIgnoreNegativeDeltas() { return ignoreNegativeDeltas; }
     public Double getPrevious() { return previous; }
 
     // Descriptor (active interactor)
