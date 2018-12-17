@@ -197,7 +197,7 @@ public class MapJsonThreshold {
                                         threshold = thres;
                                         thresholdDetected = true;
                                     } else if (method.equals("delta")) {
-                                        DeltaThreshold thres = new DeltaThreshold(delta);
+                                        DeltaThreshold thres = new DeltaThreshold(delta, ignoreNegativeDeltas);
                                         threshold = thres;
                                         thresholdDetected = true;
                                     } else if (method.equals("percentageaverage")) {
@@ -205,7 +205,7 @@ public class MapJsonThreshold {
                                         threshold = thres;
                                         thresholdDetected = true;
                                     } else if (method.equals("deltaaverage")){
-                                        DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
+                                        DeltaAverageThreshold thres = new DeltaAverageThreshold(delta, ignoreNegativeDeltas);
                                         threshold = thres;
                                         thresholdDetected = true;
                                     }
