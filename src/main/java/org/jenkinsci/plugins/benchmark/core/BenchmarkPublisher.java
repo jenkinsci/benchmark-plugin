@@ -285,6 +285,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
 
             // Load the files below the condensed one in parallel
             int cores = Runtime.getRuntime().availableProcessors() - 1;
+            if (cores < 1) cores = 1;
             Run firstRun = project.getFirstBuild();
             int numberOfRuns = run.getNumber() - firstRun.getNumber();
             int runsPerSegment = 4;
@@ -337,6 +338,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
 
             // Load the files below the condensed one in parallel
             int cores = Runtime.getRuntime().availableProcessors() - 1;
+            if (cores < 1) cores = 1;
             Run firstRun = project.getFirstBuild();
             int numberOfRuns = run.getNumber() - firstRun.getNumber();
             int runsPerSegment = 4;
