@@ -18,6 +18,7 @@
  */
 package org.jenkinsci.plugins.benchmark.parsers.XmlToPlugin;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -194,10 +195,7 @@ public class MapXmlToPlugin extends MapperBase {
      * @return Reference to XML document.
      */
     private Document getXML(File xmlFile) throws ParserConfigurationException, SAXException, IOException, InterruptedException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setValidating(false);
-        factory.setNamespaceAware(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
+        DocumentBuilder builder = createDocumentBuilder();
         return builder.parse(xmlFile);
     }
 
@@ -207,10 +205,7 @@ public class MapXmlToPlugin extends MapperBase {
      * @return Reference to XML document.
      */
     private Document getXML(FilePath xmlFile) throws ParserConfigurationException, SAXException, IOException, InterruptedException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setValidating(false);
-        factory.setNamespaceAware(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
+        DocumentBuilder builder = createDocumentBuilder();
         return builder.parse(xmlFile.read());
     }
 
@@ -220,11 +215,25 @@ public class MapXmlToPlugin extends MapperBase {
      * @return Reference to XML document.
      */
     private Document getXML(String xmlContent) throws ParserConfigurationException, SAXException, IOException {
+        DocumentBuilder builder = createDocumentBuilder();
+        return builder.parse(xmlContent);
+    }
+
+    private DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", Boolean.TRUE );
+        factory.setFeature("http://xml.org/sax/features/external-general-entities", Boolean.FALSE);
+        factory.setFeature("http://xml.org/sax/features/external-parameter-entities", Boolean.FALSE);
+        factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", Boolean.FALSE );
+        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+        factory.setExpandEntityReferences(false);
+        factory.setXIncludeAware(false);
+
         factory.setValidating(false);
         factory.setNamespaceAware(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder.parse(xmlContent);
+
+        return factory.newDocumentBuilder();
     }
 
     /**
