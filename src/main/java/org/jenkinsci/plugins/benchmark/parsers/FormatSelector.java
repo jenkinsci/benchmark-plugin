@@ -182,13 +182,10 @@ public class FormatSelector {
         Map<String, FilePath> listFiles = processChunks(fileBase, "", "", 0, listOfLists, "list");
         for (Map.Entry<String, FilePath> entry:listFiles.entrySet()) {
             String content;
-            try {
-                InputStream inputStream = entry.getValue().read();
-                content = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-                inputStream.close();
-            } catch (Exception e) {
-                continue;
-            }
+            InputStream inputStream = entry.getValue().read();
+            content = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+            inputStream.close();
+
             String[] addIndividuals = content.split("\\;|\\,|\\r?\\n");
             for (String individual : addIndividuals) {
                 if (!individual.isEmpty()) {
