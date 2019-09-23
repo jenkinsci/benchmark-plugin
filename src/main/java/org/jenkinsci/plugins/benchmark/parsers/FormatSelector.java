@@ -185,6 +185,7 @@ public class FormatSelector {
             try {
                 InputStream inputStream = entry.getValue().read();
                 content = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+                inputStream.close();
             } catch (Exception e) {
                 continue;
             }
