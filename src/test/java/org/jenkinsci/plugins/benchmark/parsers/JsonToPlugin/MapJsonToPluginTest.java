@@ -47,16 +47,19 @@ public class MapJsonToPluginTest {
         File jsonSFile = new File(classLoader.getResource("schemas/simplest.json").getFile());
         JsonParser parser = new JsonParser();
         InputStreamReader reader = new InputStreamReader(new FileInputStream(jsonSFile), StandardCharsets.UTF_8);
-        JsonElement jsonSchema = parser.parse(reader);
+        try {
+            JsonElement jsonSchema = parser.parse(reader);
 
-        // Load content
-        ClassLoader testClassLoader = getClass().getClassLoader();
-        File jsonCFile = new File(testClassLoader.getResource("json/simplest.json").getFile());
+            // Load content
+            ClassLoader testClassLoader = getClass().getClassLoader();
+            File jsonCFile = new File(testClassLoader.getResource("json/simplest.json").getFile());
 
-        // Launch mapper
-        MapJsonToPlugin mapper = new MapJsonToPlugin(0, jsonCFile, jsonSchema, false);
-        assertTrue(mapper.getNumberOfResults() == 1);
-
+            // Launch mapper
+            MapJsonToPlugin mapper = new MapJsonToPlugin(0, jsonCFile, jsonSchema, false);
+            assertTrue(mapper.getNumberOfResults() == 1);
+        }finally{
+            reader.close();
+        }
         System.out.println("Mapping JSON completed for '1-simpleResult {boolean result, key failure}'." );
     }
 
@@ -69,16 +72,19 @@ public class MapJsonToPluginTest {
         File jsonSFile = new File(classLoader.getResource("schemas/default.json").getFile());
         JsonParser parser = new JsonParser();
         InputStreamReader reader = new InputStreamReader(new FileInputStream(jsonSFile), StandardCharsets.UTF_8);
-        JsonElement jsonSchema = parser.parse(reader);
+        try {
+            JsonElement jsonSchema = parser.parse(reader);
 
-        // Load content
-        ClassLoader testClassLoader = getClass().getClassLoader();
-        File jsonCFile = new File(testClassLoader.getResource("json/default.json").getFile());
+            // Load content
+            ClassLoader testClassLoader = getClass().getClassLoader();
+            File jsonCFile = new File(testClassLoader.getResource("json/default.json").getFile());
 
-        // Launch mapper
-        MapJsonToPlugin mapper = new MapJsonToPlugin(0, jsonCFile, jsonSchema, false);
-        assertTrue(mapper.getNumberOfResults() == 4);
-
+            // Launch mapper
+            MapJsonToPlugin mapper = new MapJsonToPlugin(0, jsonCFile, jsonSchema, false);
+            assertTrue(mapper.getNumberOfResults() == 4);
+        }finally{
+            reader.close();
+        }
         System.out.println("Mapping JSON completed for '2-defaultSchema {all construct types}'." );
     }
 }

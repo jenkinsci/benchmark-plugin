@@ -188,8 +188,14 @@ public class MapJsonToPlugin extends MapperBase {
      * @return Json Element in GSON format
      */
     private JsonElement getJSON(File jsonFile) throws IOException, InterruptedException, JsonIOException, JsonSyntaxException {
+        JsonElement content = null;
         JsonParser parser = new JsonParser();
-        JsonElement content = parser.parse(new InputStreamReader(new FileInputStream(jsonFile), StandardCharsets.UTF_8));
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(jsonFile), StandardCharsets.UTF_8);
+        try {
+            content = parser.parse(reader);
+        }finally{
+            reader.close();
+        }
         return content;
     }
 
@@ -199,8 +205,14 @@ public class MapJsonToPlugin extends MapperBase {
      * @return Json Element in GSON format
      */
     private JsonElement getJSON(FilePath jsonFile) throws IOException, InterruptedException, JsonIOException, JsonSyntaxException {
+        JsonElement content = null;
         JsonParser parser = new JsonParser();
-        JsonElement content = parser.parse(new InputStreamReader(jsonFile.read(), StandardCharsets.UTF_8));
+        InputStreamReader reader = new InputStreamReader(jsonFile.read(), StandardCharsets.UTF_8);
+        try {
+            content = parser.parse(reader);
+        }finally{
+            reader.close();
+        }
         return content;
     }
 
