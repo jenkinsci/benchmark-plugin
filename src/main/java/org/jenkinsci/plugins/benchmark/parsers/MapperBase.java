@@ -362,60 +362,64 @@ public class MapperBase {
         Integer build = null;
         JsonParser parser = new JsonParser();
         InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
-        JsonElement jsonContent = parser.parse(reader);
+        try{
+            JsonElement jsonContent = parser.parse(reader);
 
-        if (jsonContent.isJsonObject()){
-            JsonObject jsonObject = jsonContent.getAsJsonObject();
+            if (jsonContent.isJsonObject()) {
+                JsonObject jsonObject = jsonContent.getAsJsonObject();
 
-            // Load base information
-            for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
-                if (enContent.getKey().equalsIgnoreCase("build")) {
-                    JsonElement element = enContent.getValue();
-                    if (element.isJsonPrimitive()) {
-                        JsonPrimitive primitive = element.getAsJsonPrimitive();
-                        if (primitive.isNumber()) {
-                            build = primitive.getAsInt();
-                            this.build = build;
-                            this.builds.add(build);
+                // Load base information
+                for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
+                    if (enContent.getKey().equalsIgnoreCase("build")) {
+                        JsonElement element = enContent.getValue();
+                        if (element.isJsonPrimitive()) {
+                            JsonPrimitive primitive = element.getAsJsonPrimitive();
+                            if (primitive.isNumber()) {
+                                build = primitive.getAsInt();
+                                this.build = build;
+                                this.builds.add(build);
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                if (build != null) {
+                    // Load parameters
+                    for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
+                        if (enContent.getKey().equalsIgnoreCase("parameters")) {
+                            JsonElement element = enContent.getValue();
+                            if (element.isJsonArray()) {
+                                JsonArray array = element.getAsJsonArray();
+                                for (JsonElement aElement : array) {
+                                    if (aElement.isJsonObject()) {
+                                        JsonObject aObject = aElement.getAsJsonObject();
+                                        TestValue.convertParameterJsonObject(build, aObject, rootGroup, parameters);
+                                    }
+                                }
+                            }
                         }
                     }
-                    break;
-                }
-            }
 
-            if (build != null) {
-                // Load parameters
-                for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
-                    if (enContent.getKey().equalsIgnoreCase("parameters")) {
-                        JsonElement element = enContent.getValue();
-                        if (element.isJsonArray()) {
-                            JsonArray array = element.getAsJsonArray();
-                            for (JsonElement aElement : array) {
-                                if (aElement.isJsonObject()) {
-                                    JsonObject aObject = aElement.getAsJsonObject();
-                                    TestValue.convertParameterJsonObject(build, aObject, rootGroup, parameters);
+                    // Load results
+                    for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
+                        if (enContent.getKey().equalsIgnoreCase("results")) {
+                            JsonElement element = enContent.getValue();
+                            if (element.isJsonArray()) {
+                                JsonArray array = element.getAsJsonArray();
+                                for (JsonElement aElement : array) {
+                                    if (aElement.isJsonObject()) {
+                                        JsonObject aObject = aElement.getAsJsonObject();
+                                        TestValue.convertResultJsonObject(build, aObject, rootGroup, files, results, parameters);
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
-                // Load results
-                for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
-                    if (enContent.getKey().equalsIgnoreCase("results")) {
-                        JsonElement element = enContent.getValue();
-                        if (element.isJsonArray()) {
-                            JsonArray array = element.getAsJsonArray();
-                            for (JsonElement aElement : array) {
-                                if (aElement.isJsonObject()) {
-                                    JsonObject aObject = aElement.getAsJsonObject();
-                                    TestValue.convertResultJsonObject(build, aObject, rootGroup, files, results, parameters);
-                                }
-                            }
-                        }
-                    }
-                }
             }
+        } finally {
+            reader.close();
         }
     }
 
@@ -784,74 +788,78 @@ public class MapperBase {
         Integer build = null;
         JsonParser parser = new JsonParser();
         InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
-        JsonElement jsonContent = parser.parse(reader);
+        try{
+            JsonElement jsonContent = parser.parse(reader);
 
-        if (jsonContent.isJsonObject()) {
-            JsonObject jsonObject = jsonContent.getAsJsonObject();
+            if (jsonContent.isJsonObject()) {
+                JsonObject jsonObject = jsonContent.getAsJsonObject();
 
-            // Load base information
-            for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
-                if (enContent.getKey().equalsIgnoreCase("build")) {
-                    JsonElement element = enContent.getValue();
-                    if (element.isJsonPrimitive()) {
-                        JsonPrimitive primitive = element.getAsJsonPrimitive();
-                        if (primitive.isNumber()) {
-                            build = primitive.getAsInt();
+                // Load base information
+                for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
+                    if (enContent.getKey().equalsIgnoreCase("build")) {
+                        JsonElement element = enContent.getValue();
+                        if (element.isJsonPrimitive()) {
+                            JsonPrimitive primitive = element.getAsJsonPrimitive();
+                            if (primitive.isNumber()) {
+                                build = primitive.getAsInt();
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                if (build != null) {
+                    // Load file groups
+                    for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
+                        if (enContent.getKey().equalsIgnoreCase("files")) {
+                            JsonElement element = enContent.getValue();
+                            if (element.isJsonArray()) {
+                                JsonArray array = element.getAsJsonArray();
+                                for (JsonElement aElement : array) {
+                                    if (aElement.isJsonObject()) {
+                                        JsonObject aObject = aElement.getAsJsonObject();
+                                        TestGroup.convertCondensedFileJsonObject(aObject, rootGroup, files, detected);
+                                    }
+                                }
+                            }
                         }
                     }
-                    break;
+
+                    // Load parameters
+                    for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
+                        if (enContent.getKey().equalsIgnoreCase("parameters")) {
+                            JsonElement element = enContent.getValue();
+                            if (element.isJsonArray()) {
+                                JsonArray array = element.getAsJsonArray();
+                                for (JsonElement aElement : array) {
+                                    if (aElement.isJsonObject()) {
+                                        JsonObject aObject = aElement.getAsJsonObject();
+                                        TestValue.convertCondensedParameterJsonObject(aObject, rootGroup, parameters, detected);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Load results
+                    for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
+                        if (enContent.getKey().equalsIgnoreCase("results")) {
+                            JsonElement element = enContent.getValue();
+                            if (element.isJsonArray()) {
+                                JsonArray array = element.getAsJsonArray();
+                                for (JsonElement aElement : array) {
+                                    if (aElement.isJsonObject()) {
+                                        JsonObject aObject = aElement.getAsJsonObject();
+                                        TestValue.convertCondensedResultJsonObject(aObject, rootGroup, files, results, detected);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
-            if (build != null) {
-                // Load file groups
-                for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
-                    if (enContent.getKey().equalsIgnoreCase("files")) {
-                        JsonElement element = enContent.getValue();
-                        if (element.isJsonArray()) {
-                            JsonArray array = element.getAsJsonArray();
-                            for (JsonElement aElement : array) {
-                                if (aElement.isJsonObject()) {
-                                    JsonObject aObject = aElement.getAsJsonObject();
-                                    TestGroup.convertCondensedFileJsonObject(aObject, rootGroup, files, detected);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Load parameters
-                for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
-                    if (enContent.getKey().equalsIgnoreCase("parameters")) {
-                        JsonElement element = enContent.getValue();
-                        if (element.isJsonArray()) {
-                            JsonArray array = element.getAsJsonArray();
-                            for (JsonElement aElement : array) {
-                                if (aElement.isJsonObject()) {
-                                    JsonObject aObject = aElement.getAsJsonObject();
-                                    TestValue.convertCondensedParameterJsonObject(aObject, rootGroup, parameters, detected);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Load results
-                for (Map.Entry<String, JsonElement> enContent : jsonObject.entrySet()) {
-                    if (enContent.getKey().equalsIgnoreCase("results")) {
-                        JsonElement element = enContent.getValue();
-                        if (element.isJsonArray()) {
-                            JsonArray array = element.getAsJsonArray();
-                            for (JsonElement aElement : array) {
-                                if (aElement.isJsonObject()) {
-                                    JsonObject aObject = aElement.getAsJsonObject();
-                                    TestValue.convertCondensedResultJsonObject(aObject, rootGroup, files, results, detected);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        }finally{
+            reader.close();
         }
     }
 

@@ -161,6 +161,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
                             if (newFilePath.exists()) {
                                 InputStream inputStream = newFilePath.read();
                                 schemaText = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+                                inputStream.close();
                             } else {
                                 taskListener.getLogger().println(Messages.BenchmarkPublisher_CustomSchemaFileNotDetected());
                                 throw new IOException(Messages.BenchmarkPublisher_CustomSchemaFileNotDetected());
@@ -184,6 +185,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
                         ClassLoader classLoader = getClass().getClassLoader();
                         InputStream fileStream = classLoader.getResource(schemaAddress).openStream();
                         schemaText = IOUtils.toString(fileStream, StandardCharsets.UTF_8);
+                        fileStream.close();
                     }
                 }
 
