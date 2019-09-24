@@ -62,7 +62,8 @@
                                                         "minimum": {"type": "minimum"},
                                                         "maximum": {"type": "maximum"},
                                                         "delta": {"type": "delta"},
-                                                        "percentage": {"type": "percentage"}
+                                                        "percentage": {"type": "percentage"},
+                                                        "ignoreNegativeDeltas": { "type": "ignoreNegativeDeltas"}
                                                     }
                                                 }
                                             }

@@ -43,7 +43,8 @@ public class MapXmlThreshold {
         tt_delta,
         tt_percentage,
         tt_name,
-        tt_description;
+        tt_description,
+        tt_ignoreNegativeDeltas
     }
 
     // Variables
@@ -52,6 +53,7 @@ public class MapXmlThreshold {
     private Double maximum;
     private Double delta;
     private Double percentage;
+    private Boolean ignoreNegativeDeltas;
 
     private Threshold threshold = null;
 
@@ -137,6 +139,23 @@ public class MapXmlThreshold {
                             }
                         }
                         break;
+
+                    case tt_ignoreNegativeDeltas:
+                        if (ignoreNegativeDeltas == null){
+                            attributes = nContent.getAttributes();
+                            nItem = attributes.getLength();
+                            for (int i = 0; i < nItem; ++i){
+                                Node node = attributes.item(i);
+                                if(attrName.equals(node.getNodeName())) {
+                                    try {
+                                        ignoreNegativeDeltas = Boolean.parseBoolean(node.getTextContent());
+                                    } catch (Exception e){
+                                        throw new ValidationException( Messages.IncorrectBooleanForIgnoreNegativeDeltas(parent.getFullName()) );
+                                    }
+                                    break;
+                                }
+                            }
+                        }
                 }
             }
         }
@@ -216,6 +235,21 @@ public class MapXmlThreshold {
                                 }
                             }
                             break;
+
+                        case tt_ignoreNegativeDeltas:
+                            if (ignoreNegativeDeltas == null) {
+                                for (Node nCNode = nContent.getFirstChild(); nCNode != null; nCNode = nCNode.getNextSibling()) {
+                                    if (attrName.equals(nCNode.getNodeName())) {
+                                        try {
+                                            ignoreNegativeDeltas = Boolean.parseBoolean(nCNode.getTextContent());
+                                        } catch (Exception e){
+                                            throw new ValidationException( Messages.IncorrectBooleanForIgnoreNegativeDeltas(parent.getFullName()) );
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
                     }
                 }
             }
@@ -245,7 +279,7 @@ public class MapXmlThreshold {
                                     threshold = thres;
                                     thresholdDetected = true;
                                 } else if (method.equals("delta")) {
-                                    DeltaThreshold thres = new DeltaThreshold(delta);
+                                    DeltaThreshold thres = new DeltaThreshold(delta, ignoreNegativeDeltas);
                                     threshold = thres;
                                     thresholdDetected = true;
                                 } else if (method.equals("percentageaverage")) {
@@ -253,7 +287,7 @@ public class MapXmlThreshold {
                                     threshold = thres;
                                     thresholdDetected = true;
                                 } else if (method.equals("deltaaverage")){
-                                    DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
+                                    DeltaAverageThreshold thres = new DeltaAverageThreshold(delta, ignoreNegativeDeltas);
                                     threshold = thres;
                                     thresholdDetected = true;
                                 }
@@ -289,7 +323,7 @@ public class MapXmlThreshold {
                                         threshold = thres;
                                         thresholdDetected = true;
                                     } else if (method.equals("delta")) {
-                                        DeltaThreshold thres = new DeltaThreshold(delta);
+                                        DeltaThreshold thres = new DeltaThreshold(delta, ignoreNegativeDeltas);
                                         threshold = thres;
                                         thresholdDetected = true;
                                     } else if (method.equals("percentageaverage")) {
@@ -297,7 +331,7 @@ public class MapXmlThreshold {
                                         threshold = thres;
                                         thresholdDetected = true;
                                     } else if (method.equals("deltaaverage")){
-                                        DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
+                                        DeltaAverageThreshold thres = new DeltaAverageThreshold(delta, ignoreNegativeDeltas);
                                         threshold = thres;
                                         thresholdDetected = true;
                                     }
@@ -324,13 +358,13 @@ public class MapXmlThreshold {
                 PercentageThreshold thres = new PercentageThreshold(percentage);
                 threshold = thres;
             } else if (method.equals("delta")) {
-                DeltaThreshold thres = new DeltaThreshold(delta);
+                DeltaThreshold thres = new DeltaThreshold(delta, ignoreNegativeDeltas);
                 threshold = thres;
             } else if (method.equals("percentageaverage")) {
                 PercentageAverageThreshold thres = new PercentageAverageThreshold(percentage);
                 threshold = thres;
             } else if (method.equals("deltaaverage")){
-                DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
+                DeltaAverageThreshold thres = new DeltaAverageThreshold(delta, ignoreNegativeDeltas);
                 threshold = thres;
             }
         }
@@ -376,6 +410,8 @@ public class MapXmlThreshold {
                     return ThresholdTags.tt_delta;
                 } else if (value.equals("jbs:percentage")) {
                     return ThresholdTags.tt_percentage;
+                } else if (value.equals("jbs:ignoreNegativeDeltas")) {
+                    return ThresholdTags.tt_ignoreNegativeDeltas;
                 } else {
                     return ThresholdTags.tt_unknown;
                 }
