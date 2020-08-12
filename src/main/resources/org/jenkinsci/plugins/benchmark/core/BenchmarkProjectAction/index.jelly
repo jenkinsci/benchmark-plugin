@@ -200,13 +200,15 @@
           var BchPub = <st:bind value="${it}"/>
 
           table_1.on( 'click', 'tr', function () {
-            BchPub.setResultSelected($('#raw_results').DataTable().row($(this)).data()[heads]);
-            window.location.href = resultPageURL;
+            BchPub.setResultSelected($('#raw_results').DataTable().row($(this)).data()[heads], function (t) {
+              window.location.href = resultPageURL;
+            } );
           } );
 
           table_2.on( 'click', 'tr', function () {
-            BchPub.setResultSelected($('#condensed_results').DataTable().row($(this)).data()[heads]);
-            window.location.href = resultPageURL;
+            BchPub.setResultSelected($('#condensed_results').DataTable().row($(this)).data()[heads], function (t) {
+              window.location.href = resultPageURL;
+            } );
           } );
 
           $("#btn-save-raw").click( function() {
