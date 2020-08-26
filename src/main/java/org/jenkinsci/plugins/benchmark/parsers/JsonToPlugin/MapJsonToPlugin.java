@@ -457,11 +457,12 @@ public class MapJsonToPlugin extends MapperBase {
                     results.put(result.getGroupHash(), result);
 
                     // Isolate the other objects and arrays
-                    for (Map.Entry<String, JsonElement> enSchema : oSchema.entrySet()) {
-                        String kSchema = enSchema.getKey();
-                        for (Map.Entry<String, JsonElement> enContent : oContent.entrySet()) {
-                            if (kSchema.equals(enContent.getKey())) {
-                                ProcessBlock(result, kSchema, enContent.getValue(), enSchema.getValue(), failures);
+                    content: for (Map.Entry<String, JsonElement> enContent : oContent.entrySet()) {
+                        String kContent = enContent.getKey();
+                        for (Map.Entry<String, JsonElement> enSchema : oSchema.entrySet()) {
+                            if (kContent.equals(enSchema.getKey())) {
+                                ProcessBlock(result, kContent, enContent.getValue(), enSchema.getValue(), failures);
+                                continue content;
                             }
                         }
                     }
@@ -495,11 +496,12 @@ public class MapJsonToPlugin extends MapperBase {
                     groups.put(group.getGroupHash(), group);
 
                     // Isolate the other objects and arrays
-                    for (Map.Entry<String, JsonElement> enSchema : oSchema.entrySet()) {
-                        String kSchema = enSchema.getKey();
-                        for (Map.Entry<String, JsonElement> enContent : oContent.entrySet()) {
-                            if (kSchema.equals(enContent.getKey())) {
-                                ProcessBlock(group, kSchema, enContent.getValue(), enSchema.getValue(), failures);
+                    content: for (Map.Entry<String, JsonElement> enContent : oContent.entrySet()) {
+                        String kContent = enContent.getKey();
+                        for (Map.Entry<String, JsonElement> enSchema : oSchema.entrySet()) {
+                            if (kContent.equals(enSchema.getKey())) {
+                                ProcessBlock(group, kContent, enContent.getValue(), enSchema.getValue(), failures);
+                                continue content;
                             }
                         }
                     }
