@@ -1,0 +1,21 @@
+{
+    "result_1": {
+        "description": "description_res_1",
+        "value": 13.5,
+        "unit": "meters",
+        "parameters": {
+            "parameter_1": {
+                "description": "description_par_1",
+                "value": 10,
+                "unit": "minutes"
+            }
+        },
+        "thresholds":[
+            {
+                "method": "absolute",
+                "minimum": 13,
+                "maximum": 15
+            }
+        ]
+    }
+}

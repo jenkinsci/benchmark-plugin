@@ -87,4 +87,52 @@ public class MapJsonToPluginTest {
         }
         System.out.println("Mapping JSON completed for '2-defaultSchema {all construct types}'." );
     }
+
+    @Test
+    public void json_mappedSchema() throws ValidationException, ParserConfigurationException, SAXException, IOException {
+        System.out.println("Starting JSON mapping for '3-mappedSchema {additional properties}'." );
+
+        // Load schema
+        ClassLoader testClassLoader = getClass().getClassLoader();
+        File jsonSFile = new File(testClassLoader.getResource("schemas/mapped.json").getFile());
+        JsonParser parser = new JsonParser();
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(jsonSFile), StandardCharsets.UTF_8);
+        try {
+            JsonElement jsonSchema = parser.parse(reader);
+
+            // Load content
+            File jsonCFile = new File(testClassLoader.getResource("json/mapped.json").getFile());
+
+            // Launch mapper
+            MapJsonToPlugin mapper = new MapJsonToPlugin(0, jsonCFile, jsonSchema, false);
+            assertTrue(mapper.getNumberOfResults() == 1);
+        }finally{
+            reader.close();
+        }
+        System.out.println("Mapping JSON completed for '3-mappedSchema {additional properties}'." );
+    }
+
+    @Test
+    public void json_condensedSchema() throws ValidationException, ParserConfigurationException, SAXException, IOException {
+        System.out.println("Starting JSON mapping for '4-condensedSchema {additional properties, full results}'." );
+
+        // Load schema
+        ClassLoader testClassLoader = getClass().getClassLoader();
+        File jsonSFile = new File(testClassLoader.getResource("schemas/condensed.json").getFile());
+        JsonParser parser = new JsonParser();
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(jsonSFile), StandardCharsets.UTF_8);
+        try {
+            JsonElement jsonSchema = parser.parse(reader);
+
+            // Load content
+            File jsonCFile = new File(testClassLoader.getResource("json/condensed.json").getFile());
+
+            // Launch mapper
+            MapJsonToPlugin mapper = new MapJsonToPlugin(0, jsonCFile, jsonSchema, false);
+            assertTrue(mapper.getNumberOfResults() == 2);
+        }finally{
+            reader.close();
+        }
+        System.out.println("Mapping JSON completed for '4-condensedSchema {additional properties, full results}'." );
+    }
 }
