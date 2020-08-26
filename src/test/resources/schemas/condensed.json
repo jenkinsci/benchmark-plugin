@@ -1,0 +1,8 @@
+{
+    "description": "Extremely condensed value-only",
+    "failure": { "value": true },
+    "type": "object",
+    "additionalProperties": {
+        "type": "result"
+    }
+}
