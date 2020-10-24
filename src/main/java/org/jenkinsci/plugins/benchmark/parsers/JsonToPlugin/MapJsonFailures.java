@@ -143,7 +143,7 @@ public class MapJsonFailures {
             if (entryFailure.getKey().equals("key")) {
                 JsonElement eType = entryFailure.getValue();
                 if (eType.isJsonPrimitive()) {
-                    JsonPrimitive pType = eFailure.getAsJsonPrimitive();
+                    JsonPrimitive pType = eType.getAsJsonPrimitive();
                     if (pType.isString())
                         failures.add(new TestFailure(pType.getAsString(), true));
                 }
