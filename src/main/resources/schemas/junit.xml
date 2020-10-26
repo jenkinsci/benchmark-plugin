@@ -35,8 +35,7 @@
         </xs:sequence>
     </xs:complexType>
 
-
-    <xs:complexType name="TestCase">
+    <xs:complexType name="TestCase" type="jbs:result">
         <xs:sequence>
             <xs:element ref="error"/>
             <xs:element ref="failure"/>
@@ -53,7 +52,7 @@
     <xs:complexType name="TestSuite">
         <xs:sequence>
             <xs:element name="properties" type="Properties"/>
-            <xs:element name="testcase"/>
+            <xs:element name="testcase" type="TestCase"/>
         </xs:sequence>
         <xs:attribute name="name" type="jbs:name"/>
         <xs:attribute name="time" type="jbs:parameter"/>
@@ -62,6 +61,8 @@
         <xs:attribute name="id" type="jbs:parameter"/>
         <xs:attribute name="package" type="jbs:parameter"/>
     </xs:complexType>
+
+    <xs:element name="testsuite" type="TestSuite"/>
 
     <xs:element name="testsuites" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
