@@ -234,7 +234,7 @@ public class TestValue extends TestGroup {
         }
         switch(_type) {
             case rt_integer:
-                IntegerCondensed int_result = new IntegerCondensed(_file, _group,  _name, _description, _unit, _previous.intValue(), _minimum.intValue(), _maximum.intValue(), _average, _std_deviation, _passed, _failed);
+                IntegerCondensed int_result = new IntegerCondensed(_file, _group,  _name, _description, _unit, _previous != null ? _previous.intValue() : null, _minimum != null ? _minimum.intValue() : null, _maximum != null ? _maximum.intValue() : null, _average, _std_deviation, _passed, _failed);
                 entityList.put(_hash, int_result);
                 detected.setNumeralDetected(true);
                 break;
