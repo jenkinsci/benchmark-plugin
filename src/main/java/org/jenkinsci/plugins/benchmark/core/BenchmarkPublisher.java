@@ -449,7 +449,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
      * The class is marked as public so that it can be accessed from views.
      * This is the class in charge of all interactions by the UI components.
      *
-     * See <tt>src/main/resources/org/jenkinsci/plugins/benchmark/BenchmarkPublisher/*.jelly</tt>
+     * See <code>src/main/resources/org/jenkinsci/plugins/benchmark/BenchmarkPublisher/*.jelly</code>
      * for the actual HTML fragment for the configuration screen.
      */
     @Extension @Symbol("benchmark") // This indicates to Jenkins that this is an implementation of an extension point.
@@ -458,7 +458,7 @@ public class BenchmarkPublisher extends Recorder implements SimpleBuildStep {
         /**
          * To persist global configuration information,
          * simply store it in a field and call save().
-         * If you don't want fields to be persisted, use <tt>transient</tt>.
+         * If you don't want fields to be persisted, use <code>transient</code>.
          */
 
         /** In order to load the persisted global configuration, you have to call load() in the constructor. */
