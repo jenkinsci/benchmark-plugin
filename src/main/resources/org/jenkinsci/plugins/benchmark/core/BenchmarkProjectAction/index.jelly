@@ -300,7 +300,7 @@
               </div>
               <br/>
               <table id="raw_results" class="row-border hover" cellspacing="0" width="100%">
-                <j:expr value="${it.RawTable}" escapeText="false"/>
+                <j:out value="${it.RawTable}" escapeText="false"/>
               </table>
             </div>
           </div>
