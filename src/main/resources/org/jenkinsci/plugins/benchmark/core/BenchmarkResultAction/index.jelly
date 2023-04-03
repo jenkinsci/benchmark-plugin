@@ -264,7 +264,7 @@
                 <h3 class="expand_rawResults">${%Result values}:</h3>
                 <br/>
                 <table id="rawResults" cellspacing="0" width="100%">
-                    <j:expr value="${it.RawTable}" escapeText="false"/>
+                    <j:out value="${it.RawTable}" escapeText="false"/>
                 </table>
             </div>
             <div id="second_division">
