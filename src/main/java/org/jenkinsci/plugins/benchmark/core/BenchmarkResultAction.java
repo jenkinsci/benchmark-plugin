@@ -210,7 +210,7 @@ public class BenchmarkResultAction implements Action, SimpleBuildStep.LastBuildA
 
     @FrontendMethod
     public String getTablePageURL(){
-        return  Jenkins.getInstance().getRootUrl() + project.getUrl() + "BenchmarkTable";
+        return  Jenkins.get().getRootUrl() + project.getUrl() + "BenchmarkTable";
     }
 
     @FrontendMethod
@@ -321,7 +321,7 @@ public class BenchmarkResultAction implements Action, SimpleBuildStep.LastBuildA
      */
     @FrontendMethod
     public String getResultPageURL(){
-        return  Jenkins.getInstance().getRootUrl() + project.getUrl() + "BenchmarkResult";
+        return  Jenkins.get().getRootUrl() + project.getUrl() + "BenchmarkResult";
     }
 
     @JavaScriptMethod

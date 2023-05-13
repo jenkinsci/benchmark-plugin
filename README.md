@@ -23,7 +23,7 @@ Daniel Mercier
 This work is under MIT license (see "license" document).
 
 ## Contributing
-Please review the [contributing guidelines](./CONTRIBUTING.md) before working on code changes.
+Please review the [contributing guidelines](https://github.com/jenkinsci/.github/blob/master/CONTRIBUTING.md) before working on code changes.
 
 ## Links
 - Click [HERE](./doc/HOW_TO_USE_THE_PLUGIN.md) to access the manual on how to use the plugin,

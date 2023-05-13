@@ -167,26 +167,37 @@ public class MapJsonThreshold {
                                 JsonPrimitive primitive = value.getAsJsonPrimitive();
                                 if (primitive.isString()) {
                                     String method = primitive.getAsString().toLowerCase();
-                                    if (method.equals("absolute")){
-                                        AbsoluteThreshold thres = new AbsoluteThreshold(minimum, maximum);
-                                        threshold = thres;
-                                        thresholdDetected = true;
-                                    } else if (method.equals("percentage")) {
-                                        PercentageThreshold thres = new PercentageThreshold(percentage);
-                                        threshold = thres;
-                                        thresholdDetected = true;
-                                    } else if (method.equals("delta")) {
-                                        DeltaThreshold thres = new DeltaThreshold(delta);
-                                        threshold = thres;
-                                        thresholdDetected = true;
-                                    } else if (method.equals("percentageaverage")) {
-                                        PercentageAverageThreshold thres = new PercentageAverageThreshold(percentage);
-                                        threshold = thres;
-                                        thresholdDetected = true;
-                                    } else if (method.equals("deltaaverage")){
-                                        DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
-                                        threshold = thres;
-                                        thresholdDetected = true;
+                                    switch (method) {
+                                        case "absolute": {
+                                            AbsoluteThreshold thres = new AbsoluteThreshold(minimum, maximum);
+                                            threshold = thres;
+                                            thresholdDetected = true;
+                                            break;
+                                        }
+                                        case "percentage": {
+                                            PercentageThreshold thres = new PercentageThreshold(percentage);
+                                            threshold = thres;
+                                            thresholdDetected = true;
+                                            break;
+                                        }
+                                        case "delta": {
+                                            DeltaThreshold thres = new DeltaThreshold(delta);
+                                            threshold = thres;
+                                            thresholdDetected = true;
+                                            break;
+                                        }
+                                        case "percentageaverage": {
+                                            PercentageAverageThreshold thres = new PercentageAverageThreshold(percentage);
+                                            threshold = thres;
+                                            thresholdDetected = true;
+                                            break;
+                                        }
+                                        case "deltaaverage": {
+                                            DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
+                                            threshold = thres;
+                                            thresholdDetected = true;
+                                            break;
+                                        }
                                     }
                                     break;
                                 }
@@ -217,18 +228,20 @@ public class MapJsonThreshold {
             }
         }
         type = type.toLowerCase();
-        if (type.equals("method"))
-            return ThresholdTags.tt_method;
-        else if (type.equals("minimum"))
-            return ThresholdTags.tt_minimum;
-        else if (type.equals("maximum"))
-            return ThresholdTags.tt_maximum;
-        else if (type.equals("delta"))
-            return ThresholdTags.tt_delta;
-        else if (type.equals("percentage"))
-            return ThresholdTags.tt_percentage;
-        else
-            return ThresholdTags.tt_unknown;
+        switch (type) {
+            case "method":
+                return ThresholdTags.tt_method;
+            case "minimum":
+                return ThresholdTags.tt_minimum;
+            case "maximum":
+                return ThresholdTags.tt_maximum;
+            case "delta":
+                return ThresholdTags.tt_delta;
+            case "percentage":
+                return ThresholdTags.tt_percentage;
+            default:
+                return ThresholdTags.tt_unknown;
+        }
     }
 
     // Getter

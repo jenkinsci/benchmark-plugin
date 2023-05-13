@@ -125,7 +125,7 @@ public class BenchmarkProjectAction implements Action, SimpleBuildStep.LastBuild
      */
     @FrontendMethod
     public String getRootPageURL(){
-        return  Jenkins.getInstance().getRootUrl() + project.getUrl();
+        return  Jenkins.get().getRootUrl() + project.getUrl();
     }
 
     /**
@@ -134,7 +134,7 @@ public class BenchmarkProjectAction implements Action, SimpleBuildStep.LastBuild
      */
     @FrontendMethod
     public String getResultPageURL(){
-        return  Jenkins.getInstance().getRootUrl() + project.getUrl() + "BenchmarkResult";
+        return  Jenkins.get().getRootUrl() + project.getUrl() + "BenchmarkResult";
     }
 
     /**
@@ -143,7 +143,7 @@ public class BenchmarkProjectAction implements Action, SimpleBuildStep.LastBuild
      */
     @FrontendMethod
     public String getAPIURL(){
-        return  Jenkins.getInstance().getRootUrl() + project.getUrl() + "BenchmarkTable/api/json";
+        return  Jenkins.get().getRootUrl() + project.getUrl() + "BenchmarkTable/api/json";
     }
 
     /**

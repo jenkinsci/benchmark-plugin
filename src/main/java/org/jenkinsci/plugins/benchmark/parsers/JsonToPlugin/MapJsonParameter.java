@@ -25,6 +25,7 @@ import org.jenkinsci.plugins.benchmark.results.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Map Parameter JSON schema/content data to Jenkins plugin data construct
@@ -187,11 +188,7 @@ public class MapJsonParameter {
                     for (Map.Entry<String, JsonElement> enContent : oContent.entrySet()) {
                         if (schemaKey.equals(enContent.getKey())) {
                             if (name == null){
-                                if(key == null) {
-                                    name = schemaKey;
-                                } else {
-                                    name = key;
-                                }
+                                name = Objects.requireNonNullElse(key, schemaKey);
                             }
                             JsonElement value = enContent.getValue();
                             if (value.isJsonPrimitive()) {
@@ -248,20 +245,21 @@ public class MapJsonParameter {
         }
         type = type.toLowerCase();
 
-        if (type.equals("id")) {
-            return ParameterTags.pt_id;
-        } else if (type.equals("name")) {
-            return ParameterTags.pt_name;
-        } else if (type.equals("description")) {
-            return ParameterTags.pt_description;
-        } else if (type.equals("unit")) {
-            return ParameterTags.pt_unit;
-        } else if (type.equals("value")) {
-            return ParameterTags.pt_value;
-        } else if (type.equals("message")) {
-            return ParameterTags.pt_message;
-        } else {
-            return ParameterTags.pt_unknown;
+        switch (type) {
+            case "id":
+                return ParameterTags.pt_id;
+            case "name":
+                return ParameterTags.pt_name;
+            case "description":
+                return ParameterTags.pt_description;
+            case "unit":
+                return ParameterTags.pt_unit;
+            case "value":
+                return ParameterTags.pt_value;
+            case "message":
+                return ParameterTags.pt_message;
+            default:
+                return ParameterTags.pt_unknown;
         }
     }
 

@@ -25,6 +25,7 @@ import org.jenkinsci.plugins.benchmark.results.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Map Result JSON schema/content data to Jenkins plugin data construct
@@ -191,11 +192,7 @@ public class MapJsonResult {
                         for (Map.Entry<String, JsonElement> enContent : oContent.entrySet()) {
                             if (schemaKey.equals(enContent.getKey())) {
                                 if (name == null){
-                                    if(key == null) {
-                                        name = schemaKey;
-                                    } else {
-                                        name = key;
-                                    }
+                                    name = Objects.requireNonNullElse(key, schemaKey);
                                 }
                                 JsonElement value = enContent.getValue();
                                 if (value.isJsonPrimitive()) {
@@ -216,11 +213,7 @@ public class MapJsonResult {
                         for (Map.Entry<String, JsonElement> enContent : oContent.entrySet()) {
                             if (schemaKey.equals(enContent.getKey())) {
                                 if (name == null){
-                                    if(key == null) {
-                                        name = schemaKey;
-                                    } else {
-                                        name = key;
-                                    }
+                                    name = Objects.requireNonNullElse(key, schemaKey);
                                 }
                                 JsonElement value = enContent.getValue();
                                 if (value.isJsonPrimitive()) {
@@ -241,11 +234,7 @@ public class MapJsonResult {
                         for (Map.Entry<String, JsonElement> enContent : oContent.entrySet()) {
                             if (schemaKey.equals(enContent.getKey())) {
                                 if (name == null){
-                                    if(key == null) {
-                                        name = schemaKey;
-                                    } else {
-                                        name = key;
-                                    }
+                                    name = Objects.requireNonNullElse(key, schemaKey);
                                 }
                                 JsonElement value = enContent.getValue();
                                 if (value.isJsonPrimitive()) {
@@ -308,11 +297,7 @@ public class MapJsonResult {
                         for (Map.Entry<String, JsonElement> enContent : oContent.entrySet()) {
                             if (schemaKey.equals(enContent.getKey())) {
                                 if (name == null){
-                                    if(key == null) {
-                                        name = schemaKey;
-                                    } else {
-                                        name = key;
-                                    }
+                                    name = Objects.requireNonNullElse(key, schemaKey);
                                 }
                                 JsonElement value = enContent.getValue();
                                 if (value.isJsonPrimitive()) {
@@ -359,7 +344,6 @@ public class MapJsonResult {
 
     /**
      * Retrieve the type of Result tag associate to 'type'
-     * @param {JsonObject} schema
      * @return {ResultTags} Enum value for Result tag
      */
     private ResultTags getResultTag(JsonObject schemaObj) {
@@ -374,28 +358,29 @@ public class MapJsonResult {
             }
         }
         type = type.toLowerCase();
-        if (type.equals("name")) {
-            return ResultTags.rt_name;
-        } else if (type.equals("id")) {
-            return ResultTags.rt_id;
-        } else if (type.equals("description")) {
-            return ResultTags.rt_description;
-        } else if (type.equals("unit")) {
-            return ResultTags.rt_unit;
-        } else if (type.equals("message")) {
-            return ResultTags.rt_message;
-        } else if (type.equals("boolean")) {
-            return ResultTags.rt_boolean;
-        } else if (type.equals("booleankey")) {
-            return ResultTags.rt_booleankey;
-        } else if (type.equals("integer")) {
-            return ResultTags.rt_integer;
-        } else if (type.equals("double")) {
-            return ResultTags.rt_double;
-        } else if (type.equals("value")) {
-            return ResultTags.rt_value;
-        } else {
-            return ResultTags.rt_unknown;
+        switch (type) {
+            case "name":
+                return ResultTags.rt_name;
+            case "id":
+                return ResultTags.rt_id;
+            case "description":
+                return ResultTags.rt_description;
+            case "unit":
+                return ResultTags.rt_unit;
+            case "message":
+                return ResultTags.rt_message;
+            case "boolean":
+                return ResultTags.rt_boolean;
+            case "booleankey":
+                return ResultTags.rt_booleankey;
+            case "integer":
+                return ResultTags.rt_integer;
+            case "double":
+                return ResultTags.rt_double;
+            case "value":
+                return ResultTags.rt_value;
+            default:
+                return ResultTags.rt_unknown;
         }
     }
 

@@ -190,11 +190,8 @@ public class MapJsonToPlugin extends MapperBase {
     private JsonElement getJSON(File jsonFile) throws IOException, InterruptedException, JsonIOException, JsonSyntaxException {
         JsonElement content = null;
         JsonParser parser = new JsonParser();
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(jsonFile), StandardCharsets.UTF_8);
-        try {
+        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(jsonFile), StandardCharsets.UTF_8)) {
             content = parser.parse(reader);
-        }finally{
-            reader.close();
         }
         return content;
     }
@@ -207,11 +204,8 @@ public class MapJsonToPlugin extends MapperBase {
     private JsonElement getJSON(FilePath jsonFile) throws IOException, InterruptedException, JsonIOException, JsonSyntaxException {
         JsonElement content = null;
         JsonParser parser = new JsonParser();
-        InputStreamReader reader = new InputStreamReader(jsonFile.read(), StandardCharsets.UTF_8);
-        try {
+        try (InputStreamReader reader = new InputStreamReader(jsonFile.read(), StandardCharsets.UTF_8)) {
             content = parser.parse(reader);
-        }finally{
-            reader.close();
         }
         return content;
     }
@@ -326,7 +320,6 @@ public class MapJsonToPlugin extends MapperBase {
      * @param key Key associated with content from result file
      * @param eContent Content from result file
      * @param eSchema Content from schema file
-     * @return {TestValue} The new result.
      * @throws ValidationException If validation error occur
      */
     private void ProcessThreshold (TestGroup parent, String key, JsonElement eContent, JsonElement eSchema, MapJsonFailures failures) throws ValidationException {
@@ -374,7 +367,6 @@ public class MapJsonToPlugin extends MapperBase {
      * @param key Key associated with content from result file
      * @param eContent Content from result file
      * @param eSchema Content from schema file
-     * @return {TestValue} The new result.
      * @throws ValidationException If validation error occur
      */
     private void ProcessParameter (TestGroup parent, String key, JsonElement eContent, JsonElement eSchema, MapJsonFailures failures) throws ValidationException {
@@ -436,7 +428,6 @@ public class MapJsonToPlugin extends MapperBase {
      * @param key Key associated with content from result file
      * @param eContent Content from result file
      * @param eSchema Content from schema file
-     * @return {TestValue} The new result.
      * @throws ValidationException If validation error occur
      */
     private void ProcessResult (TestGroup parent, String key, JsonElement eContent, JsonElement eSchema, MapJsonFailures failures) throws ValidationException {
@@ -477,7 +468,6 @@ public class MapJsonToPlugin extends MapperBase {
      * @param key Key associated with content from result file
      * @param eContent Content from result file
      * @param eSchema Content from schema file
-     * @return {TestGroup} The new group associated with the object.
      * @throws ValidationException If validation error occur
      */
     private void ProcessObject (TestGroup parent, String key, JsonElement eContent, JsonElement eSchema, MapJsonFailures failures) throws ValidationException {
@@ -521,7 +511,6 @@ public class MapJsonToPlugin extends MapperBase {
      * @param key Key associated with content from result file
      * @param eContent Content from result file
      * @param eSchema Content from schema file
-     * @return {TestGroup} The new group associated with the object.
      * @throws ValidationException If validation error occur
      */
     private void ProcessArray(TestGroup parent, String key, JsonElement eContent, JsonElement eSchema, MapJsonFailures failures) throws ValidationException {
@@ -597,24 +586,25 @@ public class MapJsonToPlugin extends MapperBase {
             }
         }
         type = type.toLowerCase();
-        if (type.equals("object")) {
-            return GroupTags.gt_object;
-        } else if (type.equals("array")) {
-            return GroupTags.gt_array;
-        } else if (type.equals("resultfull")) {
-            return GroupTags.gt_result;
-        } else if (type.equals("result")) {
-            return GroupTags.gt_result;
-        } else if (type.equals("booleankey")) {
-            return GroupTags.gt_booleankey;
-        } else if (type.equals("threshold")) {
-            return GroupTags.gt_threshold;
-        } else if (type.equals("parameterfull")) {
-            return GroupTags.gt_parameter;
-        } else if (type.equals("parameter")) {
-            return GroupTags.gt_parameter;
-        } else {
-            return GroupTags.gt_unknown;
+        switch (type) {
+            case "object":
+                return GroupTags.gt_object;
+            case "array":
+                return GroupTags.gt_array;
+            case "resultfull":
+                return GroupTags.gt_result;
+            case "result":
+                return GroupTags.gt_result;
+            case "booleankey":
+                return GroupTags.gt_booleankey;
+            case "threshold":
+                return GroupTags.gt_threshold;
+            case "parameterfull":
+                return GroupTags.gt_parameter;
+            case "parameter":
+                return GroupTags.gt_parameter;
+            default:
+                return GroupTags.gt_unknown;
         }
     }
 }

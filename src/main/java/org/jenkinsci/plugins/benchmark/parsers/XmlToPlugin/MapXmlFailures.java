@@ -185,16 +185,17 @@ public class MapXmlFailures {
             String name = attributes.item(i).getNodeName();
             if (name.equalsIgnoreCase("type")) {
                 String value = attributes.item(i).getNodeValue().toLowerCase();
-                if (value.equals("jbs:boolean")) {
-                    return FailureTags.ft_boolean;
-                } else if (value.equals("jbs:element")) {
-                    return FailureTags.ft_element;
-                } else if (value.equals("jbs:string")) {
-                    return FailureTags.ft_string;
-                } else if (value.equals("jbs:value")) {
-                    return FailureTags.ft_value;
-                } else {
-                    return FailureTags.ft_unknown;
+                switch (value) {
+                    case "jbs:boolean":
+                        return FailureTags.ft_boolean;
+                    case "jbs:element":
+                        return FailureTags.ft_element;
+                    case "jbs:string":
+                        return FailureTags.ft_string;
+                    case "jbs:value":
+                        return FailureTags.ft_value;
+                    default:
+                        return FailureTags.ft_unknown;
                 }
             }
         }
