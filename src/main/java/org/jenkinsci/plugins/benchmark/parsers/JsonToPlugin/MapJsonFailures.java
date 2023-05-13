@@ -62,7 +62,7 @@ public class MapJsonFailures {
 
     /**
      * Load all the failures detected inside the passed JsonElement
-     * @param {JsonElement} eSchema
+     * @param eSchema JsonElement containing the schema
      */
     private void LoadFailures(TestGroup parent, JsonElement eSchema) throws ValidationException {
         if (eSchema.isJsonObject()) {
@@ -105,7 +105,7 @@ public class MapJsonFailures {
 
     /**
      * Load the content of single failure object
-     * @param {JsonElement} eFailure
+     * @param eFailure JsonElement containing the failure object
      */
     private void  LoadFailureObject(TestGroup parent, JsonElement eFailure) throws ValidationException {
         JsonObject oFailure = eFailure.getAsJsonObject();

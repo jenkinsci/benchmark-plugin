@@ -128,11 +128,11 @@ public class IntegerCondensed extends IntegerValue {
             content.append("<tr><td>");
             content.append(Messages.Minimum());
             content.append("</td><td>");
-            content.append(Integer.toString(this.minimum.intValue()));
+            content.append(Integer.toString(this.minimum));
             content.append("</td></tr><tr><td>");
             content.append(Messages.Maximum());
             content.append("</td><td>");
-            content.append(Integer.toString(this.maximum.intValue()));
+            content.append(Integer.toString(this.maximum));
             content.append("</td></tr><tr><td>");
             content.append(Messages.MeanAverage());
             content.append("</td><td>");

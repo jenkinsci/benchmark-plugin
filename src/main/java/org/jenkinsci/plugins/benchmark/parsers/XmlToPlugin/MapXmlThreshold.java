@@ -236,26 +236,37 @@ public class MapXmlThreshold {
                             Node node = attributes.item(i);
                             if (attrName.equals(node.getNodeName())) {
                                 String method = node.getNodeValue().toLowerCase();
-                                if (method.equals("absolute")){
-                                    AbsoluteThreshold thres = new AbsoluteThreshold(minimum, maximum);
-                                    threshold = thres;
-                                    thresholdDetected = true;
-                                } else if (method.equals("percentage")) {
-                                    PercentageThreshold thres = new PercentageThreshold(percentage);
-                                    threshold = thres;
-                                    thresholdDetected = true;
-                                } else if (method.equals("delta")) {
-                                    DeltaThreshold thres = new DeltaThreshold(delta);
-                                    threshold = thres;
-                                    thresholdDetected = true;
-                                } else if (method.equals("percentageaverage")) {
-                                    PercentageAverageThreshold thres = new PercentageAverageThreshold(percentage);
-                                    threshold = thres;
-                                    thresholdDetected = true;
-                                } else if (method.equals("deltaaverage")){
-                                    DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
-                                    threshold = thres;
-                                    thresholdDetected = true;
+                                switch (method) {
+                                    case "absolute": {
+                                        AbsoluteThreshold thres = new AbsoluteThreshold(minimum, maximum);
+                                        threshold = thres;
+                                        thresholdDetected = true;
+                                        break;
+                                    }
+                                    case "percentage": {
+                                        PercentageThreshold thres = new PercentageThreshold(percentage);
+                                        threshold = thres;
+                                        thresholdDetected = true;
+                                        break;
+                                    }
+                                    case "delta": {
+                                        DeltaThreshold thres = new DeltaThreshold(delta);
+                                        threshold = thres;
+                                        thresholdDetected = true;
+                                        break;
+                                    }
+                                    case "percentageaverage": {
+                                        PercentageAverageThreshold thres = new PercentageAverageThreshold(percentage);
+                                        threshold = thres;
+                                        thresholdDetected = true;
+                                        break;
+                                    }
+                                    case "deltaaverage": {
+                                        DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
+                                        threshold = thres;
+                                        thresholdDetected = true;
+                                        break;
+                                    }
                                 }
                                 break;
                             }
@@ -280,26 +291,37 @@ public class MapXmlThreshold {
                             for (Node nCNode = nContent.getFirstChild(); nCNode != null; nCNode = nCNode.getNextSibling()) {
                                 if (attrName.equals(nCNode.getLocalName())) {
                                     String method = nCNode.getTextContent().toLowerCase();
-                                    if (method.equals("absolute")){
-                                        AbsoluteThreshold thres = new AbsoluteThreshold(minimum, maximum);
-                                        threshold = thres;
-                                        thresholdDetected = true;
-                                    } else if (method.equals("percentage")) {
-                                        PercentageThreshold thres = new PercentageThreshold(percentage);
-                                        threshold = thres;
-                                        thresholdDetected = true;
-                                    } else if (method.equals("delta")) {
-                                        DeltaThreshold thres = new DeltaThreshold(delta);
-                                        threshold = thres;
-                                        thresholdDetected = true;
-                                    } else if (method.equals("percentageaverage")) {
-                                        PercentageAverageThreshold thres = new PercentageAverageThreshold(percentage);
-                                        threshold = thres;
-                                        thresholdDetected = true;
-                                    } else if (method.equals("deltaaverage")){
-                                        DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
-                                        threshold = thres;
-                                        thresholdDetected = true;
+                                    switch (method) {
+                                        case "absolute": {
+                                            AbsoluteThreshold thres = new AbsoluteThreshold(minimum, maximum);
+                                            threshold = thres;
+                                            thresholdDetected = true;
+                                            break;
+                                        }
+                                        case "percentage": {
+                                            PercentageThreshold thres = new PercentageThreshold(percentage);
+                                            threshold = thres;
+                                            thresholdDetected = true;
+                                            break;
+                                        }
+                                        case "delta": {
+                                            DeltaThreshold thres = new DeltaThreshold(delta);
+                                            threshold = thres;
+                                            thresholdDetected = true;
+                                            break;
+                                        }
+                                        case "percentageaverage": {
+                                            PercentageAverageThreshold thres = new PercentageAverageThreshold(percentage);
+                                            threshold = thres;
+                                            thresholdDetected = true;
+                                            break;
+                                        }
+                                        case "deltaaverage": {
+                                            DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
+                                            threshold = thres;
+                                            thresholdDetected = true;
+                                            break;
+                                        }
                                     }
                                     break;
                                 }
@@ -317,21 +339,32 @@ public class MapXmlThreshold {
         // Step 5 - Process results found inside the root element
         if (key.equals(nContent.getNodeName())) {
             String method = nContent.getTextContent().toLowerCase();
-            if (method.equals("absolute")){
-                AbsoluteThreshold thres = new AbsoluteThreshold(minimum, maximum);
-                threshold = thres;
-            } else if (method.equals("percentage")) {
-                PercentageThreshold thres = new PercentageThreshold(percentage);
-                threshold = thres;
-            } else if (method.equals("delta")) {
-                DeltaThreshold thres = new DeltaThreshold(delta);
-                threshold = thres;
-            } else if (method.equals("percentageaverage")) {
-                PercentageAverageThreshold thres = new PercentageAverageThreshold(percentage);
-                threshold = thres;
-            } else if (method.equals("deltaaverage")){
-                DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
-                threshold = thres;
+            switch (method) {
+                case "absolute": {
+                    AbsoluteThreshold thres = new AbsoluteThreshold(minimum, maximum);
+                    threshold = thres;
+                    break;
+                }
+                case "percentage": {
+                    PercentageThreshold thres = new PercentageThreshold(percentage);
+                    threshold = thres;
+                    break;
+                }
+                case "delta": {
+                    DeltaThreshold thres = new DeltaThreshold(delta);
+                    threshold = thres;
+                    break;
+                }
+                case "percentageaverage": {
+                    PercentageAverageThreshold thres = new PercentageAverageThreshold(percentage);
+                    threshold = thres;
+                    break;
+                }
+                case "deltaaverage": {
+                    DeltaAverageThreshold thres = new DeltaAverageThreshold(delta);
+                    threshold = thres;
+                    break;
+                }
             }
         }
     }
@@ -366,18 +399,19 @@ public class MapXmlThreshold {
             String name = attributes.item(i).getNodeName();
             if (name.equalsIgnoreCase("type")) {
                 String value = attributes.item(i).getNodeValue().toLowerCase();
-                if (value.equals("jbs:method")){
-                    return ThresholdTags.tt_method;
-                } else if (value.equals("jbs:minimum")) {
-                    return ThresholdTags.tt_minimum;
-                } else if (value.equals("jbs:maximum")) {
-                    return ThresholdTags.tt_maximum;
-                } else if (value.equals("jbs:delta")) {
-                    return ThresholdTags.tt_delta;
-                } else if (value.equals("jbs:percentage")) {
-                    return ThresholdTags.tt_percentage;
-                } else {
-                    return ThresholdTags.tt_unknown;
+                switch (value) {
+                    case "jbs:method":
+                        return ThresholdTags.tt_method;
+                    case "jbs:minimum":
+                        return ThresholdTags.tt_minimum;
+                    case "jbs:maximum":
+                        return ThresholdTags.tt_maximum;
+                    case "jbs:delta":
+                        return ThresholdTags.tt_delta;
+                    case "jbs:percentage":
+                        return ThresholdTags.tt_percentage;
+                    default:
+                        return ThresholdTags.tt_unknown;
                 }
             }
         }

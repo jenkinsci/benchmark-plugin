@@ -25,6 +25,7 @@ import org.w3c.dom.Node;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Map Parameter XML schema/content data to Jenkins plugin data construct
@@ -262,11 +263,7 @@ public class MapXmlParameter {
                             Node node = attributes.item(i);
                             if (attrName.equals(node.getNodeName())) {
                                 if (name == null){
-                                    if(key == null) {
-                                        name = attrName;
-                                    } else {
-                                        name = key;
-                                    }
+                                    name = Objects.requireNonNullElse(key, attrName);
                                 }
                                 try {
                                     double dblValue = Double.parseDouble(node.getNodeValue());
@@ -305,11 +302,7 @@ public class MapXmlParameter {
                             for (Node nCNode = nContent.getFirstChild(); nCNode != null; nCNode = nCNode.getNextSibling()) {
                                 if (attrName.equals(nCNode.getLocalName())) {
                                     if (name == null) {
-                                        if (key == null) {
-                                            name = attrName;
-                                        } else {
-                                            name = key;
-                                        }
+                                        name = Objects.requireNonNullElse(key, attrName);
                                     }
                                     String text = nCNode.getTextContent();
                                     if (text.length() == 0 ){
@@ -434,20 +427,21 @@ public class MapXmlParameter {
             String name = attributes.item(i).getNodeName();
             if (name.equalsIgnoreCase("type")) {
                 String value = attributes.item(i).getNodeValue().toLowerCase();
-                if (value.equals("jbs:id")){
-                    return ParameterTags.pt_id;
-                } else if (value.equals("jbs:name")) {
-                    return ParameterTags.pt_name;
-                } else if (value.equals("jbs:description")) {
-                    return ParameterTags.pt_description;
-                } else if (value.equals("jbs:unit")) {
-                    return ParameterTags.pt_unit;
-                } else if (value.equals("jbs:value")) {
-                    return ParameterTags.pt_value;
-                } else if (value.equals("jbs:message")) {
-                    return ParameterTags.pt_message;
-                } else {
-                    return ParameterTags.pt_unknown;
+                switch (value) {
+                    case "jbs:id":
+                        return ParameterTags.pt_id;
+                    case "jbs:name":
+                        return ParameterTags.pt_name;
+                    case "jbs:description":
+                        return ParameterTags.pt_description;
+                    case "jbs:unit":
+                        return ParameterTags.pt_unit;
+                    case "jbs:value":
+                        return ParameterTags.pt_value;
+                    case "jbs:message":
+                        return ParameterTags.pt_message;
+                    default:
+                        return ParameterTags.pt_unknown;
                 }
             }
         }

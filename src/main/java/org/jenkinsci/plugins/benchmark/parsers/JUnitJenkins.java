@@ -372,40 +372,55 @@ public class JUnitJenkins extends MapperBase {
         // Load parameters & file attribute
         for (Node nCNode = xNode.getFirstChild(); nCNode != null; nCNode = nCNode.getNextSibling()) {
             String nodeText = nCNode.getNodeName();
-            if (nodeText.equals("className")) {
-                String text = nCNode.getTextContent();
-                if (text != null && !text.isEmpty()) {
-                    _group = text;
+            switch (nodeText) {
+                case "className": {
+                    String text = nCNode.getTextContent();
+                    if (text != null && !text.isEmpty()) {
+                        _group = text;
+                    }
+                    break;
                 }
-            } else if (nodeText.equals("failedSince")) {
-                String text = nCNode.getTextContent();
-                if (text != null && !text.isEmpty()) {
-                    _failedSince = Integer.parseInt(text);
+                case "failedSince": {
+                    String text = nCNode.getTextContent();
+                    if (text != null && !text.isEmpty()) {
+                        _failedSince = Integer.parseInt(text);
+                    }
+                    break;
                 }
-            } else if (nodeText.equals("skippedMessage")) {
-                String text = nCNode.getTextContent();
-                if (text != null && !text.isEmpty()) {
-                    _messages.put("skippedMessage", text);
+                case "skippedMessage": {
+                    String text = nCNode.getTextContent();
+                    if (text != null && !text.isEmpty()) {
+                        _messages.put("skippedMessage", text);
+                    }
+                    break;
                 }
-            } else if (nodeText.equals("stdout")) {
-                String text = nCNode.getTextContent();
-                if (text != null && !text.isEmpty()) {
-                    _messages.put("stdout", text);
+                case "stdout": {
+                    String text = nCNode.getTextContent();
+                    if (text != null && !text.isEmpty()) {
+                        _messages.put("stdout", text);
+                    }
+                    break;
                 }
-            } else if (nodeText.equals("stderr")) {
-                String text = nCNode.getTextContent();
-                if (text != null && !text.isEmpty()) {
-                    _messages.put("stdout", text);
+                case "stderr": {
+                    String text = nCNode.getTextContent();
+                    if (text != null && !text.isEmpty()) {
+                        _messages.put("stdout", text);
+                    }
+                    break;
                 }
-            } else if (nodeText.equals("errorStackTrace")) {
-                String text = nCNode.getTextContent();
-                if (text != null && !text.isEmpty()) {
-                    _messages.put("errorStackTrace", text);
+                case "errorStackTrace": {
+                    String text = nCNode.getTextContent();
+                    if (text != null && !text.isEmpty()) {
+                        _messages.put("errorStackTrace", text);
+                    }
+                    break;
                 }
-            } else if (nodeText.equals("errorDetails")) {
-                String text = nCNode.getTextContent();
-                if (text != null && !text.isEmpty()) {
-                    _messages.put("errorDetails", text);
+                case "errorDetails": {
+                    String text = nCNode.getTextContent();
+                    if (text != null && !text.isEmpty()) {
+                        _messages.put("errorDetails", text);
+                    }
+                    break;
                 }
             }
         }

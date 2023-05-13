@@ -113,7 +113,6 @@ public class MapJsonGroup {
 
     /**
      * Retrieve the type of Group tag associate to 'type'
-     * @param {JsonObject} schema
      * @return {GroupTags} Enum value for Group tag
      */
     private GroupTags getGroupTag(JsonObject schemaObj){

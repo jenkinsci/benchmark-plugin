@@ -114,121 +114,149 @@ public class TestValue extends TestGroup {
 
         for (Map.Entry<String, JsonElement> enObject : object.entrySet()) {
             String key = enObject.getKey().toLowerCase();
-            if (key.equals("hash")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _hash = primitive.getAsInt();
-                    }
-                }
-            } else if (key.equals("type")) {
-                JsonElement value = enObject.getValue();
-                if (value.isJsonPrimitive()) {
-                    JsonPrimitive primitive = value.getAsJsonPrimitive();
-                    if (primitive.isString()) {
-                        _type = checkType(primitive.getAsString());
-                    }
-                }
-            } else if (key.equals("name")) {
-                JsonElement value = enObject.getValue();
-                if (value.isJsonPrimitive()) {
-                    JsonPrimitive primitive = value.getAsJsonPrimitive();
-                    if (primitive.isString()) {
-                        _name = primitive.getAsString();
-                    }
-                }
-            } else if (key.equals("group")) {
-                JsonElement value = enObject.getValue();
-                if (value.isJsonPrimitive()) {
-                    JsonPrimitive primitive = value.getAsJsonPrimitive();
-                    if (primitive.isString()) {
-                        _group = primitive.getAsString();
-                    }
-                }
-            } else if (key.equals("description")) {
-                JsonElement value = enObject.getValue();
-                if (value.isJsonPrimitive()) {
-                    JsonPrimitive primitive = value.getAsJsonPrimitive();
-                    if (primitive.isString()) {
-                        _description = primitive.getAsString();
-                    }
-                }
-            } else if (key.equals("unit")) {
-                JsonElement value = enObject.getValue();
-                if (value.isJsonPrimitive()) {
-                    JsonPrimitive primitive = value.getAsJsonPrimitive();
-                    if (primitive.isString()) {
-                        _unit = primitive.getAsString();
-                        detected.setUnitsDetected(true);
-                    }
-                }
-            }else if (key.equals("passed")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _passed = primitive.getAsInt();
-                    }
-                }
-            } else if (key.equals("failed")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _failed = primitive.getAsInt();
-                    }
-                }
-            } else if (key.equals("file")) {
-                JsonElement inObject = enObject.getValue();
-                if (inObject.isJsonPrimitive()) {
-                    JsonPrimitive primitive = inObject.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        TestGroup file = fileList.get(primitive.getAsInt());
-                        if (file != null) {
-                            _file = file;
+            switch (key) {
+                case "hash": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _hash = primitive.getAsInt();
                         }
                     }
+                    break;
                 }
-            } else if (key.equals("previous")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _previous = primitive.getAsDouble();
+                case "type": {
+                    JsonElement value = enObject.getValue();
+                    if (value.isJsonPrimitive()) {
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isString()) {
+                            _type = checkType(primitive.getAsString());
+                        }
                     }
+                    break;
                 }
-            } else if (key.equals("minimum")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _minimum = primitive.getAsDouble();
+                case "name": {
+                    JsonElement value = enObject.getValue();
+                    if (value.isJsonPrimitive()) {
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isString()) {
+                            _name = primitive.getAsString();
+                        }
                     }
+                    break;
                 }
-            } else if (key.equals("maximum")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _maximum = primitive.getAsDouble();
+                case "group": {
+                    JsonElement value = enObject.getValue();
+                    if (value.isJsonPrimitive()) {
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isString()) {
+                            _group = primitive.getAsString();
+                        }
                     }
+                    break;
                 }
-            } else if (key.equals("average")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _average = primitive.getAsDouble();
+                case "description": {
+                    JsonElement value = enObject.getValue();
+                    if (value.isJsonPrimitive()) {
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isString()) {
+                            _description = primitive.getAsString();
+                        }
                     }
+                    break;
                 }
-            } else if (key.equals("std_deviation")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _std_deviation = primitive.getAsDouble();
+                case "unit": {
+                    JsonElement value = enObject.getValue();
+                    if (value.isJsonPrimitive()) {
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isString()) {
+                            _unit = primitive.getAsString();
+                            detected.setUnitsDetected(true);
+                        }
                     }
+                    break;
+                }
+                case "passed": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _passed = primitive.getAsInt();
+                        }
+                    }
+                    break;
+                }
+                case "failed": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _failed = primitive.getAsInt();
+                        }
+                    }
+                    break;
+                }
+                case "file":
+                    JsonElement inObject = enObject.getValue();
+                    if (inObject.isJsonPrimitive()) {
+                        JsonPrimitive primitive = inObject.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            TestGroup file = fileList.get(primitive.getAsInt());
+                            if (file != null) {
+                                _file = file;
+                            }
+                        }
+                    }
+                    break;
+                case "previous": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _previous = primitive.getAsDouble();
+                        }
+                    }
+                    break;
+                }
+                case "minimum": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _minimum = primitive.getAsDouble();
+                        }
+                    }
+                    break;
+                }
+                case "maximum": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _maximum = primitive.getAsDouble();
+                        }
+                    }
+                    break;
+                }
+                case "average": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _average = primitive.getAsDouble();
+                        }
+                    }
+                    break;
+                }
+                case "std_deviation": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _std_deviation = primitive.getAsDouble();
+                        }
+                    }
+                    break;
                 }
             }
         }
@@ -276,53 +304,65 @@ public class TestValue extends TestGroup {
 
         for (Map.Entry<String, JsonElement> enObject : object.entrySet()) {
             String key = enObject.getKey().toLowerCase();
-            if (key.equals("hash")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _hash = primitive.getAsInt();
+            switch (key) {
+                case "hash":
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _hash = primitive.getAsInt();
+                        }
                     }
+                    break;
+                case "type": {
+                    JsonElement value = enObject.getValue();
+                    if (value.isJsonPrimitive()) {
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isString()) {
+                            _type = checkType(primitive.getAsString());
+                        }
+                    }
+                    break;
                 }
-            } else if (key.equals("type")) {
-                JsonElement value = enObject.getValue();
-                if (value.isJsonPrimitive()) {
-                    JsonPrimitive primitive = value.getAsJsonPrimitive();
-                    if (primitive.isString()) {
-                        _type = checkType(primitive.getAsString());
+                case "name": {
+                    JsonElement value = enObject.getValue();
+                    if (value.isJsonPrimitive()) {
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isString()) {
+                            _name = primitive.getAsString();
+                        }
                     }
+                    break;
                 }
-            } else if (key.equals("name")) {
-                JsonElement value = enObject.getValue();
-                if (value.isJsonPrimitive()) {
-                    JsonPrimitive primitive = value.getAsJsonPrimitive();
-                    if (primitive.isString()) {
-                        _name = primitive.getAsString();
+                case "group": {
+                    JsonElement value = enObject.getValue();
+                    if (value.isJsonPrimitive()) {
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isString()) {
+                            _group = primitive.getAsString();
+                        }
                     }
+                    break;
                 }
-            } else if (key.equals("group")) {
-                JsonElement value = enObject.getValue();
-                if (value.isJsonPrimitive()) {
-                    JsonPrimitive primitive = value.getAsJsonPrimitive();
-                    if (primitive.isString()) {
-                        _group = primitive.getAsString();
+                case "description": {
+                    JsonElement value = enObject.getValue();
+                    if (value.isJsonPrimitive()) {
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isString()) {
+                            _description = primitive.getAsString();
+                        }
                     }
+                    break;
                 }
-            } else if (key.equals("description")) {
-                JsonElement value = enObject.getValue();
-                if (value.isJsonPrimitive()) {
-                    JsonPrimitive primitive = value.getAsJsonPrimitive();
-                    if (primitive.isString()) {
-                        _description = primitive.getAsString();
+                case "unit": {
+                    JsonElement value = enObject.getValue();
+                    if (value.isJsonPrimitive()) {
+                        JsonPrimitive primitive = value.getAsJsonPrimitive();
+                        if (primitive.isString()) {
+                            _unit = primitive.getAsString();
+                        }
                     }
-                }
-            } else if (key.equals("unit")) {
-                JsonElement value = enObject.getValue();
-                if (value.isJsonPrimitive()) {
-                    JsonPrimitive primitive = value.getAsJsonPrimitive();
-                    if (primitive.isString()) {
-                        _unit = primitive.getAsString();
-                    }
+                    break;
                 }
             }
         }
@@ -368,82 +408,95 @@ public class TestValue extends TestGroup {
 
         for (Map.Entry<String, JsonElement> enObject : object.entrySet()) {
             String key = enObject.getKey().toLowerCase();
-            if (key.equals("hash")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _hash = primitive.getAsInt();
+            switch (key) {
+                case "hash": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _hash = primitive.getAsInt();
+                        }
                     }
+                    break;
                 }
-            } else if (key.equals("value")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    _value = enElement.getAsJsonPrimitive();
-                }
-            } else if (key.equals("id")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isNumber()) {
-                        _id = primitive.getAsInt();
+                case "value": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        _value = enElement.getAsJsonPrimitive();
                     }
+                    break;
                 }
-            } else if (key.equals("failedstate")) {
-                JsonElement enElement = enObject.getValue();
-                if (enElement.isJsonPrimitive()) {
-                    JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                    if (primitive.isBoolean()) {
-                        _failedState = primitive.getAsBoolean();
+                case "id": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isNumber()) {
+                            _id = primitive.getAsInt();
+                        }
                     }
+                    break;
                 }
-            } else if (key.equals("messages")) {
-                JsonElement inElement = enObject.getValue();
-                if (inElement.isJsonArray()) {
-                    JsonArray inArray = inElement.getAsJsonArray();
-                    for (JsonElement enArray : inArray) {
-                        if (enArray.isJsonObject()) {
-                            String _title = "";
-                            String _message = "";
-                            JsonObject aObject = enArray.getAsJsonObject();
-                            for (Map.Entry<String, JsonElement> enSObject : aObject.entrySet()) {
-                                if (enSObject.getKey().equalsIgnoreCase("title")) {
-                                    JsonElement enElement = enSObject.getValue();
-                                    if (enElement.isJsonPrimitive()) {
-                                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                                        if (primitive.isString()) {
-                                            _title = primitive.getAsString();
+                case "failedstate": {
+                    JsonElement enElement = enObject.getValue();
+                    if (enElement.isJsonPrimitive()) {
+                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                        if (primitive.isBoolean()) {
+                            _failedState = primitive.getAsBoolean();
+                        }
+                    }
+                    break;
+                }
+                case "messages": {
+                    JsonElement inElement = enObject.getValue();
+                    if (inElement.isJsonArray()) {
+                        JsonArray inArray = inElement.getAsJsonArray();
+                        for (JsonElement enArray : inArray) {
+                            if (enArray.isJsonObject()) {
+                                String _title = "";
+                                String _message = "";
+                                JsonObject aObject = enArray.getAsJsonObject();
+                                for (Map.Entry<String, JsonElement> enSObject : aObject.entrySet()) {
+                                    if (enSObject.getKey().equalsIgnoreCase("title")) {
+                                        JsonElement enElement = enSObject.getValue();
+                                        if (enElement.isJsonPrimitive()) {
+                                            JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                                            if (primitive.isString()) {
+                                                _title = primitive.getAsString();
+                                            }
                                         }
-                                    }
-                                } else if (enSObject.getKey().equalsIgnoreCase("message")) {
-                                    JsonElement enElement = enSObject.getValue();
-                                    if (enElement.isJsonPrimitive()) {
-                                        JsonPrimitive primitive = enElement.getAsJsonPrimitive();
-                                        if (primitive.isString()) {
-                                            _message = primitive.getAsString();
+                                    } else if (enSObject.getKey().equalsIgnoreCase("message")) {
+                                        JsonElement enElement = enSObject.getValue();
+                                        if (enElement.isJsonPrimitive()) {
+                                            JsonPrimitive primitive = enElement.getAsJsonPrimitive();
+                                            if (primitive.isString()) {
+                                                _message = primitive.getAsString();
+                                            }
                                         }
                                     }
                                 }
+                                _messages.put(_title, _message);
                             }
-                            _messages.put(_title, _message);
                         }
                     }
+                    break;
                 }
-            } else if (key.equals("parameters")) {
-                JsonElement inElement = enObject.getValue();
-                if (inElement.isJsonArray()) {
-                    JsonArray inArray = inElement.getAsJsonArray();
-                    for (JsonElement enArray : inArray) {
-                        if (enArray.isJsonPrimitive()) {
-                            JsonPrimitive primitive = enArray.getAsJsonPrimitive();
-                            if (primitive.isNumber()) {
-                                TestValue parameter = paramList.get(primitive.getAsInt());
-                                if (parameter != null) {
-                                    _parameters.add(parameter);
+                case "parameters": {
+                    JsonElement inElement = enObject.getValue();
+                    if (inElement.isJsonArray()) {
+                        JsonArray inArray = inElement.getAsJsonArray();
+                        for (JsonElement enArray : inArray) {
+                            if (enArray.isJsonPrimitive()) {
+                                JsonPrimitive primitive = enArray.getAsJsonPrimitive();
+                                if (primitive.isNumber()) {
+                                    TestValue parameter = paramList.get(primitive.getAsInt());
+                                    if (parameter != null) {
+                                        _parameters.add(parameter);
+                                    }
                                 }
                             }
                         }
                     }
+                    break;
                 }
             }
         }
@@ -457,57 +510,69 @@ public class TestValue extends TestGroup {
             TestGroup  _file = rootGroup;
             for (Map.Entry<String, JsonElement> enObject : object.entrySet()) {
                 String key = enObject.getKey().toLowerCase();
-                if (key.equals("name")) {
-                    JsonElement value = enObject.getValue();
-                    if (value.isJsonPrimitive()) {
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isString()) {
-                            _name = primitive.getAsString();
-                        }
-                    }
-                } else if (key.equals("group")) {
-                    JsonElement value = enObject.getValue();
-                    if (value.isJsonPrimitive()) {
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isString()) {
-                            _group = primitive.getAsString();
-                        }
-                    }
-                } else if (key.equals("description")) {
-                    JsonElement value = enObject.getValue();
-                    if (value.isJsonPrimitive()) {
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isString()) {
-                            _description = primitive.getAsString();
-                        }
-                    }
-                } else if (key.equals("unit")) {
-                    JsonElement value = enObject.getValue();
-                    if (value.isJsonPrimitive()) {
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isString()) {
-                            _unit = primitive.getAsString();
-                        }
-                    }
-                } else if (key.equals("type")) {
-                    JsonElement value = enObject.getValue();
-                    if (value.isJsonPrimitive()) {
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isString()) {
-                            _type = checkType(primitive.getAsString());
-                        }
-                    }
-                } else if (key.equals("file")) {
-                    JsonElement inObject = enObject.getValue();
-                    if (inObject.isJsonPrimitive()) {
-                        JsonPrimitive primitive = inObject.getAsJsonPrimitive();
-                        if (primitive.isNumber()) {
-                            TestGroup file = fileList.get(primitive.getAsInt());
-                            if (file != null) {
-                                _file = file;
+                switch (key) {
+                    case "name": {
+                        JsonElement value = enObject.getValue();
+                        if (value.isJsonPrimitive()) {
+                            JsonPrimitive primitive = value.getAsJsonPrimitive();
+                            if (primitive.isString()) {
+                                _name = primitive.getAsString();
                             }
                         }
+                        break;
                     }
+                    case "group": {
+                        JsonElement value = enObject.getValue();
+                        if (value.isJsonPrimitive()) {
+                            JsonPrimitive primitive = value.getAsJsonPrimitive();
+                            if (primitive.isString()) {
+                                _group = primitive.getAsString();
+                            }
+                        }
+                        break;
+                    }
+                    case "description": {
+                        JsonElement value = enObject.getValue();
+                        if (value.isJsonPrimitive()) {
+                            JsonPrimitive primitive = value.getAsJsonPrimitive();
+                            if (primitive.isString()) {
+                                _description = primitive.getAsString();
+                            }
+                        }
+                        break;
+                    }
+                    case "unit": {
+                        JsonElement value = enObject.getValue();
+                        if (value.isJsonPrimitive()) {
+                            JsonPrimitive primitive = value.getAsJsonPrimitive();
+                            if (primitive.isString()) {
+                                _unit = primitive.getAsString();
+                            }
+                        }
+                        break;
+                    }
+                    case "type": {
+                        JsonElement value = enObject.getValue();
+                        if (value.isJsonPrimitive()) {
+                            JsonPrimitive primitive = value.getAsJsonPrimitive();
+                            if (primitive.isString()) {
+                                _type = checkType(primitive.getAsString());
+                            }
+                        }
+                        break;
+                    }
+                    case "file":
+                        JsonElement inObject = enObject.getValue();
+                        if (inObject.isJsonPrimitive()) {
+                            JsonPrimitive primitive = inObject.getAsJsonPrimitive();
+                            if (primitive.isNumber()) {
+                                TestGroup file = fileList.get(primitive.getAsInt());
+                                if (file != null) {
+                                    _file = file;
+                                }
+                            }
+                        }
+                        break;
                 }
             }
             switch (_type) {
@@ -647,45 +712,56 @@ public class TestValue extends TestGroup {
             ValueType   _type = ValueType.rt_unknown;
             for (Map.Entry<String, JsonElement> enObject : object.entrySet()) {
                 String key = enObject.getKey().toLowerCase();
-                if (key.equals("name")) {
-                    JsonElement value = enObject.getValue();
-                    if (value.isJsonPrimitive()) {
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isString()) {
-                            _name = primitive.getAsString();
+                switch (key) {
+                    case "name": {
+                        JsonElement value = enObject.getValue();
+                        if (value.isJsonPrimitive()) {
+                            JsonPrimitive primitive = value.getAsJsonPrimitive();
+                            if (primitive.isString()) {
+                                _name = primitive.getAsString();
+                            }
                         }
+                        break;
                     }
-                } else if (key.equals("group")) {
-                    JsonElement value = enObject.getValue();
-                    if (value.isJsonPrimitive()) {
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isString()) {
-                            _group = primitive.getAsString();
+                    case "group": {
+                        JsonElement value = enObject.getValue();
+                        if (value.isJsonPrimitive()) {
+                            JsonPrimitive primitive = value.getAsJsonPrimitive();
+                            if (primitive.isString()) {
+                                _group = primitive.getAsString();
+                            }
                         }
+                        break;
                     }
-                } else if (key.equals("description")) {
-                    JsonElement value = enObject.getValue();
-                    if (value.isJsonPrimitive()) {
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isString()) {
-                            _description = primitive.getAsString();
+                    case "description": {
+                        JsonElement value = enObject.getValue();
+                        if (value.isJsonPrimitive()) {
+                            JsonPrimitive primitive = value.getAsJsonPrimitive();
+                            if (primitive.isString()) {
+                                _description = primitive.getAsString();
+                            }
                         }
+                        break;
                     }
-                } else if (key.equals("unit")) {
-                    JsonElement value = enObject.getValue();
-                    if (value.isJsonPrimitive()) {
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isString()) {
-                            _unit = primitive.getAsString();
+                    case "unit": {
+                        JsonElement value = enObject.getValue();
+                        if (value.isJsonPrimitive()) {
+                            JsonPrimitive primitive = value.getAsJsonPrimitive();
+                            if (primitive.isString()) {
+                                _unit = primitive.getAsString();
+                            }
                         }
+                        break;
                     }
-                } else if (key.equals("type")) {
-                    JsonElement value = enObject.getValue();
-                    if (value.isJsonPrimitive()) {
-                        JsonPrimitive primitive = value.getAsJsonPrimitive();
-                        if (primitive.isString()) {
-                            _type = checkType(primitive.getAsString());
+                    case "type": {
+                        JsonElement value = enObject.getValue();
+                        if (value.isJsonPrimitive()) {
+                            JsonPrimitive primitive = value.getAsJsonPrimitive();
+                            if (primitive.isString()) {
+                                _type = checkType(primitive.getAsString());
+                            }
                         }
+                        break;
                     }
                 }
             }
@@ -1449,14 +1525,15 @@ public class TestValue extends TestGroup {
 
     protected static ValueType checkType(String type) {
         type = type.toLowerCase();
-        if (type.equals("double")) {
-            return ValueType.rt_double;
-        } else if (type.equals("boolean")) {
-            return ValueType.rt_boolean;
-        } else if (type.equals("integer")) {
-            return ValueType.rt_integer;
-        } else if (type.equals("string")) {
-            return ValueType.rt_string;
+        switch (type) {
+            case "double":
+                return ValueType.rt_double;
+            case "boolean":
+                return ValueType.rt_boolean;
+            case "integer":
+                return ValueType.rt_integer;
+            case "string":
+                return ValueType.rt_string;
         }
         return ValueType.rt_unknown;
     }

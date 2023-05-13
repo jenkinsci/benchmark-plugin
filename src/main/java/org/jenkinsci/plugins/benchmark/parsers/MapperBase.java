@@ -361,8 +361,7 @@ public class MapperBase {
 
         Integer build = null;
         JsonParser parser = new JsonParser();
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
-        try{
+        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8)) {
             JsonElement jsonContent = parser.parse(reader);
 
             if (jsonContent.isJsonObject()) {
@@ -418,8 +417,6 @@ public class MapperBase {
                     }
                 }
             }
-        } finally {
-            reader.close();
         }
     }
 
@@ -787,8 +784,7 @@ public class MapperBase {
 
         Integer build = null;
         JsonParser parser = new JsonParser();
-        InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
-        try{
+        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8)) {
             JsonElement jsonContent = parser.parse(reader);
 
             if (jsonContent.isJsonObject()) {
@@ -858,8 +854,6 @@ public class MapperBase {
                     }
                 }
             }
-        }finally{
-            reader.close();
         }
     }
 

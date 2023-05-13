@@ -45,7 +45,6 @@ public class FilePathGroup {
 
     /**
      * Convert FilePath to String
-     * @return String equivalent relative to the workspace.
      */
     private void FilePathToString(){
         boolean detectWorkspace = false;

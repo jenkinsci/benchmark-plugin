@@ -25,6 +25,7 @@ import org.w3c.dom.Node;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Map Parameter XML schema/content data to Jenkins plugin data construct
@@ -265,11 +266,7 @@ public class MapXmlResult {
                             Node node = attributes.item(i);
                             if (attrName.equals(node.getNodeName())) {
                                 if (name == null){
-                                    if(key == null) {
-                                        name = attrName;
-                                    } else {
-                                        name = key;
-                                    }
+                                    name = Objects.requireNonNullElse(key, attrName);
                                 }
                                 try {
                                     Double value = Double.parseDouble(node.getNodeValue());
@@ -292,11 +289,7 @@ public class MapXmlResult {
                             Node node = attributes.item(i);
                             if (attrName.equals(node.getNodeName())) {
                                 if (name == null){
-                                    if(key == null) {
-                                        name = attrName;
-                                    } else {
-                                        name = key;
-                                    }
+                                    name = Objects.requireNonNullElse(key, attrName);
                                 }
                                 try {
                                     Integer value = Integer.parseInt(node.getNodeValue());
@@ -319,11 +312,7 @@ public class MapXmlResult {
                             Node node = attributes.item(i);
                             if (attrName.equals(node.getLocalName())) {
                                 if (name == null) {
-                                    if (key == null) {
-                                        name = attrName;
-                                    } else {
-                                        name = key;
-                                    }
+                                    name = Objects.requireNonNullElse(key, attrName);
                                 }
                                 StringValue res = new StringValue(parent, null, name, description, unit);
                                 res.setValue(attrName);
@@ -344,11 +333,7 @@ public class MapXmlResult {
                             Node node = attributes.item(i);
                             if (attrName.equals(node.getLocalName())) {
                                 if (name == null){
-                                    if(key == null) {
-                                        name = attrName;
-                                    } else {
-                                        name = key;
-                                    }
+                                    name = Objects.requireNonNullElse(key, attrName);
                                 }
                                 String text = node.getNodeValue();
                                 // Identify boolean value
@@ -393,11 +378,7 @@ public class MapXmlResult {
                             Node node = attributes.item(i);
                             if (attrName.equals(node.getNodeName())) {
                                 if (name == null){
-                                    if(key == null) {
-                                        name = attrName;
-                                    } else {
-                                        name = key;
-                                    }
+                                    name = Objects.requireNonNullElse(key, attrName);
                                 }
                                 String text = node.getNodeValue();
                                 // Identify boolean value
@@ -452,11 +433,7 @@ public class MapXmlResult {
                             for (Node nCNode = nContent.getFirstChild(); nCNode != null; nCNode = nCNode.getNextSibling()) {
                                 if (attrName.equals(nCNode.getLocalName())) {
                                     if (name == null) {
-                                        if (key == null) {
-                                            name = attrName;
-                                        } else {
-                                            name = key;
-                                        }
+                                        name = Objects.requireNonNullElse(key, attrName);
                                     }
                                     try {
                                         Double value = Double.parseDouble(nCNode.getTextContent());
@@ -476,11 +453,7 @@ public class MapXmlResult {
                             for (Node nCNode = nContent.getFirstChild(); nCNode != null; nCNode = nCNode.getNextSibling()) {
                                 if (attrName.equals(nCNode.getLocalName())) {
                                     if (name == null) {
-                                        if (key == null) {
-                                            name = attrName;
-                                        } else {
-                                            name = key;
-                                        }
+                                        name = Objects.requireNonNullElse(key, attrName);
                                     }
                                     try {
                                         Integer value = Integer.parseInt(nCNode.getTextContent());
@@ -500,11 +473,7 @@ public class MapXmlResult {
                             for (Node nCNode = nContent.getFirstChild(); nCNode != null; nCNode = nCNode.getNextSibling()) {
                                 if (attrName.equals(nCNode.getLocalName())) {
                                     if (name == null) {
-                                        if (key == null) {
-                                            name = attrName;
-                                        } else {
-                                            name = key;
-                                        }
+                                        name = Objects.requireNonNullElse(key, attrName);
                                     }
                                     StringValue res = new StringValue(parent, null, name, description, unit);
                                     res.setValue(attrName);
@@ -521,11 +490,7 @@ public class MapXmlResult {
                             for (Node nCNode = nContent.getFirstChild(); nCNode != null; nCNode = nCNode.getNextSibling()) {
                                 if (attrName.equals(nCNode.getLocalName())) {
                                     if (name == null) {
-                                        if (key == null) {
-                                            name = attrName;
-                                        } else {
-                                            name = key;
-                                        }
+                                        name = Objects.requireNonNullElse(key, attrName);
                                     }
                                     String text = nCNode.getTextContent();
                                     if (text.length() == 0 ){
@@ -579,11 +544,7 @@ public class MapXmlResult {
                             for (Node nCNode = nContent.getFirstChild(); nCNode != null; nCNode = nCNode.getNextSibling()) {
                                 if (attrName.equals(nCNode.getLocalName())) {
                                     if (name == null) {
-                                        if (key == null) {
-                                            name = attrName;
-                                        } else {
-                                            name = key;
-                                        }
+                                        name = Objects.requireNonNullElse(key, attrName);
                                     }
                                     String text = nCNode.getTextContent();
                                     if (text.length() == 0 ){
@@ -718,30 +679,31 @@ public class MapXmlResult {
             String name = attributes.item(i).getNodeName();
             if (name.equalsIgnoreCase("type")) {
                 String value = attributes.item(i).getNodeValue().toLowerCase();
-                if (value.equals("jbs:id")) {
-                    return ResultTags.rt_id;
-                } else if (value.equals("jbs:name")) {
-                    return ResultTags.rt_name;
-                } else if (value.equals("jbs:description")) {
-                    return ResultTags.rt_description;
-                } else if (value.equals("jbs:unit")) {
-                    return ResultTags.rt_unit;
-                } else if (value.equals("jbs:value")) {
-                    return ResultTags.rt_value;
-                } else if (value.equals("jbs:boolean")) {
-                    return ResultTags.rt_boolean;
-                } else if (value.equals("jbs:booleankey")) {
-                    return ResultTags.rt_booleankey;
-                } else if (value.equals("jbs:integer")) {
-                    return ResultTags.rt_integer;
-                } else if (value.equals("jbs:double")) {
-                    return ResultTags.rt_double;
-                } else if (value.equals("jbs:string")) {
-                    return ResultTags.rt_string;
-                } else if (value.equals("jbs:message")) {
-                    return ResultTags.rt_message;
-                } else {
-                    return ResultTags.rt_unknown;
+                switch (value) {
+                    case "jbs:id":
+                        return ResultTags.rt_id;
+                    case "jbs:name":
+                        return ResultTags.rt_name;
+                    case "jbs:description":
+                        return ResultTags.rt_description;
+                    case "jbs:unit":
+                        return ResultTags.rt_unit;
+                    case "jbs:value":
+                        return ResultTags.rt_value;
+                    case "jbs:boolean":
+                        return ResultTags.rt_boolean;
+                    case "jbs:booleankey":
+                        return ResultTags.rt_booleankey;
+                    case "jbs:integer":
+                        return ResultTags.rt_integer;
+                    case "jbs:double":
+                        return ResultTags.rt_double;
+                    case "jbs:string":
+                        return ResultTags.rt_string;
+                    case "jbs:message":
+                        return ResultTags.rt_message;
+                    default:
+                        return ResultTags.rt_unknown;
                 }
             }
         }

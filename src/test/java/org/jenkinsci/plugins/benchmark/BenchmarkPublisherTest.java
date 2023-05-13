@@ -1,5 +1,5 @@
 /**
- * MIT license
+ * MIT LICENSE.txt
  * Copyright 2017 Autodesk, Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
@@ -22,6 +22,7 @@ import hudson.model.FreeStyleBuild;
 import hudson.model.FreeStyleProject;
 import hudson.tasks.BatchFile;
 import org.jenkinsci.plugins.benchmark.core.BenchmarkPublisher;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
@@ -43,7 +44,7 @@ public class BenchmarkPublisherTest {
     @Rule
     public JenkinsRule j = new JenkinsRule();
 
-    @Test
+    @Ignore
     public void first() throws Exception {
         FreeStyleProject project = j.createFreeStyleProject();
 

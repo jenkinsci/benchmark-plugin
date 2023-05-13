@@ -542,14 +542,15 @@ public class MapXmlToPlugin extends MapperBase {
             String name = attributes.item(i).getNodeName();
             if (name.equalsIgnoreCase("type")) {
                 String value = attributes.item(i).getNodeValue().toLowerCase();
-                if (value.equals("jbs:result")){
-                    return GroupTags.gt_result;
-                } else if (value.equals("jbs:threshold")) {
-                    return GroupTags.gt_threshold;
-                } else if (value.equals("jbs:parameter")) {
-                    return GroupTags.gt_parameter;
-                } else {
-                    return GroupTags.gt_unknown;
+                switch (value) {
+                    case "jbs:result":
+                        return GroupTags.gt_result;
+                    case "jbs:threshold":
+                        return GroupTags.gt_threshold;
+                    case "jbs:parameter":
+                        return GroupTags.gt_parameter;
+                    default:
+                        return GroupTags.gt_unknown;
                 }
             }
         }

@@ -68,11 +68,11 @@ public abstract class Threshold extends AbstractDescribableImpl<Threshold> {
 
     // Functions
     public static ExtensionList<Threshold> all() {
-        return Jenkins.getInstance().getExtensionList(Threshold.class);
+        return Jenkins.get().getExtensionList(Threshold.class);
     }
 
     public ThresholdDescriptor getDescriptor() {
-        return (ThresholdDescriptor) Jenkins.getInstance().getDescriptorOrDie(getClass());
+        return (ThresholdDescriptor) Jenkins.get().getDescriptorOrDie(getClass());
     }
 
     public boolean isValid(int value) throws NullPointerException, ValidationException { return true; }

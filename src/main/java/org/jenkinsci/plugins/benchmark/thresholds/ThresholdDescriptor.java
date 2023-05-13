@@ -38,7 +38,7 @@ public abstract class ThresholdDescriptor extends Descriptor<Threshold> {
     }
 
     public static DescriptorExtensionList<Threshold, ThresholdDescriptor> all() {
-        return Jenkins.getInstance().getDescriptorList(Threshold.class);
+        return Jenkins.get().getDescriptorList(Threshold.class);
     }
 
     public static ThresholdDescriptor getById(String id) {
